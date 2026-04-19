@@ -1,25 +1,52 @@
 [build]
   publish = "public"
   functions = "netlify/functions"
+
 [functions."daily-blog"]
   schedule = "0 6 * * *"
+
 [functions."growth-optimizer"]
   schedule = "0 7 * * *"
+
+[functions."linkedin-content"]
+  schedule = "0 8 * * *"
+
+[functions."facebook-scripts"]
+  schedule = "0 9 * * *"
+
+[functions."reddit-outreach"]
+  schedule = "0 10 * * *"
+
 [functions."seo-monitor"]
   schedule = "0 8 * * 1"
+
 [[redirects]]
   from = "/blog"
   to = "/.netlify/functions/blog-index"
   status = 200
+
 [[redirects]]
   from = "/blog/*"
   to = "/.netlify/functions/blog-post"
   status = 200
+
 [[redirects]]
   from = "/growth-log"
   to = "/.netlify/functions/growth-dashboard"
   status = 200
+
+[[redirects]]
+  from = "/outreach"
+  to = "/.netlify/functions/outreach-dashboard"
+  status = 200
+
 [[redirects]]
   from = "/ref"
   to = "/.netlify/functions/affiliate-tracker"
   status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Cache-Control = "public, max-age=3600"
