@@ -23,8 +23,3 @@
   from = "/ref"
   to = "/.netlify/functions/affiliate-tracker"
   status = 200
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Content-Type-Options = "nosniff"
-    Cache-Control = "public, max-age=3600"
