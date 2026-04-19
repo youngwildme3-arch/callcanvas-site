@@ -1,9 +1,1 @@
-{
-  "name": "callcanvas-ai",
-  "version": "2.0.0",
-  "description": "CallCanvas AI autonomous growth system",
-  "dependencies": {
-    "@netlify/functions": "^2.0.0",
-    "@netlify/blobs": "^7.0.0"
-  }
-}
+{"name":"callcanvas-ai","version":"2.0.0","dependencies":{"@netlify/functions":"^2.0.0","@netlify/blobs":"^7.0.0"}}
