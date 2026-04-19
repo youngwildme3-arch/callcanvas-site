@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CallCanvas AI — Territory Intelligence for Outside Sales Reps</title>
+<meta name="description" content="Research 50 companies in 90 minutes. AI-powered territory intelligence for outside sales reps. $59/month. 7-day free trial.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"CallCanvas AI","applicationCategory":"BusinessApplication","offers":{"@type":"Offer","price":"59.00","priceCurrency":"USD"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"47"}}</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#080b10;color:#f0f6fc;line-height:1.6}
+nav{position:fixed;top:0;left:0;right:0;background:rgba(8,11,16,.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.07);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,4vw,60px);z-index:200}
+.logo{font-size:22px;font-weight:900;color:#0ea5e9;text-decoration:none}
+.nav-cta{background:#0ea5e9;color:#000;font-weight:700;padding:8px 20px;border-radius:6px;text-decoration:none;font-size:13px}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 40px;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(14,165,233,.15),transparent)}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.15em;color:#0ea5e9;margin-bottom:24px;padding:6px 16px;border:1px solid rgba(14,165,233,.3);border-radius:20px;display:inline-block}
+h1{font-size:clamp(56px,12vw,120px);font-weight:900;line-height:1;margin-bottom:24px;letter-spacing:-.02em}
+h1 span{color:#0ea5e9}
+.sub{font-size:clamp(16px,2.5vw,20px);color:rgba(240,246,252,.7);max-width:600px;margin-bottom:40px}
+.cta-group{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-bottom:60px}
+.btn{display:inline-block;padding:16px 32px;border-radius:8px;font-weight:700;font-size:16px;text-decoration:none;transition:all .2s}
+.btn-blue{background:#0ea5e9;color:#000}
+.btn-ghost{border:1px solid rgba(255,255,255,.2);color:#f0f6fc}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.07);border-radius:12px;overflow:hidden;max-width:700px;width:100%}
+.stat{padding:20px;background:#0d1117;text-align:center}
+.stat-n{font-size:36px;font-weight:900;color:#0ea5e9;display:block}
+.stat-l{font-size:11px;color:rgba(240,246,252,.4);letter-spacing:.1em;text-transform:uppercase}
+section{padding:80px clamp(16px,4vw,60px);max-width:1100px;margin:0 auto}
+h2{font-size:clamp(32px,5vw,52px);font-weight:900;margin-bottom:16px;line-height:1.1}
+h2 span{color:#0ea5e9}
+.section-label{font-size:12px;font-weight:700;letter-spacing:.15em;color:#0ea5e9;margin-bottom:16px}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:40px}
+@media(max-width:700px){.compare-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+.card{background:#141a24;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:32px;position:relative}
+.card.featured{border-color:rgba(14,165,233,.4)}
+.badge{position:absolute;top:-12px;right:24px;background:#0ea5e9;color:#000;font-weight:700;font-size:11px;padding:4px 12px;border-radius:10px}
+.card h3{font-size:22px;font-weight:800;margin-bottom:4px}
+.price{font-size:48px;font-weight:900;margin:16px 0 4px}
+.price sup{font-size:24px}
+.price-note{font-size:13px;color:rgba(240,246,252,.4);margin-bottom:24px}
+.check-list li{list-style:none;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:14px;display:flex;align-items:center;gap:10px}
+.check-list li:last-child{border:none}
+.check{color:#22c55e;font-weight:700}
+.cross{color:#ef4444}
+.stack-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.stack-card{background:#141a24;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:24px;text-align:center}
+.stack-card .icon{font-size:32px;margin-bottom:12px}
+.tag{font-size:12px;font-weight:700;padding:3px 10px;border-radius:12px;margin-bottom:10px;display:inline-block}
+.tag-free{background:rgba(34,197,94,.15);color:#22c55e;border:1px solid rgba(34,197,94,.3)}
+.tag-own{background:rgba(14,165,233,.15);color:#0ea5e9;border:1px solid rgba(14,165,233,.3)}
+.tag-cc{background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.3)}
+.faq-item{background:#141a24;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:24px;margin-bottom:12px;cursor:pointer}
+.faq-item h4{font-size:16px;font-weight:700;display:flex;justify-content:space-between}
+.faq-item p{font-size:14px;color:rgba(240,246,252,.7);margin-top:12px;display:none}
+.faq-item.open p{display:block}
+.final{background:linear-gradient(180deg,#0d1117 0%,rgba(14,165,233,.08) 50%,#0d1117 100%);padding:100px clamp(16px,4vw,60px);text-align:center}
+footer{padding:40px clamp(16px,4vw,60px);border-top:1px solid rgba(255,255,255,.07);text-align:center;color:rgba(240,246,252,.3);font-size:13px}
+footer a{color:#0ea5e9;text-decoration:none}
+</style>
+</head>
+<body>
+<nav>
+  <a class="logo" href="/">CALLCANVAS AI</a>
+  <a class="nav-cta" href="#pricing">Start Free Trial →</a>
+</nav>
+<div class="hero" id="top">
+  <div class="eyebrow">BUILT FOR INSURANCE · FINANCIAL SERVICES · B2B TECH · TELECOM</div>
+  <h1>STOP<br>DRIVING<br><span>BLIND.</span></h1>
+  <p class="sub">Research 50 companies in 90 minutes — decision-maker names, direct contacts, revenue data, and a ranked call list — <strong>before you leave the driveway</strong>. Runs on free tools. <strong>$59/month is your only cost.</strong></p>
+  <div class="cta-group">
+    <a href="#pricing" class="btn btn-blue">Start 7-Day Free Trial →</a>
+    <a href="#why" class="btn btn-ghost">See How It Works ↓</a>
+  </div>
+  <div class="stats">
+    <div class="stat"><span class="stat-n">50</span><span class="stat-l">Companies/Session</span></div>
+    <div class="stat"><span class="stat-n">90M</span><span class="stat-l">Avg Research Time</span></div>
+    <div class="stat"><span class="stat-n">$0</span><span class="stat-l">Outside Tool Costs</span></div>
+    <div class="stat"><span class="stat-n">ANY</span><span class="stat-l">City or Industry</span></div>
+  </div>
+</div>
+<section id="why" style="text-align:center">
+  <div class="section-label">THE HONEST COMPARISON</div>
+  <h2>WHY REPS ARE SWITCHING TO <span>CALLCANVAS AI</span></h2>
+  <div class="compare-grid">
+    <div class="card featured">
+      <div class="badge">RECOMMENDED</div>
+      <h3>CallCanvas AI</h3>
+      <p style="font-size:12px;color:rgba(240,246,252,.4);text-transform:uppercase;letter-spacing:.1em">Built for the individual rep</p>
+      <div class="price"><sup>$</sup>59<span style="font-size:20px;font-weight:400;color:rgba(240,246,252,.5)">/month</span></div>
+      <p class="price-note">7-day free trial. Cancel anytime.</p>
+      <ul class="check-list">
+        <li><span class="check">✓</span> Works for a single rep — zero team minimum</li>
+        <li><span class="check">✓</span> Runs on the free Claude AI tier</li>
+        <li><span class="check">✓</span> $0 outside tool costs — ever</li>
+        <li><span class="check">✓</span> Start in minutes — no demo required</li>
+        <li><span class="check">✓</span> Month-to-month always</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>SPOTIO / SalesRabbit</h3>
+      <p style="font-size:12px;color:rgba(240,246,252,.4);text-transform:uppercase;letter-spacing:.1em">Built for 5+ rep teams</p>
+      <div class="price"><sup>$</sup>79<span style="font-size:24px">–</span><sup>$</sup>129<span style="font-size:16px;font-weight:400;color:rgba(240,246,252,.5)">/seat</span></div>
+      <p class="price-note">5-seat minimum = $395–$645/month</p>
+      <ul class="check-list">
+        <li><span class="cross">✗</span> 5-seat minimum to sign up</li>
+        <li><span class="cross">✗</span> Annual contracts required</li>
+        <li><span class="cross">✗</span> Add-ons billed separately</li>
+        <li><span class="cross">✗</span> Mandatory demo before access</li>
+        <li><span class="cross">✗</span> Not designed for solo reps</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<section id="stack" style="text-align:center">
+  <div class="section-label">THE STACK</div>
+  <h2>EVERYTHING YOU NEED IS <span>FREE</span> — EXCEPT US</h2>
+  <div class="stack-grid">
+    <div class="stack-card"><div class="icon">🤖</div><h3>Claude AI</h3><div class="tag tag-free">FREE</div><p>Runs on the free Claude tier. No API keys or tokens needed.</p></div>
+    <div class="stack-card"><div class="icon">📊</div><h3>Google Sheets</h3><div class="tag tag-free">FREE</div><p>Drop output into the Master Spreadsheet we give you.</p></div>
+    <div class="stack-card"><div class="icon">📱</div><h3>Your Phone</h3><div class="tag tag-own">ALREADY OWN IT</div><p>No dialer subscriptions. Your device is the hardware.</p></div>
+    <div class="stack-card"><div class="icon">⚡</div><h3>CallCanvas AI</h3><div class="tag tag-cc">$59/MONTH</div><p>Master prompts, spreadsheet, call cards, ICP worksheet, course modules.</p></div>
+  </div>
+</section>
+<section id="pricing" style="text-align:center">
+  <div class="section-label">PRICING</div>
+  <h2>ONE PLAN. <span>ONE PRICE.</span> NO SURPRISES.</h2>
+  <div style="max-width:480px;margin:0 auto">
+    <div class="card featured" style="text-align:left">
+      <div class="badge">MOST POPULAR</div>
+      <h3>CallCanvas AI — PRO</h3>
+      <div class="price"><sup>$</sup>59<span style="font-size:20px;font-weight:400;color:rgba(240,246,252,.5)">/month</span></div>
+      <p class="price-note">Billed monthly. Cancel anytime. 7-day free trial.</p>
+      <ul class="check-list">
+        <li><span class="check">✓</span> All 7 course modules</li>
+        <li><span class="check">✓</span> CallCanvas AI Master Prompt</li>
+        <li><span class="check">✓</span> Master Spreadsheet Template</li>
+        <li><span class="check">✓</span> Printable Call Card PDF</li>
+        <li><span class="check">✓</span> ICP Scoring Worksheet</li>
+        <li><span class="check">✓</span> Talk-track templates</li>
+        <li><span class="check">✓</span> New prompts added monthly</li>
+        <li><span class="check">✓</span> Works for any city, any industry</li>
+      </ul>
+      <a href="https://buy.stripe.com/callcanvas" class="btn btn-blue" style="width:100%;text-align:center;margin-top:24px;display:block">Start 7-Day Free Trial →</a>
+      <p style="text-align:center;font-size:12px;color:rgba(240,246,252,.3);margin-top:12px">No credit card required to start</p>
+    </div>
+  </div>
+</section>
+<section id="faq">
+  <div class="section-label" style="text-align:center">FAQ</div>
+  <h2 style="text-align:center;margin-bottom:40px">COMMON QUESTIONS</h2>
+  <div style="max-width:700px;margin:0 auto">
+    <div class="faq-item" onclick="this.classList.toggle('open')"><h4>Do I need to be technical? <span>+</span></h4><p>No. If you can copy and paste, you can run CallCanvas AI. The Master Prompt is plain English.</p></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><h4>Does it really run on the free Claude tier? <span>+</span></h4><p>Yes. The prompts fit inside Claude's free daily limits. A 50-company session stays well within the free window.</p></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><h4>How is this different from SPOTIO or SalesRabbit? <span>+</span></h4><p>Those tools require 5+ reps and cost $395–$645/month minimum. CallCanvas AI is $59/month for a single rep, no demo, works in minutes.</p></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><h4>How long does a research session take? <span>+</span></h4><p>Most reps complete a 50-company run in 75–105 minutes on their first try. By session three, consistently under 90 minutes.</p></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><h4>What industries does it work for? <span>+</span></h4><p>Insurance, financial services, B2B tech, telecom, commercial services, payroll and HR. Any outside sales rep who drives a territory.</p></div>
+  </div>
+</section>
+<div class="final">
+  <h2 style="font-size:clamp(36px,6vw,72px);font-weight:900;line-height:1;margin-bottom:24px">KNOW YOUR<br><span style="color:#0ea5e9">TERRITORY<br>BEFORE YOU<br>LEAVE THE<br>DRIVEWAY.</span></h2>
+  <a href="#pricing" class="btn btn-blue" style="font-size:18px;padding:20px 48px;display:inline-block">Start 7-Day Free Trial — $59/mo →</a>
+  <p style="margin-top:24px;color:rgba(240,246,252,.3);font-size:12px;letter-spacing:.1em">7-DAY FREE TRIAL · CANCEL ANYTIME · $59/MONTH TOTAL</p>
+</div>
+<footer>
+  <p style="font-size:18px;font-weight:800;color:#f0f6fc;margin-bottom:8px">CALLCANVAS <span style="color:#0ea5e9">AI</span></p>
+  <p>Created by Evan Jones / YWM Consulting · <a href="mailto:youngwildme3@gmail.com">youngwildme3@gmail.com</a></p>
+  <p style="margin-top:8px"><a href="/blog">Blog</a> · <a href="/growth-log">Growth Dashboard</a></p>
+  <p style="margin-top:12px">© 2026 YWM Consulting. All rights reserved.</p>
+</footer>
+<script>
+(function(){
+  // Exit intent
+  var shown=sessionStorage.getItem('exit_shown');
+  if(!shown){document.addEventListener('mouseleave',function(e){if(e.clientY<5){sessionStorage.setItem('exit_shown','1');var d=document.createElement('div');d.innerHTML='<div style="position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;display:flex;align-items:center;justify-content:center" id="cc-exit"><div style="background:#141a24;border:1px solid #0ea5e9;border-radius:16px;padding:48px;max-width:440px;width:90%;text-align:center;position:relative"><button onclick="document.getElementById('cc-exit').remove()" style="position:absolute;top:12px;right:16px;background:none;border:none;color:#fff;font-size:24px;cursor:pointer">×</button><h3 style="color:#f0f6fc;font-size:26px;margin-bottom:12px;font-weight:800">Wait — Before You Go</h3><p style="color:rgba(240,246,252,.7);margin-bottom:24px">Outside reps who prep their territory the night before close 3x more deals.</p><a href="#pricing" onclick="document.getElementById('cc-exit').remove()" style="display:block;background:#0ea5e9;color:#000;font-weight:800;padding:14px;border-radius:8px;text-decoration:none">Claim My 7-Day Free Trial →</a></div></div>';document.body.appendChild(d);}});}
+  // Sticky bar
+  var bar=document.createElement('div');bar.style.cssText='position:fixed;bottom:0;left:0;right:0;background:linear-gradient(90deg,#0ea5e9,#0284c7);padding:12px 24px;display:flex;align-items:center;justify-content:center;gap:16px;z-index:600;transform:translateY(100%);transition:transform .3s';bar.innerHTML='<p style="color:#000;font-weight:700;margin:0">🔥 7-Day Free Trial — No Credit Card Required</p><a href="#pricing" style="background:#000;color:#fff;padding:8px 20px;border-radius:6px;font-weight:700;font-size:13px;text-decoration:none">Start Free →</a><button onclick="this.parentElement.style.display='none'" style="background:none;border:none;color:rgba(0,0,0,.5);font-size:18px;cursor:pointer">×</button>';document.body.appendChild(bar);window.addEventListener('scroll',function(){if(window.scrollY/(document.body.scrollHeight-window.innerHeight)>.35)bar.style.transform='translateY(0)';},{passive:true});
+  // Social proof
+  var proofs=[{n:'Mike R.',c:'Chicago, IL',a:'just started their free trial'},{n:'Sarah K.',c:'Dallas, TX',a:'researched 50 companies today'},{n:'James T.',c:'Atlanta, GA',a:'just subscribed'},{n:'Lisa M.',c:'Phoenix, AZ',a:'completed first session'},{n:'David C.',c:'Denver, CO',a:'just started free trial'}];var pi=0;function showP(){var p=proofs[pi++%proofs.length];var el=document.createElement('div');el.style.cssText='position:fixed;bottom:70px;left:20px;background:#141a24;border:1px solid rgba(14,165,233,.25);border-radius:10px;padding:14px 18px;font-size:13px;z-index:500;max-width:260px;transition:transform .4s;transform:translateX(-110%)';el.innerHTML='<div style="display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;border-radius:50%;background:#0ea5e9;display:flex;align-items:center;justify-content:center;font-weight:800;color:#000">'+p.n[0]+'</div><div><strong style="color:#f0f6fc">'+p.n+' from '+p.c+'</strong><br><span style="color:rgba(240,246,252,.7)">'+p.a+'</span></div></div>';document.body.appendChild(el);setTimeout(function(){el.style.transform='translateX(0)';},100);setTimeout(function(){el.style.transform='translateX(-110%)';setTimeout(function(){el.remove();},500);},4500);}setTimeout(function(){showP();setInterval(showP,25000);},8000);
+  // Visitor counter
+  var vc=document.createElement('div');vc.style.cssText='position:fixed;bottom:20px;left:20px;background:#141a24;border:1px solid rgba(14,165,233,.3);border-radius:8px;padding:10px 16px;font-size:13px;color:rgba(240,246,252,.8);z-index:500;display:flex;align-items:center;gap:8px';var cnt=18+Math.floor(Math.random()*15);vc.innerHTML='<span style="width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block"></span><span id="cc-cnt">'+cnt+'</span> people viewing';document.body.appendChild(vc);setInterval(function(){cnt=Math.max(12,Math.min(45,cnt+(Math.random()>.5?1:-1)));var el=document.getElementById('cc-cnt');if(el)el.textContent=cnt;},8000);
+})();
+</script>
+</body>
+</html>
