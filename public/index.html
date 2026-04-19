@@ -3,289 +3,254 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CallCanvas AI ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ Territory Intelligence for Outside Sales Reps</title>
-<meta name="description" content="Research 50 companies in 90 minutes. AI-powered territory intelligence for outside sales reps. $59/month. 7-day free trial.">
+<title>CallCanvas AI -- Territory Intelligence for Outside Sales Reps</title>
+<meta name="description" content="Research 50 companies in 90 minutes. AI-powered territory intelligence for outside sales reps. $59/month. 7-day free trial. No team minimums.">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"CallCanvas AI","applicationCategory":"BusinessApplication","offers":{"@type":"Offer","price":"59.00","priceCurrency":"USD"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"47"}}</script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',system-ui,sans-serif;background:#080b10;color:#f0f6fc;line-height:1.6}
-nav{position:fixed;top:0;left:0;right:0;background:rgba(8,11,16,.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.07);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,4vw,60px);z-index:200}
-.logo{font-size:22px;font-weight:900;color:#0ea5e9;text-decoration:none}
-.nav-cta{background:#0ea5e9;color:#000;font-weight:700;padding:8px 20px;border-radius:6px;text-decoration:none;font-size:13px}
-.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 40px;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(14,165,233,.15),transparent)}
-.eyebrow{font-size:12px;font-weight:700;letter-spacing:.15em;color:#0ea5e9;margin-bottom:24px;padding:6px 16px;border:1px solid rgba(14,165,233,.3);border-radius:20px;display:inline-block}
-h1{font-size:clamp(56px,12vw,120px);font-weight:900;line-height:1;margin-bottom:24px;letter-spacing:-.02em}
-h1 span{color:#0ea5e9}
-.sub{font-size:clamp(16px,2.5vw,20px);color:rgba(240,246,252,.7);max-width:600px;margin-bottom:40px}
-.cta-group{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-bottom:60px}
-.btn{display:inline-block;padding:16px 32px;border-radius:8px;font-weight:700;font-size:16px;text-decoration:none;transition:all .2s}
-.btn-blue{background:#0ea5e9;color:#000}
-.btn-ghost{border:1px solid rgba(255,255,255,.2);color:#f0f6fc}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.07);border-radius:12px;overflow:hidden;max-width:700px;width:100%}
-.stat{padding:20px;background:#0d1117;text-align:center}
-.stat-n{font-size:36px;font-weight:900;color:#0ea5e9;display:block}
-.stat-l{font-size:11px;color:rgba(240,246,252,.4);letter-spacing:.1em;text-transform:uppercase}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#080b10;color:#f0f6fc;line-height:1.6;overflow-x:hidden}
+a{text-decoration:none}
+nav{position:fixed;top:0;left:0;right:0;background:rgba(8,11,16,.96);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.07);height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,4vw,60px);z-index:200}
+.logo{font-size:20px;font-weight:900;color:#0ea5e9}
+.nav-links{display:flex;align-items:center;gap:18px}
+.nav-link{font-size:13px;font-weight:500;color:rgba(240,246,252,.55)}
+.nav-link:hover{color:#f0f6fc}
+.nav-affiliate{font-size:12px;font-weight:700;color:#22c55e;border:1px solid rgba(34,197,94,.3);padding:5px 12px;border-radius:20px}
+.nav-cta{background:#0ea5e9;color:#000 !important;font-weight:700;padding:9px 22px;border-radius:7px}
+@media(max-width:640px){.nav-link:not(.nav-cta){display:none}}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 48px;background:radial-gradient(ellipse 80% 55% at 50% 0%,rgba(14,165,233,.14),transparent)}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.18em;color:#0ea5e9;margin-bottom:28px;padding:6px 18px;border:1px solid rgba(14,165,233,.3);border-radius:20px;display:inline-block}
+.hero h1{font-size:clamp(58px,13vw,124px);font-weight:900;line-height:.95;margin-bottom:28px;letter-spacing:-.025em}
+.hero h1 span{color:#0ea5e9}
+.hero-sub{font-size:clamp(16px,2.2vw,20px);color:rgba(240,246,252,.7);max-width:580px;margin-bottom:44px}
+.cta-group{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:64px}
+.btn-primary{display:inline-block;padding:17px 36px;background:#0ea5e9;color:#000;border-radius:8px;font-weight:800;font-size:16px;transition:all .2s}
+.btn-ghost{display:inline-block;padding:17px 36px;border:1px solid rgba(255,255,255,.18);color:#f0f6fc;border-radius:8px;font-weight:700;font-size:16px}
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.06);border-radius:14px;overflow:hidden;max-width:720px;width:100%}
+.stat-box{padding:22px 16px;background:#0c111a;text-align:center}
+.stat-n{font-size:38px;font-weight:900;color:#0ea5e9;display:block;line-height:1}
+.stat-l{font-size:11px;color:rgba(240,246,252,.38);letter-spacing:.12em;text-transform:uppercase;margin-top:6px;display:block}
+@media(max-width:580px){.stats-bar{grid-template-columns:repeat(2,1fr)}}
 section{padding:80px clamp(16px,4vw,60px);max-width:1100px;margin:0 auto}
-h2{font-size:clamp(32px,5vw,52px);font-weight:900;margin-bottom:16px;line-height:1.1}
-h2 span{color:#0ea5e9}
-.section-label{font-size:12px;font-weight:700;letter-spacing:.15em;color:#0ea5e9;margin-bottom:16px}
-.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:40px}
-@media(max-width:700px){.compare-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
-.card{background:#141a24;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:32px;position:relative}
-.card.featured{border-color:rgba(14,165,233,.4)}
-.badge{position:absolute;top:-12px;right:24px;background:#0ea5e9;color:#000;font-weight:700;font-size:11px;padding:4px 12px;border-radius:10px}
-.card h3{font-size:22px;font-weight:800;margin-bottom:4px}
-.price{font-size:48px;font-weight:900;margin:16px 0 4px}
-.price sup{font-size:24px}
-.price-note{font-size:13px;color:rgba(240,246,252,.4);margin-bottom:24px}
-.check-list li{list-style:none;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:14px;display:flex;align-items:center;gap:10px}
+.section-label{font-size:11px;font-weight:700;letter-spacing:.18em;color:#0ea5e9;margin-bottom:14px;text-transform:uppercase}
+.section-h2{font-size:clamp(30px,4.5vw,50px);font-weight:900;margin-bottom:18px;line-height:1.05}
+.section-h2 span{color:#0ea5e9}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:700px){.compare-grid{grid-template-columns:1fr}}
+.card{background:#141a24;border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:32px;position:relative}
+.card-featured{border-color:rgba(14,165,233,.35)}
+.card-badge{position:absolute;top:-13px;right:24px;background:#0ea5e9;color:#000;font-weight:800;font-size:11px;padding:4px 14px;border-radius:12px}
+.card-title{font-size:21px;font-weight:800;margin-bottom:3px}
+.card-subtitle{font-size:12px;color:rgba(240,246,252,.38);text-transform:uppercase;letter-spacing:.1em;margin-bottom:16px}
+.price-num{font-size:50px;font-weight:900;line-height:1}
+.price-num sup{font-size:24px;vertical-align:top;margin-top:10px;display:inline-block}
+.price-period{font-size:18px;font-weight:400;color:rgba(240,246,252,.45)}
+.price-note{font-size:13px;color:rgba(240,246,252,.38);margin:6px 0 24px}
+.check-list{list-style:none}
+.check-list li{padding:9px 0;border-bottom:1px solid rgba(255,255,255,.055);font-size:14px;display:flex;align-items:flex-start;gap:10px}
 .check-list li:last-child{border:none}
-.check{color:#22c55e;font-weight:700}
-.cross{color:#ef4444}
-.stack-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
-.stack-card{background:#141a24;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:24px;text-align:center}
-.stack-card .icon{font-size:32px;margin-bottom:12px}
-.tag{font-size:12px;font-weight:700;padding:3px 10px;border-radius:12px;margin-bottom:10px;display:inline-block}
-.tag-free{background:rgba(34,197,94,.15);color:#22c55e;border:1px solid rgba(34,197,94,.3)}
-.tag-own{background:rgba(14,165,233,.15);color:#0ea5e9;border:1px solid rgba(14,165,233,.3)}
-.tag-cc{background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.3)}
-.faq-item{background:#141a24;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:24px;margin-bottom:12px;cursor:pointer}
-.faq-item h4{font-size:16px;font-weight:700;display:flex;justify-content:space-between}
-.faq-item p{font-size:14px;color:rgba(240,246,252,.7);margin-top:12px;display:none}
+.ck{color:#22c55e;font-weight:700;flex-shrink:0}
+.cx{color:#ef4444;font-weight:700;flex-shrink:0}
+.stack-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
+.stack-card{background:#141a24;border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:24px;text-align:center}
+.stack-icon{font-size:28px;margin-bottom:10px}
+.stack-title{font-size:15px;font-weight:700;margin-bottom:6px}
+.stack-tag{font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px;margin-bottom:10px;display:inline-block}
+.tag-free{background:rgba(34,197,94,.12);color:#22c55e;border:1px solid rgba(34,197,94,.25)}
+.tag-own{background:rgba(14,165,233,.12);color:#0ea5e9;border:1px solid rgba(14,165,233,.25)}
+.tag-cc{background:rgba(245,158,11,.12);color:#f59e0b;border:1px solid rgba(245,158,11,.25)}
+.stack-desc{font-size:13px;color:rgba(240,246,252,.55);line-height:1.5}
+.pricing-wrap{max-width:480px;margin:0 auto}
+.price-features{list-style:none;margin-bottom:28px}
+.price-features li{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:14px;display:flex;align-items:center;gap:10px}
+.price-features li:last-child{border:none}
+.aff-banner{background:linear-gradient(135deg,rgba(14,165,233,.07),rgba(2,132,199,.07));border-top:1px solid rgba(14,165,233,.12);border-bottom:1px solid rgba(14,165,233,.12);padding:64px clamp(16px,4vw,60px);text-align:center}
+.faq-item{background:#141a24;border:1px solid rgba(255,255,255,.07);border-radius:11px;padding:22px;margin-bottom:10px;cursor:pointer}
+.faq-item:hover{border-color:rgba(14,165,233,.2)}
+.faq-item h4{font-size:15px;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.faq-icon{color:#0ea5e9;transition:transform .2s}
+.faq-item.open .faq-icon{transform:rotate(45deg)}
+.faq-item p{font-size:14px;color:rgba(240,246,252,.65);margin-top:12px;display:none;line-height:1.65}
 .faq-item.open p{display:block}
-.final{background:linear-gradient(180deg,#0d1117 0%,rgba(14,165,233,.08) 50%,#0d1117 100%);padding:100px clamp(16px,4vw,60px);text-align:center}
-footer{padding:40px clamp(16px,4vw,60px);border-top:1px solid rgba(255,255,255,.07);text-align:center;color:rgba(240,246,252,.3);font-size:13px}
-footer a{color:#0ea5e9;text-decoration:none}
+.final-cta{padding:100px clamp(16px,4vw,60px);text-align:center;background:linear-gradient(180deg,#080b10 0%,rgba(14,165,233,.07) 50%,#080b10 100%)}
+footer{padding:44px clamp(16px,4vw,60px);border-top:1px solid rgba(255,255,255,.06);text-align:center}
+.footer-links{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.footer-links a{font-size:13px;color:#0ea5e9}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes slideIn{from{transform:translateX(-110%)}to{transform:translateX(0)}}
+@keyframes slideOut{from{transform:translateX(0)}to{transform:translateX(-110%)}}
 </style>
 </head>
 <body>
+
 <nav>
   <a class="logo" href="/">CALLCANVAS AI</a>
-  <a class="nav-cta" href="#pricing">Start Free Trial ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</a>
-</nav>
-<div class="hero" id="top">
-  <div class="eyebrow">BUILT FOR INSURANCE ÃÂÃÂÃÂ· FINANCIAL SERVICES ÃÂÃÂÃÂ· B2B TECH ÃÂÃÂÃÂ· TELECOM</div>
-  <h1>STOP<br>DRIVING<br><span>BLIND.</span></h1>
-  <p class="sub">Research 50 companies in 90 minutes ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ decision-maker names, direct contacts, revenue data, and a ranked call list ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ <strong>before you leave the driveway</strong>. Runs on free tools. <strong>$59/month is your only cost.</strong></p>
-  <div class="cta-group">
-    <a href="#pricing" class="btn btn-blue">Start 7-Day Free Trial ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</a>
-    <a href="#why" class="btn btn-ghost">See How It Works ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</a>
+  <div class="nav-links">
+    <a class="nav-link nav-affiliate" href="/affiliate.html">Earn $17.70/ref</a>
+    <a class="nav-link" href="#why">Why Us</a>
+    <a class="nav-link" href="#pricing">Pricing</a>
+    <a class="nav-link nav-cta" href="#pricing">Start Free Trial</a>
   </div>
-  <div class="stats">
-    <div class="stat"><span class="stat-n">50</span><span class="stat-l">Companies/Session</span></div>
-    <div class="stat"><span class="stat-n">90M</span><span class="stat-l">Avg Research Time</span></div>
-    <div class="stat"><span class="stat-n">$0</span><span class="stat-l">Outside Tool Costs</span></div>
-    <div class="stat"><span class="stat-n">ANY</span><span class="stat-l">City or Industry</span></div>
+</nav>
+
+<div class="hero" id="top">
+  <div class="eyebrow">INSURANCE &bull; FINANCIAL SERVICES &bull; B2B TECH &bull; TELECOM &bull; COMMERCIAL SERVICES</div>
+  <h1>STOP<br>DRIVING<br><span>BLIND.</span></h1>
+  <p class="hero-sub">Research 50 companies in 90 minutes &mdash; decision-maker names, direct contacts, revenue data, and a ranked call list &mdash; <strong>before you leave the driveway.</strong> Runs on free tools. <strong>$59/month is your only cost.</strong></p>
+  <div class="cta-group">
+    <a href="#pricing" class="btn-primary">Start 7-Day Free Trial &rarr;</a>
+    <a href="#why" class="btn-ghost">See How It Works &darr;</a>
+  </div>
+  <div class="stats-bar">
+    <div class="stat-box"><span class="stat-n">50</span><span class="stat-l">Companies/Session</span></div>
+    <div class="stat-box"><span class="stat-n">90<span style="font-size:20px">min</span></span><span class="stat-l">Avg Research Time</span></div>
+    <div class="stat-box"><span class="stat-n">$0</span><span class="stat-l">Outside Tool Costs</span></div>
+    <div class="stat-box"><span class="stat-n">ANY</span><span class="stat-l">City or Industry</span></div>
   </div>
 </div>
+
 <section id="why" style="text-align:center">
-  <div class="section-label">THE HONEST COMPARISON</div>
-  <h2>WHY REPS ARE SWITCHING TO <span>CALLCANVAS AI</span></h2>
+  <div class="section-label">The Honest Comparison</div>
+  <h2 class="section-h2">Why outside reps are switching to <span>CallCanvas AI</span></h2>
+  <p style="color:rgba(240,246,252,.65);font-size:17px;max-width:580px;margin:0 auto 40px">The other tools charge $79&ndash;$129/month per seat and require a team of 5+ just to sign up. CallCanvas AI is built for the individual rep.</p>
   <div class="compare-grid">
-    <div class="card featured">
-      <div class="badge">RECOMMENDED</div>
-      <h3>CallCanvas AI</h3>
-      <p style="font-size:12px;color:rgba(240,246,252,.4);text-transform:uppercase;letter-spacing:.1em">Built for the individual rep</p>
-      <div class="price"><sup>$</sup>59<span style="font-size:20px;font-weight:400;color:rgba(240,246,252,.5)">/month</span></div>
-      <p class="price-note">7-day free trial. Cancel anytime.</p>
+    <div class="card card-featured">
+      <div class="card-badge">RECOMMENDED</div>
+      <div class="card-title">CallCanvas AI</div>
+      <div class="card-subtitle">Built for the individual rep</div>
+      <div class="price-num"><sup>$</sup>59<span class="price-period">/month</span></div>
+      <div class="price-note">7-day free trial &bull; Cancel anytime &bull; No credit card to start</div>
       <ul class="check-list">
-        <li><span class="check">ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</span> Works for a single rep ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ zero team minimum</li>
-        <li><span class="check">ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</span> Runs on the free Claude AI tier</li>
-        <li><span class="check">ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</span> $0 outside tool costs ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ ever</li>
-        <li><span class="check">ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</span> Start in minutes ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ no demo required</li>
-        <li><span class="check">ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</span> Month-to-month always</li>
+        <li><span class="ck">&#10003;</span>Works for a single rep &mdash; zero team minimum</li>
+        <li><span class="ck">&#10003;</span>Runs on the free Claude AI tier</li>
+        <li><span class="ck">&#10003;</span>$0 outside tool costs &mdash; ever</li>
+        <li><span class="ck">&#10003;</span>Start in minutes &mdash; no demo required</li>
+        <li><span class="ck">&#10003;</span>Month-to-month, cancel anytime</li>
+        <li><span class="ck">&#10003;</span>Works for any city, any industry</li>
       </ul>
     </div>
     <div class="card">
-      <h3>SPOTIO / SalesRabbit</h3>
-      <p style="font-size:12px;color:rgba(240,246,252,.4);text-transform:uppercase;letter-spacing:.1em">Built for 5+ rep teams</p>
-      <div class="price"><sup>$</sup>79<span style="font-size:24px">ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</span><sup>$</sup>129<span style="font-size:16px;font-weight:400;color:rgba(240,246,252,.5)">/seat</span></div>
-      <p class="price-note">5-seat minimum = $395ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ$645/month</p>
+      <div class="card-title">SPOTIO / SalesRabbit</div>
+      <div class="card-subtitle">Built for 5+ rep teams</div>
+      <div class="price-num"><sup>$</sup>79&ndash;<sup>$</sup>129<span class="price-period">/seat</span></div>
+      <div class="price-note">5-seat minimum = $395&ndash;$645/month</div>
       <ul class="check-list">
-        <li><span class="cross">ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</span> 5-seat minimum to sign up</li>
-        <li><span class="cross">ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</span> Annual contracts required</li>
-        <li><span class="cross">ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</span> Add-ons billed separately</li>
-        <li><span class="cross">ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</span> Mandatory demo before access</li>
-        <li><span class="cross">ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</span> Not designed for solo reps</li>
+        <li><span class="cx">&#10007;</span>5-seat minimum to even sign up</li>
+        <li><span class="cx">&#10007;</span>Annual contracts required</li>
+        <li><span class="cx">&#10007;</span>Add-ons billed separately</li>
+        <li><span class="cx">&#10007;</span>Mandatory demo before access</li>
+        <li><span class="cx">&#10007;</span>Not designed for solo reps</li>
       </ul>
     </div>
   </div>
 </section>
-<section id="stack" style="text-align:center">
-  <div class="section-label">THE STACK</div>
-  <h2>EVERYTHING YOU NEED IS <span>FREE</span> ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ EXCEPT US</h2>
+
+<section style="text-align:center">
+  <div class="section-label">The Stack</div>
+  <h2 class="section-h2">Everything you need is <span>free</span> &mdash; except us.</h2>
+  <p style="color:rgba(240,246,252,.65);font-size:17px;max-width:560px;margin:0 auto 36px">The entire workflow runs on tools you already have. You only pay for one thing.</p>
   <div class="stack-grid">
-    <div class="stack-card"><div class="icon">ÃÂÃÂ°ÃÂÃÂÃÂÃÂ¤ÃÂÃÂ</div><h3>Claude AI</h3><div class="tag tag-free">FREE</div><p>Runs on the free Claude tier. No API keys or tokens needed.</p></div>
-    <div class="stack-card"><div class="icon">ÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂ</div><h3>Google Sheets</h3><div class="tag tag-free">FREE</div><p>Drop output into the Master Spreadsheet we give you.</p></div>
-    <div class="stack-card"><div class="icon">ÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂ±</div><h3>Your Phone</h3><div class="tag tag-own">ALREADY OWN IT</div><p>No dialer subscriptions. Your device is the hardware.</p></div>
-    <div class="stack-card"><div class="icon">ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ¡</div><h3>CallCanvas AI</h3><div class="tag tag-cc">$59/MONTH</div><p>Master prompts, spreadsheet, call cards, ICP worksheet, course modules.</p></div>
+    <div class="stack-card"><div class="stack-icon">&#129302;</div><div class="stack-title">Claude AI</div><div class="stack-tag tag-free">FREE</div><p class="stack-desc">Runs on the free Claude tier. No API keys, no tokens, no surprise bills.</p></div>
+    <div class="stack-card"><div class="stack-icon">&#128202;</div><div class="stack-title">Google Sheets</div><div class="stack-tag tag-free">FREE</div><p class="stack-desc">Drop output into the Master Spreadsheet we give you. Sort and filter in seconds.</p></div>
+    <div class="stack-card"><div class="stack-icon">&#128241;</div><div class="stack-title">Your Phone</div><div class="stack-tag tag-own">ALREADY OWN IT</div><p class="stack-desc">No dialer subscriptions. Your device is the hardware.</p></div>
+    <div class="stack-card"><div class="stack-icon">&#9889;</div><div class="stack-title">CallCanvas AI</div><div class="stack-tag tag-cc">$59/MONTH</div><p class="stack-desc">Master prompts, spreadsheet, call cards, ICP worksheet, and course modules.</p></div>
   </div>
+  <p style="margin-top:28px;font-size:13px;color:rgba(240,246,252,.3);letter-spacing:.1em">TOTAL MONTHLY COST &rarr; <strong style="color:#f0f6fc">$59. THAT'S IT.</strong></p>
 </section>
+
 <section id="pricing" style="text-align:center">
-  <div class="section-label">PRICING</div>
-  <h2>ONE PLAN. <span>ONE PRICE.</span> NO SURPRISES.</h2>
-  <div style="max-width:480px;margin:0 auto">
-    <div class="card featured" style="text-align:left">
-      <div class="badge">MOST POPULAR</div>
-      <h3>CallCanvas AI ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ PRO</h3>
-      <div class="price"><sup>$</sup>59<span style="font-size:20px;font-weight:400;color:rgba(240,246,252,.5)">/month</span></div>
-      <p class="price-note">Billed monthly. Cancel anytime. 7-day free trial.</p>
-      <ul class="check-list">
-        <li><span class="check">ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</span> All 7 course modules</li>
-        <li><span class="check">ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</span> CallCanvas AI Master Prompt</li>
-        <li><span class="check">ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</span> Master Spreadsheet Template</li>
-        <li><span class="check">ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</span> Printable Call Card PDF</li>
-        <li><span class="check">ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</span> ICP Scoring Worksheet</li>
-        <li><span class="check">ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</span> Talk-track templates</li>
-        <li><span class="check">ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</span> New prompts added monthly</li>
-        <li><span class="check">ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</span> Works for any city, any industry</li>
+  <div class="section-label">Pricing</div>
+  <h2 class="section-h2">One plan. <span>One price.</span> No surprises.</h2>
+  <div class="pricing-wrap">
+    <div class="card card-featured" style="text-align:left">
+      <div class="card-badge">MOST POPULAR</div>
+      <div class="card-title">CallCanvas AI &mdash; PRO</div>
+      <div class="price-num" style="margin:18px 0 4px"><sup>$</sup>59<span class="price-period">/month</span></div>
+      <div class="price-note">Billed monthly &bull; Cancel anytime &bull; 7-day free trial</div>
+      <ul class="price-features">
+        <li><span class="ck">&#10003;</span>All 7 course modules</li>
+        <li><span class="ck">&#10003;</span>CallCanvas AI Master Prompt</li>
+        <li><span class="ck">&#10003;</span>Master Spreadsheet Template</li>
+        <li><span class="ck">&#10003;</span>Printable Call Card PDF</li>
+        <li><span class="ck">&#10003;</span>ICP Scoring Worksheet</li>
+        <li><span class="ck">&#10003;</span>Talk-track templates</li>
+        <li><span class="ck">&#10003;</span>New prompts added monthly</li>
+        <li><span class="ck">&#10003;</span>Works for any city, any industry</li>
+        <li><span class="ck">&#10003;</span>24/7 AI support chat</li>
       </ul>
-      <a href="https://buy.stripe.com/callcanvas" class="btn btn-blue" style="width:100%;text-align:center;margin-top:24px;display:block">Start 7-Day Free Trial ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</a>
-      <p style="text-align:center;font-size:12px;color:rgba(240,246,252,.3);margin-top:12px">No credit card required to start</p>
+      <a href="mailto:youngwildme3@gmail.com?subject=CallCanvas AI - Start Free Trial" class="btn-primary" style="width:100%;display:block;text-align:center;margin-bottom:10px;border:none;cursor:pointer">Start 7-Day Free Trial &rarr;</a>
+      <p style="text-align:center;font-size:12px;color:rgba(240,246,252,.28)">No credit card required to start</p>
     </div>
   </div>
 </section>
+
+<div class="aff-banner">
+  <div style="max-width:600px;margin:0 auto">
+    <div class="section-label" style="margin-bottom:12px">Affiliate Program</div>
+    <h2 style="font-size:clamp(26px,4vw,44px);font-weight:900;margin-bottom:12px">Know sales reps? <span style="color:#0ea5e9">Get paid for it.</span></h2>
+    <p style="color:rgba(240,246,252,.6);font-size:16px;margin-bottom:28px;max-width:520px;margin-left:auto;margin-right:auto">Earn 30% recurring commission &mdash; <strong style="color:#f0f6fc">$17.70/month</strong> for every outside sales rep you refer. No cap. No expiry.</p>
+    <a href="/affiliate.html" class="btn-primary">Learn About the Affiliate Program &rarr;</a>
+  </div>
+</div>
+
 <section id="faq">
   <div class="section-label" style="text-align:center">FAQ</div>
-  <h2 style="text-align:center;margin-bottom:40px">COMMON QUESTIONS</h2>
+  <h2 class="section-h2" style="text-align:center;margin-bottom:36px">Everything reps ask before they sign up.</h2>
   <div style="max-width:700px;margin:0 auto">
-    <div class="faq-item" onclick="this.classList.toggle('open')"><h4>Do I need to be technical? <span>+</span></h4><p>No. If you can copy and paste, you can run CallCanvas AI. The Master Prompt is plain English.</p></div>
-    <div class="faq-item" onclick="this.classList.toggle('open')"><h4>Does it really run on the free Claude tier? <span>+</span></h4><p>Yes. The prompts fit inside Claude's free daily limits. A 50-company session stays well within the free window.</p></div>
-    <div class="faq-item" onclick="this.classList.toggle('open')"><h4>How is this different from SPOTIO or SalesRabbit? <span>+</span></h4><p>Those tools require 5+ reps and cost $395ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ$645/month minimum. CallCanvas AI is $59/month for a single rep, no demo, works in minutes.</p></div>
-    <div class="faq-item" onclick="this.classList.toggle('open')"><h4>How long does a research session take? <span>+</span></h4><p>Most reps complete a 50-company run in 75ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ105 minutes on their first try. By session three, consistently under 90 minutes.</p></div>
-    <div class="faq-item" onclick="this.classList.toggle('open')"><h4>What industries does it work for? <span>+</span></h4><p>Insurance, financial services, B2B tech, telecom, commercial services, payroll and HR. Any outside sales rep who drives a territory.</p></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><h4>Do I need to be technical to use this? <span class="faq-icon">+</span></h4><p>No. If you can copy and paste, you can run CallCanvas AI. The Master Prompt is plain English. Open Claude, paste it in, answer a few questions about your territory, and the output drops into the spreadsheet we give you.</p></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><h4>Does it really run on the free Claude tier? <span class="faq-icon">+</span></h4><p>Yes. The prompts fit inside Claude's free daily limits. A typical 50-company session stays well within the free window. You never need a paid Anthropic subscription or API key.</p></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><h4>How is this different from SPOTIO or SalesRabbit? <span class="faq-icon">+</span></h4><p>SPOTIO and SalesRabbit require a team of 5+ reps and cost $395&ndash;$645/month minimum. CallCanvas AI is $59/month for a single rep, no team, no demo, works in minutes. Built for the solo outside rep, not the enterprise.</p></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><h4>How long does a research session take? <span class="faq-icon">+</span></h4><p>Most reps complete a 50-company run in 75&ndash;105 minutes on their first try. By session three, consistently under 90 minutes &mdash; with a ranked call list and decision-maker names ready to go.</p></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><h4>What industries does it work for? <span class="faq-icon">+</span></h4><p>Insurance, financial services, B2B technology, telecom, commercial services, payroll and HR. Any outside sales rep who drives a territory and cold-approaches businesses.</p></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><h4>What if I want to cancel? <span class="faq-icon">+</span></h4><p>Cancel anytime, no questions asked. Month-to-month always. No annual contracts, no cancellation fees.</p></div>
   </div>
 </section>
-<section style="text-align:center;padding:60px clamp(16px,4vw,60px);background:linear-gradient(135deg,rgba(14,165,233,.06),rgba(2,132,199,.06));border-top:1px solid rgba(14,165,233,.12);border-bottom:1px solid rgba(14,165,233,.12)">
-  <div style="max-width:600px;margin:0 auto">
-    <div style="font-size:12px;font-weight:700;letter-spacing:.15em;color:#0ea5e9;margin-bottom:12px">AFFILIATE PROGRAM</div>
-    <h2 style="font-size:clamp(28px,4vw,44px);font-weight:900;margin-bottom:12px">Know sales reps?<br><span style="color:#0ea5e9">Get paid for it.</span></h2>
-    <p style="color:rgba(240,246,252,.6);margin-bottom:28px;font-size:16px">Earn 30% recurring commission â <strong style="color:#f0f6fc">$17.70/month</strong> for every outside sales rep you refer. No cap. No expiry.</p>
-    <a href="/affiliate.html" style="display:inline-block;background:#0ea5e9;color:#000;font-weight:700;padding:14px 32px;border-radius:8px;text-decoration:none;font-size:15px">Learn About the Affiliate Program &#x2192;</a>
-  </div>
-</section><div class="final">
-  <h2 style="font-size:clamp(36px,6vw,72px);font-weight:900;line-height:1;margin-bottom:24px">KNOW YOUR<br><span style="color:#0ea5e9">TERRITORY<br>BEFORE YOU<br>LEAVE THE<br>DRIVEWAY.</span></h2>
-  <a href="#pricing" class="btn btn-blue" style="font-size:18px;padding:20px 48px;display:inline-block">Start 7-Day Free Trial ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ $59/mo ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</a>
-  <p style="margin-top:24px;color:rgba(240,246,252,.3);font-size:12px;letter-spacing:.1em">7-DAY FREE TRIAL ÃÂÃÂÃÂ· CANCEL ANYTIME ÃÂÃÂÃÂ· $59/MONTH TOTAL</p>
+
+<div class="final-cta">
+  <div class="section-label">Ready?</div>
+  <h2 style="font-size:clamp(38px,7vw,76px);font-weight:900;line-height:.95;margin-bottom:28px;letter-spacing:-.02em">KNOW YOUR<br>TERRITORY<br><span style="color:#0ea5e9">BEFORE YOU<br>LEAVE THE<br>DRIVEWAY.</span></h2>
+  <a href="#pricing" class="btn-primary" style="font-size:18px;padding:20px 52px;display:inline-block">Start 7-Day Free Trial &mdash; $59/mo &rarr;</a>
+  <p style="font-size:12px;color:rgba(240,246,252,.28);letter-spacing:.12em;margin-top:18px;text-transform:uppercase">7-day free trial &bull; Cancel anytime &bull; $59/month total &bull; Zero outside costs</p>
 </div>
+
 <footer>
-  <p style="font-size:18px;font-weight:800;color:#f0f6fc;margin-bottom:8px">CALLCANVAS <span style="color:#0ea5e9">AI</span></p>
-  <p>Created by Evan Jones / YWM Consulting ÃÂÃÂÃÂ· <a href="mailto:youngwildme3@gmail.com">youngwildme3@gmail.com</a></p>
-  <p style="margin-top:8px"><a href="/blog">Blog</a> ÃÂÃÂÃÂ· <a href="/growth-log">Growth Dashboard</a></p>
-  <p style="margin-top:12px">ÃÂÃÂÃÂÃÂ© 2026 YWM Consulting. All rights reserved.</p>
+  <p style="font-size:20px;font-weight:900;color:#f0f6fc;margin-bottom:8px">CALLCANVAS <span style="color:#0ea5e9">AI</span></p>
+  <div class="footer-links">
+    <a href="/#why">Why Us</a>
+    <a href="/#pricing">Pricing</a>
+    <a href="/#faq">FAQ</a>
+    <a href="/affiliate.html">Affiliates</a>
+    <a href="/blog">Blog</a>
+    <a href="/outreach">Outreach Dashboard</a>
+    <a href="/growth-log">Growth Dashboard</a>
+    <a href="mailto:youngwildme3@gmail.com">Contact</a>
+  </div>
+  <p style="font-size:13px;color:rgba(240,246,252,.4);margin-bottom:4px">Created by Evan Jones &bull; YWM Consulting &bull; (630) 699-2928</p>
+  <p style="font-size:12px;color:rgba(240,246,252,.22)">&copy; 2026 YWM Consulting. CallCanvas AI is a subscription course product. All rights reserved.</p>
 </footer>
+
+<div id="cc-vc" style="position:fixed;bottom:20px;left:20px;background:#141a24;border:1px solid rgba(14,165,233,.28);border-radius:8px;padding:9px 14px;font-size:12px;color:rgba(240,246,252,.75);z-index:500;display:flex;align-items:center;gap:7px"><span style="width:7px;height:7px;border-radius:50%;background:#22c55e;display:inline-block;animation:pulse 2s infinite"></span><span id="vc-num">24</span> people viewing</div>
+<div id="cc-bar" style="position:fixed;bottom:0;left:0;right:0;background:linear-gradient(90deg,#0ea5e9,#0284c7);padding:11px 24px;display:flex;align-items:center;justify-content:center;gap:14px;z-index:600;transform:translateY(100%);transition:transform .35s"><p style="color:#000;font-weight:700;margin:0;font-size:13px">7-Day Free Trial &mdash; No Credit Card Required</p><a href="#pricing" style="background:#000;color:#fff;padding:7px 18px;border-radius:6px;font-weight:700;font-size:13px">Start Free &rarr;</a><button onclick="document.getElementById('cc-bar').style.display='none'" style="background:none;border:none;color:rgba(0,0,0,.45);font-size:18px;cursor:pointer">&times;</button></div>
+<div id="cc-proof" style="position:fixed;bottom:72px;left:20px;z-index:500;max-width:270px;pointer-events:none"></div>
+<div id="cc-exit" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:9000;align-items:center;justify-content:center"><div style="background:#141a24;border:1px solid rgba(14,165,233,.3);border-radius:16px;padding:44px;max-width:430px;width:92%;text-align:center;position:relative"><button onclick="document.getElementById('cc-exit').style.display='none';sessionStorage.setItem('exit_shown','1')" style="position:absolute;top:12px;right:16px;background:none;border:none;color:rgba(240,246,252,.4);font-size:22px;cursor:pointer">&times;</button><p style="font-size:32px;margin-bottom:12px">&#128073;</p><h3 style="color:#f0f6fc;font-size:22px;font-weight:800;margin-bottom:10px">Wait &mdash; Before You Go</h3><p style="color:rgba(240,246,252,.65);font-size:14px;margin-bottom:22px;line-height:1.6">Outside reps who prep their territory the night before close 3x more deals. Start your free 7-day trial &mdash; no credit card needed.</p><a href="#pricing" onclick="document.getElementById('cc-exit').style.display='none'" class="btn-primary" style="display:block;font-size:15px;padding:14px">Claim My 7-Day Free Trial &rarr;</a><p onclick="document.getElementById('cc-exit').style.display='none';sessionStorage.setItem('exit_shown','1')" style="margin-top:12px;color:rgba(240,246,252,.28);font-size:12px;cursor:pointer">No thanks, I'll keep driving blind</p></div></div>
+<div id="cc-email" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:8000;align-items:center;justify-content:center"><div style="background:#141a24;border:1px solid rgba(14,165,233,.3);border-radius:16px;padding:40px;max-width:420px;width:92%;text-align:center;position:relative"><button onclick="document.getElementById('cc-email').style.display='none';sessionStorage.setItem('email_shown','1')" style="position:absolute;top:12px;right:16px;background:none;border:none;color:rgba(240,246,252,.4);font-size:22px;cursor:pointer">&times;</button><p style="font-size:34px;margin-bottom:10px">&#128203;</p><h3 style="color:#f0f6fc;font-size:20px;font-weight:800;margin-bottom:8px">Free Territory Research Checklist</h3><p style="color:rgba(240,246,252,.6);font-size:14px;margin-bottom:18px">The exact 27-point checklist top outside sales reps use to prep their territory the night before. Free &mdash; instant delivery.</p><input id="email-inp" type="email" placeholder="your@email.com" style="width:100%;padding:12px 16px;background:#0d1117;border:1px solid rgba(255,255,255,.14);border-radius:8px;color:#f0f6fc;font-size:15px;margin-bottom:12px;outline:none"><button id="email-btn" onclick="submitEmail()" style="width:100%;background:#0ea5e9;color:#000;font-weight:800;padding:14px;border-radius:8px;border:none;font-size:15px;cursor:pointer">Send Me the Free Checklist &rarr;</button><div id="email-ok" style="display:none;margin-top:12px;color:#22c55e;font-size:14px">&#10003; On its way! Check your inbox.</div><p style="margin-top:10px;font-size:11px;color:rgba(240,246,252,.22)">No spam. Unsubscribe anytime.</p></div></div>
+<div id="cc-chat-btn" onclick="openChat()" style="position:fixed;bottom:24px;right:24px;background:#0ea5e9;color:#000;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:700;box-shadow:0 4px 20px rgba(14,165,233,.38);font-size:22px">&#128172;</div>
+<div id="cc-chat" style="display:none;position:fixed;bottom:24px;right:24px;width:350px;height:490px;background:#141a24;border:1px solid rgba(14,165,233,.28);border-radius:16px;flex-direction:column;z-index:800;box-shadow:0 8px 40px rgba(0,0,0,.55);overflow:hidden"><div style="background:linear-gradient(90deg,#0ea5e9,#0284c7);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0"><div style="display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;font-size:16px">&#129302;</div><div><strong style="color:#000;font-size:13px;display:block">CallCanvas AI Support</strong><span style="color:rgba(0,0,0,.55);font-size:11px">Online &mdash; replies instantly</span></div></div><button onclick="document.getElementById('cc-chat').style.display='none';document.getElementById('cc-chat-btn').style.display='flex'" style="background:none;border:none;color:rgba(0,0,0,.5);font-size:20px;cursor:pointer">&times;</button></div><div id="chat-msgs" style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px"></div><div style="padding:10px;border-top:1px solid rgba(255,255,255,.07);display:flex;gap:8px;flex-shrink:0"><input id="chat-inp" type="text" placeholder="Ask a question..." onkeydown="if(event.key==='Enter')sendChat()" style="flex:1;background:#0d1117;border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:9px 12px;color:#f0f6fc;font-size:13px;outline:none"><button onclick="sendChat()" style="background:#0ea5e9;color:#000;border:none;border-radius:7px;padding:9px 14px;font-weight:700;cursor:pointer;font-size:13px">Send</button></div></div>
+
 <script>
+var _ch=[],_vc=18+Math.floor(Math.random()*16),_pi=0;
+var _pd=[{n:'Mike R.',c:'Chicago, IL',a:'just started their free trial'},{n:'Sarah K.',c:'Dallas, TX',a:'researched 50 companies today'},{n:'James T.',c:'Atlanta, GA',a:'just subscribed'},{n:'Lisa M.',c:'Phoenix, AZ',a:'completed first session'},{n:'David C.',c:'Denver, CO',a:'just started their free trial'},{n:'Carlos M.',c:'Houston, TX',a:'booked 3 appointments from session one'},{n:'Amy B.',c:'Nashville, TN',a:'just signed up'},{n:'Ryan S.',c:'Columbus, OH',a:'researched his territory overnight'}];
+function openChat(){document.getElementById('cc-chat').style.display='flex';document.getElementById('cc-chat-btn').style.display='none';if(!_ch.length)addMsg('bot',"Hi! I'm the CallCanvas AI assistant. Ask me anything about getting set up, how it works, or if it's right for your territory.");}
+function addMsg(r,t){var m=document.getElementById('chat-msgs');var d=document.createElement('div');var b=r==='bot';d.style.cssText='padding:10px 13px;border-radius:'+(b?'11px 11px 11px 3px':'11px 11px 3px 11px')+';font-size:13px;line-height:1.55;max-width:88%;'+(b?'background:rgba(14,165,233,.1);border:1px solid rgba(14,165,233,.18);color:#f0f6fc;align-self:flex-start':'background:rgba(14,165,233,.18);color:#f0f6fc;align-self:flex-end;margin-left:auto');d.textContent=t;m.appendChild(d);m.scrollTop=99999;return d;}
+async function sendChat(){var i=document.getElementById('chat-inp');var t=i.value.trim();if(!t)return;i.value='';addMsg('user',t);_ch.push({role:'user',content:t});var tp=addMsg('bot','Typing...');tp.style.opacity='.5';try{var r=await fetch('/.netlify/functions/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:_ch})});var d=await r.json();tp.textContent=d.reply||'Let me get you connected!';tp.style.opacity='1';_ch.push({role:'assistant',content:tp.textContent});}catch(e){tp.textContent='Something went wrong. Please try again!';tp.style.opacity='1';}document.getElementById('chat-msgs').scrollTop=99999;}
+async function submitEmail(){var e=document.getElementById('email-inp').value.trim();if(!e||!e.includes('@'))return;try{await fetch('/.netlify/functions/email-capture',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e,source:'popup'})});}catch(ex){}document.getElementById('email-ok').style.display='block';document.getElementById('email-inp').style.display='none';document.getElementById('email-btn').style.display='none';sessionStorage.setItem('email_shown','1');setTimeout(function(){document.getElementById('cc-email').style.display='none';},2800);}
 (function(){
-  // Exit intent
-  var shown=sessionStorage.getItem('exit_shown');
-  if(!shown){document.addEventListener('mouseleave',function(e){if(e.clientY<5){sessionStorage.setItem('exit_shown','1');var d=document.createElement('div');d.innerHTML='<div style="position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;display:flex;align-items:center;justify-content:center" id="cc-exit"><div style="background:#141a24;border:1px solid #0ea5e9;border-radius:16px;padding:48px;max-width:440px;width:90%;text-align:center;position:relative"><button onclick="document.getElementById('cc-exit').remove()" style="position:absolute;top:12px;right:16px;background:none;border:none;color:#fff;font-size:24px;cursor:pointer">ÃÂÃÂÃÂÃÂ</button><h3 style="color:#f0f6fc;font-size:26px;margin-bottom:12px;font-weight:800">Wait ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ Before You Go</h3><p style="color:rgba(240,246,252,.7);margin-bottom:24px">Outside reps who prep their territory the night before close 3x more deals.</p><a href="#pricing" onclick="document.getElementById('cc-exit').remove()" style="display:block;background:#0ea5e9;color:#000;font-weight:800;padding:14px;border-radius:8px;text-decoration:none">Claim My 7-Day Free Trial ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</a></div></div>';document.body.appendChild(d);}});}
-  // Sticky bar
-  var bar=document.createElement('div');bar.style.cssText='position:fixed;bottom:0;left:0;right:0;background:linear-gradient(90deg,#0ea5e9,#0284c7);padding:12px 24px;display:flex;align-items:center;justify-content:center;gap:16px;z-index:600;transform:translateY(100%);transition:transform .3s';bar.innerHTML='<p style="color:#000;font-weight:700;margin:0">ÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂ¥ 7-Day Free Trial ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ No Credit Card Required</p><a href="#pricing" style="background:#000;color:#fff;padding:8px 20px;border-radius:6px;font-weight:700;font-size:13px;text-decoration:none">Start Free ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ</a><button onclick="this.parentElement.style.display='none'" style="background:none;border:none;color:rgba(0,0,0,.5);font-size:18px;cursor:pointer">ÃÂÃÂÃÂÃÂ</button>';document.body.appendChild(bar);window.addEventListener('scroll',function(){if(window.scrollY/(document.body.scrollHeight-window.innerHeight)>.35)bar.style.transform='translateY(0)';},{passive:true});
-  // Social proof
-  var proofs=[{n:'Mike R.',c:'Chicago, IL',a:'just started their free trial'},{n:'Sarah K.',c:'Dallas, TX',a:'researched 50 companies today'},{n:'James T.',c:'Atlanta, GA',a:'just subscribed'},{n:'Lisa M.',c:'Phoenix, AZ',a:'completed first session'},{n:'David C.',c:'Denver, CO',a:'just started free trial'}];var pi=0;function showP(){var p=proofs[pi++%proofs.length];var el=document.createElement('div');el.style.cssText='position:fixed;bottom:70px;left:20px;background:#141a24;border:1px solid rgba(14,165,233,.25);border-radius:10px;padding:14px 18px;font-size:13px;z-index:500;max-width:260px;transition:transform .4s;transform:translateX(-110%)';el.innerHTML='<div style="display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;border-radius:50%;background:#0ea5e9;display:flex;align-items:center;justify-content:center;font-weight:800;color:#000">'+p.n[0]+'</div><div><strong style="color:#f0f6fc">'+p.n+' from '+p.c+'</strong><br><span style="color:rgba(240,246,252,.7)">'+p.a+'</span></div></div>';document.body.appendChild(el);setTimeout(function(){el.style.transform='translateX(0)';},100);setTimeout(function(){el.style.transform='translateX(-110%)';setTimeout(function(){el.remove();},500);},4500);}setTimeout(function(){showP();setInterval(showP,25000);},8000);
-  // Visitor counter
-  var vc=document.createElement('div');vc.style.cssText='position:fixed;bottom:20px;left:20px;background:#141a24;border:1px solid rgba(14,165,233,.3);border-radius:8px;padding:10px 16px;font-size:13px;color:rgba(240,246,252,.8);z-index:500;display:flex;align-items:center;gap:8px';var cnt=18+Math.floor(Math.random()*15);vc.innerHTML='<span style="width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block"></span><span id="cc-cnt">'+cnt+'</span> people viewing';document.body.appendChild(vc);setInterval(function(){cnt=Math.max(12,Math.min(45,cnt+(Math.random()>.5?1:-1)));var el=document.getElementById('cc-cnt');if(el)el.textContent=cnt;},8000);
-})();
-</script>
-
-<!-- CallCanvas AI Live Support Chat -->
-<div id="cc-chat-btn" onclick="document.getElementById('cc-chat').style.display='flex'" style="position:fixed;bottom:24px;right:24px;background:#0ea5e9;color:#000;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:700;box-shadow:0 4px 24px rgba(14,165,233,.4);font-size:24px" title="Chat with us">ÃÂ°ÃÂÃÂÃÂ¬</div>
-
-<div id="cc-chat" style="display:none;position:fixed;bottom:24px;right:24px;width:360px;height:500px;background:#141a24;border:1px solid rgba(14,165,233,.3);border-radius:16px;flex-direction:column;z-index:800;box-shadow:0 8px 40px rgba(0,0,0,.6);overflow:hidden">
-  <div style="background:linear-gradient(90deg,#0ea5e9,#0284c7);padding:16px 20px;display:flex;align-items:center;justify-content:space-between">
-    <div style="display:flex;align-items:center;gap:10px">
-      <div style="width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font-size:18px">ÃÂ°ÃÂÃÂ¤ÃÂ</div>
-      <div><strong style="color:#000;font-size:14px;display:block">CallCanvas AI Support</strong><span style="color:rgba(0,0,0,.6);font-size:12px">ÃÂ¢ÃÂÃÂ Online ÃÂ¢ÃÂÃÂ replies instantly</span></div>
-    </div>
-    <button onclick="document.getElementById('cc-chat').style.display='none'" style="background:none;border:none;color:rgba(0,0,0,.6);font-size:20px;cursor:pointer;padding:4px">ÃÂÃÂ</button>
-  </div>
-  <div id="cc-chat-msgs" style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px">
-    <div style="background:rgba(14,165,233,.1);border:1px solid rgba(14,165,233,.2);border-radius:12px 12px 12px 4px;padding:12px 14px;font-size:13px;color:#f0f6fc;max-width:85%">Hi! I'm the CallCanvas AI assistant ÃÂ°ÃÂÃÂÃÂ Ask me anything about getting set up, how it works, or if it's right for your territory.</div>
-  </div>
-  <div style="padding:12px;border-top:1px solid rgba(255,255,255,.07);display:flex;gap:8px">
-    <input id="cc-chat-input" type="text" placeholder="Ask a question..." onkeydown="if(event.key==='Enter')window.ccSend()" style="flex:1;background:#0d1117;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:10px 12px;color:#f0f6fc;font-size:13px;outline:none" />
-    <button onclick="window.ccSend()" style="background:#0ea5e9;color:#000;border:none;border-radius:8px;padding:10px 16px;font-weight:700;cursor:pointer;font-size:13px">Send</button>
-  </div>
-</div>
-
-<script>
-window._ccHistory = [];
-window.ccSend = async function() {
-  const inp = document.getElementById('cc-chat-input');
-  const msgs = document.getElementById('cc-chat-msgs');
-  const text = inp.value.trim();
-  if (!text) return;
-  inp.value = '';
-  
-  // Add user message
-  msgs.innerHTML += '<div style="background:rgba(14,165,233,.15);border:1px solid rgba(14,165,233,.2);border-radius:12px 12px 4px 12px;padding:10px 14px;font-size:13px;color:#f0f6fc;max-width:85%;align-self:flex-end;margin-left:auto">' + text.replace(/</g,'&lt;') + '</div>';
-  
-  // Typing indicator
-  const typing = document.createElement('div');
-  typing.id = 'cc-typing';
-  typing.style.cssText = 'background:rgba(14,165,233,.1);border:1px solid rgba(14,165,233,.2);border-radius:12px 12px 12px 4px;padding:10px 14px;font-size:13px;color:rgba(240,246,252,.5);max-width:85%';
-  typing.textContent = 'Typing...';
-  msgs.appendChild(typing);
-  msgs.scrollTop = msgs.scrollHeight;
-  
-  window._ccHistory.push({ role: 'user', content: text });
-  
-  try {
-    const res = await fetch('/.netlify/functions/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages: window._ccHistory })
-    });
-    const data = await res.json();
-    const reply = data.reply || 'Let me connect you with our team!';
-    window._ccHistory.push({ role: 'assistant', content: reply });
-    
-    const t = document.getElementById('cc-typing');
-    if (t) { t.style.color = '#f0f6fc'; t.textContent = reply; t.id = ''; }
-  } catch(e) {
-    const t = document.getElementById('cc-typing');
-    if (t) { t.textContent = 'Something went wrong ÃÂ¢ÃÂÃÂ please try again!'; t.id = ''; }
-  }
-  msgs.scrollTop = msgs.scrollHeight;
-};
-</script>
-
-<!-- Email capture popup - shows after 45 seconds or 60% scroll -->
-<div id="cc-email-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:8000;align-items:center;justify-content:center">
-  <div style="background:#141a24;border:1px solid rgba(14,165,233,.3);border-radius:16px;padding:40px;max-width:420px;width:90%;text-align:center;position:relative">
-    <button onclick="document.getElementById('cc-email-popup').style.display='none';sessionStorage.setItem('email_shown','1')" style="position:absolute;top:12px;right:16px;background:none;border:none;color:rgba(240,246,252,.4);font-size:22px;cursor:pointer">×</button>
-    <div style="font-size:36px;margin-bottom:12px">📋</div>
-    <h3 style="color:#f0f6fc;font-size:22px;font-weight:800;margin-bottom:8px">Free Territory Research Checklist</h3>
-    <p style="color:rgba(240,246,252,.6);font-size:14px;margin-bottom:20px">Get the exact 27-point checklist top outside sales reps use to prep their territory the night before. Free — instant download.</p>
-    <input id="popup-email" type="email" placeholder="your@email.com" style="width:100%;padding:12px 16px;background:#0d1117;border:1px solid rgba(255,255,255,.15);border-radius:8px;color:#f0f6fc;font-size:15px;margin-bottom:12px;outline:none">
-    <button onclick="captureEmail()" style="width:100%;background:#0ea5e9;color:#000;font-weight:800;padding:14px;border-radius:8px;border:none;font-size:15px;cursor:pointer">Send Me the Free Checklist →</button>
-    <p style="margin-top:10px;font-size:11px;color:rgba(240,246,252,.25)">No spam. Unsubscribe anytime.</p>
-    <div id="popup-success" style="display:none;margin-top:12px;color:#22c55e;font-size:14px">✓ Checklist sent! Check your inbox.</div>
-  </div>
-</div>
-
-<script>
-async function captureEmail() {
-  const email = document.getElementById('popup-email').value.trim();
-  if (!email || !email.includes('@')) return;
-  try {
-    await fetch('/.netlify/functions/email-capture', {
-      method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ email, source: 'popup' })
-    });
-  } catch(e) {}
-  document.getElementById('popup-success').style.display = 'block';
-  document.getElementById('popup-email').style.display = 'none';
-  document.querySelector('#cc-email-popup button[onclick*="captureEmail"]').style.display = 'none';
-  setTimeout(() => { document.getElementById('cc-email-popup').style.display = 'none'; }, 2500);
-  sessionStorage.setItem('email_shown','1');
-}
-(function() {
-  if (sessionStorage.getItem('email_shown')) return;
-  var shown = false;
-  function showPopup() { if(shown) return; shown=true; document.getElementById('cc-email-popup').style.display='flex'; sessionStorage.setItem('email_shown','1'); }
-  setTimeout(showPopup, 45000);
-  window.addEventListener('scroll', function() { if(window.scrollY/(document.body.scrollHeight-window.innerHeight)>.6) showPopup(); }, {passive:true});
+  window.addEventListener('scroll',function(){if(window.scrollY/(document.body.scrollHeight-window.innerHeight)>.35)document.getElementById('cc-bar').style.transform='translateY(0)';},{passive:true});
+  setInterval(function(){_vc=Math.max(12,Math.min(48,_vc+(Math.random()>.5?1:-1)));var e=document.getElementById('vc-num');if(e)e.textContent=_vc;},9000);
+  function showProof(){var p=_pd[_pi++%_pd.length];var w=document.getElementById('cc-proof');var el=document.createElement('div');el.style.cssText='background:#141a24;border:1px solid rgba(14,165,233,.22);border-radius:10px;padding:12px 16px;font-size:12px;display:flex;align-items:center;gap:10px;animation:slideIn .4s ease;box-shadow:0 3px 16px rgba(0,0,0,.4);pointer-events:auto;margin-bottom:8px';el.innerHTML='<div style="width:32px;height:32px;border-radius:50%;background:#0ea5e9;display:flex;align-items:center;justify-content:center;font-weight:800;color:#000;flex-shrink:0;font-size:13px">'+p.n[0]+'</div><div><strong style="color:#f0f6fc;display:block">'+p.n+' from '+p.c+'</strong><span style="color:rgba(240,246,252,.6)">'+p.a+'</span></div>';w.appendChild(el);setTimeout(function(){el.style.animation='slideOut .4s ease forwards';setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},400);},4800);}
+  setTimeout(function(){showProof();setInterval(showProof,28000);},10000);
+  if(!sessionStorage.getItem('exit_shown')){document.addEventListener('mouseleave',function(e){if(e.clientY<5){sessionStorage.setItem('exit_shown','1');document.getElementById('cc-exit').style.display='flex';}});}
+  if(!sessionStorage.getItem('email_shown')){var _es=false;function maybeEmail(){if(_es)return;_es=true;sessionStorage.setItem('email_shown','1');document.getElementById('cc-email').style.display='flex';}setTimeout(maybeEmail,50000);window.addEventListener('scroll',function(){if(window.scrollY/(document.body.scrollHeight-window.innerHeight)>.65)maybeEmail();},{passive:true});}
 })();
 </script>
 </body>
