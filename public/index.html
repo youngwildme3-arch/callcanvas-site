@@ -260,7 +260,7 @@ footer{padding:48px clamp(16px,5vw,64px);border-top:1px solid rgba(255,255,255,.
 <script>
 var _vc=18+Math.floor(Math.random()*16),_pi=0,_ch=[];
 var _pd=[{n:'Mike R.',c:'Chicago, IL',a:'just started their free trial'},{n:'Sarah K.',c:'Dallas, TX',a:'researched 50 companies today'},{n:'James T.',c:'Atlanta, GA',a:'just subscribed'},{n:'Lisa M.',c:'Phoenix, AZ',a:'completed first session'},{n:'David C.',c:'Denver, CO',a:'just started their free trial'},{n:'Carlos M.',c:'Houston, TX',a:'booked 3 appointments from session one'},{n:'Amy B.',c:'Nashville, TN',a:'just signed up'},{n:'Ryan S.',c:'Columbus, OH',a:'researched his territory overnight'}];
-function openChat(){document.getElementById('cc-chat-box').style.display='flex';document.getElementById('cc-chat-btn').style.display='none';document.getElementById('cc-nudge').style.display='none';sessionStorage.setItem('chat_opened','1');if(!_ch.length){
+async function openChat(){document.getElementById('cc-chat-box').style.display='flex';document.getElementById('cc-chat-btn').style.display='none';document.getElementById('cc-nudge').style.display='none';sessionStorage.setItem('chat_opened','1');if(!_ch.length){
     var tp2=addMsg('bot','...');tp2.style.opacity='.45';
     try{
       var gr=await fetch('/.netlify/functions/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:'__GREETING__'}]})});
