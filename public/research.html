@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Territory Research — CallCanvas AI</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#080b10;color:#f0f6fc;min-height:100vh}
+nav{background:rgba(8,11,16,.96);border-bottom:1px solid rgba(255,255,255,.07);height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,5vw,64px);position:sticky;top:0;z-index:100}
+.logo{font-size:19px;font-weight:900;color:#0ea5e9;text-decoration:none}
+.wrap{max-width:900px;margin:0 auto;padding:48px 20px}
+h1{font-size:clamp(26px,5vw,46px);font-weight:900;margin-bottom:10px}
+h1 em{color:#0ea5e9;font-style:normal}
+.sub{color:rgba(240,246,252,.6);font-size:16px;margin-bottom:36px;line-height:1.65}
+.form-card{background:#131b27;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:32px;margin-bottom:28px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:580px){.form-grid{grid-template-columns:1fr}}
+label{font-size:11px;font-weight:700;color:rgba(240,246,252,.45);text-transform:uppercase;letter-spacing:.12em;display:block;margin-bottom:6px}
+input,select{width:100%;padding:12px 16px;background:#0d1117;border:1px solid rgba(255,255,255,.1);border-radius:8px;color:#f0f6fc;font-size:15px;outline:none;font-family:inherit}
+input:focus,select:focus{border-color:#0ea5e9}
+select option{background:#131b27}
+.btn-run{width:100%;margin-top:18px;padding:16px;background:#0ea5e9;color:#000;border:none;border-radius:9px;font-size:16px;font-weight:800;cursor:pointer;font-family:inherit}
+.btn-run:disabled{opacity:.45;cursor:not-allowed}
+#loading{display:none;text-align:center;padding:40px 0}
+.spin{width:36px;height:36px;border:3px solid rgba(14,165,233,.2);border-top-color:#0ea5e9;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.load-txt{color:rgba(240,246,252,.6);font-size:15px}
+#results{display:none}
+.results-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px}
+.results-bar h2{font-size:22px;font-weight:800}
+.btn-csv{padding:11px 22px;background:#22c55e;color:#000;border:none;border-radius:8px;font-weight:800;cursor:pointer;font-size:13px;font-family:inherit;margin-right:8px}
+.btn-print{padding:11px 22px;background:#0ea5e9;color:#000;border:none;border-radius:8px;font-weight:800;cursor:pointer;font-size:13px;font-family:inherit}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:28px}
+.stat{background:#131b27;border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:16px;text-align:center}
+.stat-n{font-size:28px;font-weight:900;color:#0ea5e9;display:block}
+.stat-l{font-size:10px;color:rgba(240,246,252,.35);text-transform:uppercase;letter-spacing:.12em;margin-top:4px;display:block}
+.co{background:#131b27;border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:22px;margin-bottom:12px}
+.co-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px}
+.rank-badge{min-width:36px;height:36px;border-radius:50%;background:#0ea5e9;color:#000;font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.co-name{font-size:16px;font-weight:800;margin-bottom:2px}
+.co-type{font-size:11px;color:rgba(240,246,252,.4);text-transform:uppercase;letter-spacing:.08em}
+.priority-tag{margin-left:auto;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:800;white-space:nowrap}
+.hot{background:rgba(239,68,68,.15);color:#fca5a5}
+.warm{background:rgba(245,158,11,.12);color:#fcd34d}
+.cool{background:rgba(14,165,233,.12);color:#7dd3fc}
+.co-details{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:12px}
+.detail{background:rgba(255,255,255,.03);border-radius:7px;padding:9px 11px}
+.detail-label{font-size:10px;color:rgba(240,246,252,.3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}
+.detail-val{font-size:13px;font-weight:600}
+.why-box{background:rgba(14,165,233,.05);border:1px solid rgba(14,165,233,.12);border-radius:8px;padding:11px 13px;margin-bottom:10px;font-size:13px;color:rgba(240,246,252,.78);line-height:1.55}
+.open-box{background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.12);border-radius:8px;padding:11px 13px;margin-bottom:10px}
+.open-label{font-size:10px;font-weight:800;color:#22c55e;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+.open-text{font-size:13px;line-height:1.55;color:#f0f6fc}
+.tracks{display:flex;flex-direction:column;gap:5px}
+.track{font-size:12px;color:rgba(240,246,252,.6);padding-left:14px;position:relative;line-height:1.5}
+.track::before{content:'•';position:absolute;left:0;color:#0ea5e9}
+.field-line{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06);font-size:12px;color:rgba(240,246,252,.28)}
+@media print{
+  nav,.btn-csv,.btn-print,.results-bar,.stats-row,.form-card,#loading{display:none!important}
+  body{background:#fff;color:#000}
+  .co{border:1px solid #ccc;page-break-inside:avoid;margin-bottom:16px;padding:16px;background:#fff}
+  .co-name,.open-text,.detail-val{color:#000}
+  .why-box,.open-box{border:1px solid #ddd;background:#f9f9f9}
+  .open-label{color:#155e75}
+  .track,.co-type,.detail-label,.field-line{color:#555}
+  .rank-badge{background:#0ea5e9;-webkit-print-color-adjust:exact;print-color-adjust:exact;color:#000}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a class="logo" href="/">CALLCANVAS AI</a>
+  <a href="/" style="font-size:13px;color:rgba(240,246,252,.5)">Back to site</a>
+</nav>
+<div class="wrap">
+  <h1>Your Territory.<br><em>Ready in Minutes.</em></h1>
+  <p class="sub">Enter your city and what you sell. We research 20 real local businesses — owner names, direct phone numbers, exactly why they need your product, and your personalized cold call opening line. Download as CSV or print field notes. You show up and dial.</p>
+  <div class="form-card">
+    <div class="form-grid">
+      <div>
+        <label>Your City</label>
+        <input id="city" type="text" placeholder="Naperville" />
+      </div>
+      <div>
+        <label>State</label>
+        <input id="state" type="text" placeholder="IL" maxlength="2" />
+      </div>
+      <div>
+        <label>What You Sell</label>
+        <select id="industry">
+          <option value="commercial insurance">Commercial Insurance</option>
+          <option value="payroll services">Payroll Services</option>
+          <option value="telecom and business phone systems">Telecom / Phone Systems</option>
+          <option value="B2B software and technology">B2B Tech / Software</option>
+          <option value="financial services">Financial Services</option>
+          <option value="commercial cleaning services">Commercial Cleaning</option>
+          <option value="office supplies and equipment">Office Supplies / Equipment</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div>
+        <label>Specific Product (optional)</label>
+        <input id="product" type="text" placeholder="e.g. workers comp, fleet insurance" />
+      </div>
+    </div>
+    <button class="btn-run" onclick="runResearch()">Build My Call Sheet →</button>
+  </div>
+  <div id="loading">
+    <div class="spin"></div>
+    <p class="load-txt" id="load-msg">Researching businesses in your territory...</p>
+  </div>
+  <div id="results">
+    <div class="results-bar">
+      <h2 id="res-title">Your Call Sheet</h2>
+      <div>
+        <button class="btn-csv" onclick="downloadCSV()">Download CSV</button>
+        <button class="btn-print" onclick="window.print()">Print Field Notes</button>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="stat"><span class="stat-n" id="s-co">—</span><span class="stat-l">Companies</span></div>
+      <div class="stat"><span class="stat-n" id="s-own">—</span><span class="stat-l">Owner Names</span></div>
+      <div class="stat"><span class="stat-n" id="s-ph">—</span><span class="stat-l">Phone Numbers</span></div>
+      <div class="stat"><span class="stat-n" id="s-min">—</span><span class="stat-l">Minutes</span></div>
+    </div>
+    <div id="co-list"></div>
+  </div>
+</div>
+<script>
+let _data=null,_start=0;
+const msgs=['Researching businesses in your territory...','Looking up owner names and direct contacts...','Pulling phone numbers and addresses...','Writing your personalized cold call openers...','Building your field notes and talk tracks...','Almost ready — finalizing your call sheet...'];
+let _mi=0,_mt=null;
+function runResearch(){
+  const city=document.getElementById('city').value.trim();
+  const state=document.getElementById('state').value.trim()||'IL';
+  const industry=document.getElementById('industry').value;
+  const product=document.getElementById('product').value.trim();
+  if(!city){alert('Please enter your city');return;}
+  document.getElementById('results').style.display='none';
+  document.getElementById('loading').style.display='block';
+  document.querySelector('.btn-run').disabled=true;
+  _start=Date.now();_mi=0;
+  document.getElementById('load-msg').textContent=msgs[0];
+  _mt=setInterval(()=>{_mi=Math.min(_mi+1,msgs.length-1);document.getElementById('load-msg').textContent=msgs[_mi];},7000);
+  fetch('/.netlify/functions/territory-research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({city,state,industry,product})})
+  .then(r=>r.json())
+  .then(data=>{clearInterval(_mt);_data=data;const mins=((Date.now()-_start)/60000).toFixed(1);document.getElementById('loading').style.display='none';document.querySelector('.btn-run').disabled=false;render(data,mins);})
+  .catch(err=>{clearInterval(_mt);document.getElementById('loading').style.display='none';document.querySelector('.btn-run').disabled=false;alert('Something went wrong. Please try again.');});
+}
+function render(data,mins){
+  const cos=data.companies||[];
+  document.getElementById('res-title').textContent=(data.city||'')+', '+(data.state||'')+' — '+(data.industry||'');
+  document.getElementById('s-co').textContent=cos.length;
+  document.getElementById('s-own').textContent=cos.filter(c=>c.owner&&c.owner!=='Unknown'&&c.owner.length>2).length;
+  document.getElementById('s-ph').textContent=cos.filter(c=>c.phone&&c.phone.length>6).length;
+  document.getElementById('s-min').textContent=mins;
+  const list=document.getElementById('co-list');list.innerHTML='';
+  cos.forEach(co=>{
+    const pc=co.priority>=8?'hot':co.priority>=6?'warm':'cool';
+    const pl=co.priority>=8?'HOT — Priority '+co.priority:co.priority>=6?'WARM — Priority '+co.priority:'Priority '+co.priority;
+    const tracks=(co.talk_tracks||[]).map(t=>'<div class="track">'+t+'</div>').join('');
+    list.innerHTML+=`<div class="co">
+      <div class="co-head">
+        <div class="rank-badge">#${co.rank}</div>
+        <div style="flex:1"><div class="co-name">${co.name}</div><div class="co-type">${co.business_type} &middot; ${co.employees} employees</div></div>
+        <div class="priority-tag ${pc}">${pl}</div>
+      </div>
+      <div class="co-details">
+        <div class="detail"><div class="detail-label">Address</div><div class="detail-val">${co.address}</div></div>
+        <div class="detail"><div class="detail-label">Phone</div><div class="detail-val">${co.phone||'—'}</div></div>
+        <div class="detail"><div class="detail-label">Decision Maker</div><div class="detail-val">${co.owner?co.owner+' ('+co.owner_title+')':'—'}</div></div>
+        <div class="detail"><div class="detail-label">Est. Revenue</div><div class="detail-val">${co.revenue_est||'—'}</div></div>
+      </div>
+      <div class="why-box">${co.why_prospect}</div>
+      <div class="open-box"><div class="open-label">Your opening line</div><div class="open-text">"${co.cold_open}"</div></div>
+      <div class="tracks">${tracks}</div>
+      <div class="field-line">Field notes: _________________________________________________ &nbsp;&nbsp; Follow-up: ___ / ___ / ______</div>
+    </div>`;
+  });
+  document.getElementById('results').style.display='block';
+  document.getElementById('results').scrollIntoView({behavior:'smooth'});
+}
+function downloadCSV(){
+  if(!_data)return;
+  const cos=_data.companies||[];
+  const h=['Rank','Priority','Business Name','Type','Address','Phone','Owner','Title','Employees','Revenue','Why Prospect','Cold Open','Talk Track 1','Talk Track 2','Talk Track 3'];
+  const rows=cos.map(c=>[c.rank,c.priority,c.name,c.business_type,c.address,c.phone,c.owner,c.owner_title,c.employees,c.revenue_est,c.why_prospect,c.cold_open,(c.talk_tracks||[])[0]||'',(c.talk_tracks||[])[1]||'',(c.talk_tracks||[])[2]||''].map(v=>'"'+String(v||'').replace(/"/g,'""')+'"'));
+  const csv=[h.join(','),...rows.map(r=>r.join(','))].join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download='CallCanvas-'+(_data.city||'territory')+'-'+new Date().toISOString().split('T')[0]+'.csv';a.click();
+}
+</script>
+</body>
+</html>
