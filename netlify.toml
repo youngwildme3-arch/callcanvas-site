@@ -2,6 +2,15 @@
   publish = "public"
   functions = "netlify/functions"
 
+[functions]
+  node_bundler = "esbuild"
+
+[functions."territory-research"]
+  timeout = 26
+
+[functions."chat"]
+  timeout = 26
+
 [functions."daily-blog"]
   schedule = "0 6 * * *"
 
@@ -45,9 +54,14 @@
   to = "/.netlify/functions/affiliate-tracker"
   status = 200
 
+[[redirects]]
+  from = "/research"
+  to = "/research.html"
+  status = 200
+
 [[headers]]
   for = "/*"
   [headers.values]
     X-Content-Type-Options = "nosniff"
-    Cache-Control = "public, max-age=3600"
-# Redeploy 1776703198374
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
