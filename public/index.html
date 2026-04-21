@@ -260,18 +260,99 @@ footer{padding:48px clamp(16px,5vw,64px);border-top:1px solid rgba(255,255,255,.
 <script>
 var _vc=18+Math.floor(Math.random()*16),_pi=0,_ch=[];
 var _pd=[{n:'Mike R.',c:'Chicago, IL',a:'just started their free trial'},{n:'Sarah K.',c:'Dallas, TX',a:'researched 50 companies today'},{n:'James T.',c:'Atlanta, GA',a:'just subscribed'},{n:'Lisa M.',c:'Phoenix, AZ',a:'completed first session'},{n:'David C.',c:'Denver, CO',a:'just started their free trial'},{n:'Carlos M.',c:'Houston, TX',a:'booked 3 appointments from session one'},{n:'Amy B.',c:'Nashville, TN',a:'just signed up'},{n:'Ryan S.',c:'Columbus, OH',a:'researched his territory overnight'}];
-async function openChat(){document.getElementById('cc-chat-box').style.display='flex';document.getElementById('cc-chat-btn').style.display='none';document.getElementById('cc-nudge').style.display='none';sessionStorage.setItem('chat_opened','1');if(!_ch.length){
-    var tp2=addMsg('bot','...');tp2.style.opacity='.45';
+async async function openChat(){
+  var box=document.getElementById('cc-chat-box');
+  var btn=document.getElementById('cc-chat-btn');
+  var nudge=document.getElementById('cc-nudge');
+  box.style.display='flex';
+  btn.style.display='none';
+  if(nudge)nudge.style.display='none';
+  sessionStorage.setItem('chat_opened','1');
+  if(!_ch.length){
+    var tp=addMsg('bot','...');tp.style.opacity='.45';
     try{
       var gr=await fetch('/.netlify/functions/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:'__GREETING__'}]})});
       var gd=await gr.json();
-      tp2.textContent=gd.reply||'Hey, what brings you here today?';
-    }catch(e){tp2.textContent='Hey, what brings you here today?';}
-    tp2.style.opacity='1';
-  }}
+      tp.textContent=gd.reply||'Hey! How can I help?';
+    }catch(e){tp.textContent='Hey! How can I help?';}
+    tp.style.opacity='1';
+    addQuickActions();
+  }
+}
 function closeChat(){document.getElementById('cc-chat-box').style.display='none';document.getElementById('cc-chat-btn').style.display='flex';}
 function addMsg(r,t){var m=document.getElementById('chat-msgs');var d=document.createElement('div');d.className='msg '+(r==='bot'?'msg-bot':'msg-user');d.textContent=t;m.appendChild(d);m.scrollTop=99999;return d;}
-async function sendChat(){var i=document.getElementById('chat-inp');var t=i.value.trim();if(!t)return;i.value='';addMsg('user',t);_ch.push({role:'user',content:t});var tp=addMsg('bot','Typing...');tp.style.opacity='.45';try{var r=await fetch('/.netlify/functions/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:_ch})});var d=await r.json();tp.textContent=d.reply||'Give me a second...';tp.style.opacity='1';_ch.push({role:'assistant',content:tp.textContent});}catch(e){tp.textContent='Something went wrong. Try again!';tp.style.opacity='1';}document.getElementById('chat-msgs').scrollTop=99999;}
+function addAction(label,fn){var m=document.getElementById('chat-msgs');var b=document.createElement('button');b.textContent=label;b.style.cssText='display:block;width:100%;margin:4px 0;padding:9px 14px;background:rgba(14,165,233,.15);border:1px solid rgba(14,165,233,.35);border-radius:8px;color:#0ea5e9;font-size:12px;font-weight:700;cursor:pointer;text-align:left;font-family:inherit;';b.onclick=fn;m.appendChild(b);m.scrollTop=99999;return b;}
+function addQuickActions(){
+  var m=document.getElementById('chat-msgs');
+  var wrap=document.createElement('div');
+  wrap.id='cc-qa';
+  wrap.style.cssText='margin-top:6px;';
+  var label=document.createElement('div');
+  label.style.cssText='font-size:10px;color:rgba(240,246,252,.35);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;padding:0 2px;';
+  label.textContent='Quick actions:';
+  wrap.appendChild(label);
+  var actions=[
+    ['🚀 Start my free trial',function(){navTo('#pricing');addMsg('bot','Taking you to the trial signup now — no credit card needed to start!');}],
+    ['💰 See pricing',function(){navTo('#pricing');addMsg('bot',"It's $59/month, 7-day free trial, cancel anytime. Scrolling you there now.");}],
+    ['🔧 How it works',function(){navTo('#why');addMsg('bot','Let me show you the comparison — you can see exactly how we stack up against SPOTIO and SalesRabbit.');}],
+    ['💵 Earn referral commissions',function(){window.location.href='/affiliate.html';addMsg('bot','Opening the affiliate program — you earn $17.70/month for every rep you refer.');}],
+    ['✉️ Contact / Cancel',function(){navTo('#faq');addMsg('bot','Email us anytime at callcanvasai@gmail.com — we make cancellation instant, no questions asked.');}],
+  ];
+  actions.forEach(function(a){
+    var b=document.createElement('button');
+    b.textContent=a[0];
+    b.style.cssText='display:block;width:100%;margin:3px 0;padding:8px 12px;background:rgba(14,165,233,.1);border:1px solid rgba(14,165,233,.25);border-radius:8px;color:#e0f2fe;font-size:12px;font-weight:600;cursor:pointer;text-align:left;font-family:inherit;transition:background .15s;';
+    b.onmouseover=function(){this.style.background='rgba(14,165,233,.22)';};
+    b.onmouseout=function(){this.style.background='rgba(14,165,233,.1)';};
+    b.onclick=a[1];
+    wrap.appendChild(b);
+  });
+  m.appendChild(wrap);
+  m.scrollTop=99999;
+}
+function navTo(target){
+  var qa=document.getElementById('cc-qa');if(qa)qa.remove();
+  if(target.startsWith('#')){
+    var el=document.querySelector(target);
+    if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+  } else {window.location.href=target;}
+}
+function getNavIntent(t){
+  t=t.toLowerCase();
+  if(/trial|sign.?up|start|join|subscribe/.test(t))return 'trial';
+  if(/pric|cost|how much|$|pay|plan/.test(t))return 'pricing';
+  if(/cancel|quit|stop|end|refund/.test(t))return 'cancel';
+  if(/affili|refer|earn|commission/.test(t))return 'affiliate';
+  if(/how.*(work|use)|what.*do|explain/.test(t))return 'howto';
+  if(/blog|article|post/.test(t))return 'blog';
+  return null;
+}
+async function sendChat(){
+  var i=document.getElementById('chat-inp');
+  var t=i.value.trim();
+  if(!t)return;
+  i.value='';
+  var qa=document.getElementById('cc-qa');if(qa)qa.remove();
+  addMsg('user',t);
+  _ch.push({role:'user',content:t});
+  var tp=addMsg('bot','Typing...');
+  tp.style.opacity='.45';
+  var intent=getNavIntent(t);
+  try{
+    var r=await fetch('/.netlify/functions/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:_ch})});
+    var d=await r.json();
+    tp.textContent=d.reply||'Give me a sec...';
+    tp.style.opacity='1';
+    _ch.push({role:'assistant',content:tp.textContent});
+    if(intent==='trial'){setTimeout(function(){addAction('→ Take me to the trial signup',function(){navTo('#pricing');});},400);}
+    else if(intent==='pricing'){setTimeout(function(){addAction('→ Show me pricing',function(){navTo('#pricing');});},400);}
+    else if(intent==='cancel'){setTimeout(function(){addAction('→ Email us to cancel',function(){window.location.href='mailto:callcanvasai@gmail.com?subject=Cancel my subscription';});},400);}
+    else if(intent==='affiliate'){setTimeout(function(){addAction('→ Open affiliate page',function(){window.location.href='/affiliate.html';});},400);}
+    else if(intent==='howto'){setTimeout(function(){addAction('→ See how it works',function(){navTo('#why');});},400);}
+    else if(intent==='blog'){setTimeout(function(){addAction('→ Visit the blog',function(){window.location.href='/blog';});},400);}
+  }catch(e){tp.textContent='Something went wrong. Try again!';tp.style.opacity='1';}
+  document.getElementById('chat-msgs').scrollTop=99999;
+}
 async function submitEmail(){var e=document.getElementById('email-inp').value.trim();if(!e||!e.includes('@')){document.getElementById('email-inp').style.borderColor='#f87171';return;}try{await fetch('/.netlify/functions/email-capture',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e,source:'popup'})});}catch(x){}document.getElementById('email-ok').style.display='block';document.getElementById('email-inp').style.display='none';document.getElementById('email-btn').style.display='none';sessionStorage.setItem('email_shown','1');setTimeout(function(){document.getElementById('cc-email').style.display='none';},2800);}
 (function(){window.addEventListener('scroll',function(){if(window.scrollY/Math.max(1,document.body.scrollHeight-window.innerHeight)>.35)document.getElementById('cc-bar').style.transform='translateY(0)';},{passive:true});setInterval(function(){_vc=Math.max(12,Math.min(50,_vc+(Math.random()>.5?1:-1)));var e=document.getElementById('vc-n');if(e)e.textContent=_vc;},9000);function showProof(){var p=_pd[_pi++%_pd.length];var w=document.getElementById('cc-proof');var el=document.createElement('div');el.className='proof-card';el.style.animation='sIn .4s ease';el.innerHTML='<div class="proof-av">'+p.n[0]+'</div><div><span class="proof-name">'+p.n+' from '+p.c+'</span><span class="proof-action">'+p.a+'</span></div>';w.appendChild(el);setTimeout(function(){el.style.animation='sOut .4s ease forwards';setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},420);},5000);}setTimeout(function(){showProof();setInterval(showProof,28000);},12000);if(!sessionStorage.getItem('exit_shown')){document.addEventListener('mouseleave',function(e){if(e.clientY<5){sessionStorage.setItem('exit_shown','1');document.getElementById('cc-exit').style.display='flex';}});}if(!sessionStorage.getItem('email_shown')){var _es=false;function me(){if(_es)return;_es=true;sessionStorage.setItem('email_shown','1');document.getElementById('cc-email').style.display='flex';}setTimeout(me,45000);window.addEventListener('scroll',function(){if(window.scrollY/Math.max(1,document.body.scrollHeight-window.innerHeight)>.65)me();},{passive:true});}if(!sessionStorage.getItem('chat_opened')){setTimeout(function(){if(document.getElementById('cc-chat-box').style.display!=='flex'){document.getElementById('cc-nudge').style.display='block';setTimeout(function(){var n=document.getElementById('cc-nudge');if(n)n.style.display='none';},14000);}},20000);}})();
 </script>
