@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CallCanvas AI - Territory Intelligence for Outside Sales Reps</title>
-<meta name="description" content="Research 50 companies in 90 minutes. AI-powered territory intelligence for outside sales reps. $59/month. 7-day free trial.">
+<meta name="description" content="Research 50 companies in under 5 minutes. AI-powered territory intelligence for outside sales reps. $59/month. 7-day free trial.">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:#080b10;color:#f0f6fc;line-height:1.6;overflow-x:hidden}
@@ -125,14 +125,14 @@ footer{padding:48px clamp(16px,5vw,64px);border-top:1px solid rgba(255,255,255,.
 <div class="hero" id="top">
   <div class="eyebrow">Insurance &bull; Financial Services &bull; B2B Tech &bull; Telecom &bull; Commercial Services</div>
   <h1>STOP<br>DRIVING<br><em>BLIND.</em></h1>
-  <p class="hero-sub">Research 50 companies in 90 minutes &mdash; decision-maker names, direct contacts, revenue data, and a ranked call list &mdash; <strong>before you leave the driveway.</strong> Runs on free tools. <strong>$59/month is your only cost.</strong></p>
+  <p class="hero-sub">Research 50 companies in under 5 minutes &mdash; decision-maker names, direct contacts, revenue data, and a ranked call list &mdash; <strong>before you leave the driveway.</strong> Runs on free tools. <strong>$59/month is your only cost.</strong></p>
   <div class="btn-row">
     <a href="#pricing" class="btn-blue">Start 7-Day Free Trial &rarr;</a>
     <a href="#why" class="btn-outline">See How It Works &darr;</a>
   </div>
   <div class="stats">
     <div class="stat"><span class="stat-n">50</span><span class="stat-l">Companies/Session</span></div>
-    <div class="stat"><span class="stat-n">90<small style="font-size:18px">m</small></span><span class="stat-l">Avg Research Time</span></div>
+    <div class="stat"><span class="stat-n">&lt;5<small style="font-size:18px">m</small></span><span class="stat-l">Avg Research Time</span></div>
     <div class="stat"><span class="stat-n">$0</span><span class="stat-l">Outside Tool Costs</span></div>
     <div class="stat"><span class="stat-n">ANY</span><span class="stat-l">City or ZIP Code</span></div>
   </div>
@@ -226,7 +226,7 @@ footer{padding:48px clamp(16px,5vw,64px);border-top:1px solid rgba(255,255,255,.
     <div class="faq" onclick="this.classList.toggle('open')"><div class="faq-q">Do I need to be technical to use this?<span class="faq-icon">+</span></div><div class="faq-a">No. If you can copy and paste, you can run CallCanvas AI. The Master Prompt is plain English. Open Claude, paste it in, answer a few questions about your territory, and the output drops into the spreadsheet we give you.</div></div>
     <div class="faq" onclick="this.classList.toggle('open')"><div class="faq-q">Does it really run on the free Claude tier?<span class="faq-icon">+</span></div><div class="faq-a">Yes. The prompts fit inside Claude's free daily limits. A typical 50-company session stays within the free window. You never need a paid Anthropic subscription or API key.</div></div>
     <div class="faq" onclick="this.classList.toggle('open')"><div class="faq-q">How is this different from SPOTIO or SalesRabbit?<span class="faq-icon">+</span></div><div class="faq-a">SPOTIO and SalesRabbit require a team of 5+ reps and cost $395-$645/month minimum. CallCanvas AI is $59/month for a single rep, no team, no demo, works in minutes.</div></div>
-    <div class="faq" onclick="this.classList.toggle('open')"><div class="faq-q">How long does a research session take?<span class="faq-icon">+</span></div><div class="faq-a">Most reps complete a 50-company run in 75-105 minutes on their first try. By session three, consistently under 90 minutes with a ranked call list and decision-maker names ready to go.</div></div>
+    <div class="faq" onclick="this.classList.toggle('open')"><div class="faq-q">How long does a research session take?<span class="faq-icon">+</span></div><div class="faq-a">Most reps complete a 50-company run in 5 minutes on their first try. After a few sessions, it's under 3 minutes with a ranked call list and decision-maker names ready to go.</div></div>
     <div class="faq" onclick="this.classList.toggle('open')"><div class="faq-q">Does it work for my city and ZIP codes?<span class="faq-icon">+</span></div><div class="faq-a">Yes &mdash; any city, any ZIP code, any metro area in the United States. You enter your target city or ZIP and the prompt pulls relevant businesses for your specific territory automatically.</div></div>
     <div class="faq" onclick="this.classList.toggle('open')"><div class="faq-q">What industries does it work for?<span class="faq-icon">+</span></div><div class="faq-a">Insurance, financial services, B2B technology, telecom, commercial services, payroll and HR. Any outside sales rep who drives a territory and cold-approaches businesses.</div></div>
     <div class="faq" onclick="this.classList.toggle('open')"><div class="faq-q">What if I want to cancel?<span class="faq-icon">+</span></div><div class="faq-a">Cancel anytime, no questions asked. Month-to-month always. No annual contracts, no cancellation fees.</div></div>
@@ -292,11 +292,11 @@ function addQuickActions(){
   label.textContent='Quick actions:';
   wrap.appendChild(label);
   var actions=[
-    ['🚀 Start my free trial',function(){navTo('#pricing');addMsg('bot','Taking you to the trial signup now — no credit card needed to start!');}],
-    ['💰 See pricing',function(){navTo('#pricing');addMsg('bot',"It's $59/month, 7-day free trial, cancel anytime. Scrolling you there now.");}],
-    ['🔧 How it works',function(){navTo('#why');addMsg('bot','Let me show you the comparison — you can see exactly how we stack up against SPOTIO and SalesRabbit.');}],
-    ['💵 Earn referral commissions',function(){window.location.href='/affiliate.html';addMsg('bot','Opening the affiliate program — you earn $17.70/month for every rep you refer.');}],
-    ['✉️ Contact / Cancel',function(){navTo('#faq');addMsg('bot','Email us anytime at callcanvasai@gmail.com — we make cancellation instant, no questions asked.');}],
+    ['ð Start my free trial',function(){navTo('#pricing');addMsg('bot','Taking you to the trial signup now â no credit card needed to start!');}],
+    ['ð° See pricing',function(){navTo('#pricing');addMsg('bot',"It's $59/month, 7-day free trial, cancel anytime. Scrolling you there now.");}],
+    ['ð§ How it works',function(){navTo('#why');addMsg('bot','Let me show you the comparison â you can see exactly how we stack up against SPOTIO and SalesRabbit.');}],
+    ['ðµ Earn referral commissions',function(){window.location.href='/affiliate.html';addMsg('bot','Opening the affiliate program â you earn $17.70/month for every rep you refer.');}],
+    ['âï¸ Contact / Cancel',function(){navTo('#faq');addMsg('bot','Email us anytime at callcanvasai@gmail.com â we make cancellation instant, no questions asked.');}],
   ];
   actions.forEach(function(a){
     var b=document.createElement('button');
@@ -344,12 +344,12 @@ async function sendChat(){
     tp.textContent=d.reply||'Give me a sec...';
     tp.style.opacity='1';
     _ch.push({role:'assistant',content:tp.textContent});
-    if(intent==='trial'){setTimeout(function(){addAction('→ Take me to the trial signup',function(){navTo('#pricing');});},400);}
-    else if(intent==='pricing'){setTimeout(function(){addAction('→ Show me pricing',function(){navTo('#pricing');});},400);}
-    else if(intent==='cancel'){setTimeout(function(){addAction('→ Email us to cancel',function(){window.location.href='mailto:callcanvasai@gmail.com?subject=Cancel my subscription';});},400);}
-    else if(intent==='affiliate'){setTimeout(function(){addAction('→ Open affiliate page',function(){window.location.href='/affiliate.html';});},400);}
-    else if(intent==='howto'){setTimeout(function(){addAction('→ See how it works',function(){navTo('#why');});},400);}
-    else if(intent==='blog'){setTimeout(function(){addAction('→ Visit the blog',function(){window.location.href='/blog';});},400);}
+    if(intent==='trial'){setTimeout(function(){addAction('â Take me to the trial signup',function(){navTo('#pricing');});},400);}
+    else if(intent==='pricing'){setTimeout(function(){addAction('â Show me pricing',function(){navTo('#pricing');});},400);}
+    else if(intent==='cancel'){setTimeout(function(){addAction('â Email us to cancel',function(){window.location.href='mailto:callcanvasai@gmail.com?subject=Cancel my subscription';});},400);}
+    else if(intent==='affiliate'){setTimeout(function(){addAction('â Open affiliate page',function(){window.location.href='/affiliate.html';});},400);}
+    else if(intent==='howto'){setTimeout(function(){addAction('â See how it works',function(){navTo('#why');});},400);}
+    else if(intent==='blog'){setTimeout(function(){addAction('â Visit the blog',function(){window.location.href='/blog';});},400);}
   }catch(e){tp.textContent='Something went wrong. Try again!';tp.style.opacity='1';}
   document.getElementById('chat-msgs').scrollTop=99999;
 }
