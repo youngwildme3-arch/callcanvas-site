@@ -22,6 +22,15 @@ input:focus,select:focus{border-color:#0ea5e9}
 select option{background:#131b27}
 .btn-run{width:100%;margin-top:18px;padding:16px;background:#0ea5e9;color:#000;border:none;border-radius:9px;font-size:16px;font-weight:800;cursor:pointer;font-family:inherit}
 .btn-run:disabled{opacity:.45;cursor:not-allowed}
+.coupon-bar{background:#0b1420;border:1px dashed rgba(14,165,233,.3);border-radius:10px;padding:14px 16px;margin-top:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.coupon-label{font-size:11px;font-weight:700;color:#0ea5e9;text-transform:uppercase;letter-spacing:.12em;white-space:nowrap}
+.coupon-input{flex:1;min-width:140px;padding:9px 12px;background:#0d1117;border:1px solid rgba(255,255,255,.1);border-radius:7px;color:#f0f6fc;font-size:13px;font-family:'Courier New',monospace;letter-spacing:.08em;text-transform:uppercase;outline:none}
+.coupon-input:focus{border-color:#0ea5e9}
+.coupon-btn{padding:9px 18px;background:rgba(14,165,233,.15);color:#0ea5e9;border:1px solid rgba(14,165,233,.4);border-radius:7px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;text-transform:uppercase;letter-spacing:.08em}
+.coupon-btn:hover{background:rgba(14,165,233,.25)}
+.coupon-msg{font-size:12px;padding:4px 10px;border-radius:6px;display:none}
+.coupon-ok{background:rgba(34,197,94,.15);color:#22c55e;display:block}
+.coupon-err{background:rgba(239,68,68,.15);color:#f87171;display:block}
 #loading{display:none;text-align:center;padding:40px 0}
 .spin{width:36px;height:36px;border:3px solid rgba(14,165,233,.2);border-top-color:#0ea5e9;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -74,7 +83,7 @@ select option{background:#131b27}
   <a href="/" style="font-size:13px;color:rgba(240,246,252,.5)">Back to site</a>
 </nav>
 <div class="wrap">
-  <h1>Your Territory.<br><em>Ready in Minutes.</em></h1>
+  <h1>Your Territory.<br><em>Ready in Under 5 Minutes.</em></h1>
   <p class="sub">Enter your city and what you sell. We research 20 real local businesses — owner names, direct phone numbers, exactly why they need your product, and your personalized cold call opening line. Download as CSV or print field notes. You show up and dial.</p>
   <div class="form-card">
     <div class="form-grid">
@@ -104,6 +113,12 @@ select option{background:#131b27}
         <input id="product" type="text" placeholder="e.g. workers comp, fleet insurance" />
       </div>
     </div>
+    <div class="coupon-bar">
+      <span class="coupon-label">Coupon Code</span>
+      <input id="coupon" class="coupon-input" type="text" placeholder="Enter code for full access" autocomplete="off" />
+      <button class="coupon-btn" onclick="applyCoupon()">Apply</button>
+      <div id="coupon-msg" class="coupon-msg"></div>
+    </div>
     <button class="btn-run" onclick="runResearch()">Build My Call Sheet →</button>
   </div>
   <div id="loading">
@@ -128,14 +143,46 @@ select option{background:#131b27}
   </div>
 </div>
 <script>
-let _data=null,_start=0;
+let _data=null,_start=0,_couponValid=false;
 const msgs=['Researching businesses in your territory...','Looking up owner names and direct contacts...','Pulling phone numbers and addresses...','Writing your personalized cold call openers...','Building your field notes and talk tracks...','Almost ready — finalizing your call sheet...'];
 let _mi=0,_mt=null;
+
+async function applyCoupon(){
+  const code=document.getElementById('coupon').value.trim();
+  const msg=document.getElementById('coupon-msg');
+  if(!code){msg.className='coupon-msg coupon-err';msg.textContent='Enter a code';return;}
+  msg.className='coupon-msg';msg.textContent='Checking...';msg.style.display='block';
+  try{
+    const r=await fetch('/.netlify/functions/validate-coupon',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code})});
+    const d=await r.json();
+    if(d.valid){
+      _couponValid=true;
+      msg.className='coupon-msg coupon-ok';
+      msg.textContent='✓ Full access unlocked — '+(d.description||'valid');
+      sessionStorage.setItem('ccai_coupon',code);
+    } else {
+      _couponValid=false;
+      msg.className='coupon-msg coupon-err';
+      msg.textContent='✗ '+(d.error||'Invalid code');
+    }
+  }catch(e){
+    msg.className='coupon-msg coupon-err';
+    msg.textContent='Could not check code. Try again.';
+  }
+}
+
+// Auto-apply saved coupon on page load
+(function(){
+  const saved=sessionStorage.getItem('ccai_coupon');
+  if(saved){document.getElementById('coupon').value=saved;applyCoupon();}
+})();
+
 function runResearch(){
   const city=document.getElementById('city').value.trim();
   const state=document.getElementById('state').value.trim()||'IL';
   const industry=document.getElementById('industry').value;
   const product=document.getElementById('product').value.trim();
+  const coupon=document.getElementById('coupon').value.trim();
   if(!city){alert('Please enter your city');return;}
   document.getElementById('results').style.display='none';
   document.getElementById('loading').style.display='block';
@@ -143,7 +190,7 @@ function runResearch(){
   _start=Date.now();_mi=0;
   document.getElementById('load-msg').textContent=msgs[0];
   _mt=setInterval(()=>{_mi=Math.min(_mi+1,msgs.length-1);document.getElementById('load-msg').textContent=msgs[_mi];},7000);
-  fetch('/.netlify/functions/territory-research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({city,state,industry,product})})
+  fetch('/.netlify/functions/territory-research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({city,state,industry,product,coupon})})
   .then(r=>r.json())
   .then(data=>{clearInterval(_mt);_data=data;const mins=((Date.now()-_start)/60000).toFixed(1);document.getElementById('loading').style.display='none';document.querySelector('.btn-run').disabled=false;render(data,mins);})
   .catch(err=>{clearInterval(_mt);document.getElementById('loading').style.display='none';document.querySelector('.btn-run').disabled=false;alert('Something went wrong. Please try again.');});
