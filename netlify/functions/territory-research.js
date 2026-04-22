@@ -14,19 +14,17 @@ exports.handler = async (event) => {
 
   const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
-  const prompt = `You are a territory research engine for outside sales reps. Research real local businesses in ${city}, ${state || 'IL'} for a rep selling ${product || industry}.
+  const makePrompt = (batch, startRank) => `You are a territory research engine for outside sales reps. Research real local businesses in ${city}, ${state || 'IL'} for a rep selling ${product || industry}.
 
-Research 20 real companies. For each find: real business name, street address, phone number, owner or GM name, employee count, why they need ${product || industry}, personalized cold call opening line, 3 talk track points, priority score 1-10.
+Research exactly 10 real companies for batch ${batch}. ${batch === 2 ? 'These must be DIFFERENT from batch 1 — focus on different business types/industries to avoid duplicates.' : 'Focus on the highest priority prospects.'}
 
-Return ONLY valid JSON:
+For each find: real business name, street address, phone number, owner or GM name, employee count, why they need ${product || industry}, personalized cold call opening line, 3 talk track points, priority score 1-10.
+
+Return ONLY valid JSON with companies array (rank starts at ${startRank}):
 {
-  "city": "${city}",
-  "state": "${state || 'IL'}",
-  "industry": "${industry}",
-  "generated_at": "${new Date().toISOString()}",
   "companies": [
     {
-      "rank": 1,
+      "rank": ${startRank},
       "priority": 9,
       "name": "Business Name",
       "address": "123 Main St, ${city} IL",
@@ -43,24 +41,40 @@ Return ONLY valid JSON:
   ]
 }`;
 
-  try {
+  const callBatch = async (batch, startRank) => {
     const response = await client.messages.create({
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 8000,
+      max_tokens: 4000,
       system: 'You are a territory research assistant. Return only valid JSON. No markdown, no explanation.',
-      messages: [{ role: 'user', content: prompt }]
+      messages: [{ role: 'user', content: makePrompt(batch, startRank) }]
     });
-
-    let resultText = '';
+    let text = '';
     for (const block of response.content) {
-      if (block.type === 'text') resultText += block.text;
+      if (block.type === 'text') text += block.text;
     }
+    const match = text.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('No JSON in batch ' + batch);
+    return JSON.parse(match[0]).companies || [];
+  };
 
-    const jsonMatch = resultText.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) throw new Error('No JSON in response');
-    const data = JSON.parse(jsonMatch[0]);
+  try {
+    // Run two parallel 10-company calls
+    const [batch1, batch2] = await Promise.all([
+      callBatch(1, 1),
+      callBatch(2, 11)
+    ]);
+    
+    const allCompanies = [...batch1, ...batch2];
+    
+    const result = {
+      city,
+      state: state || 'IL',
+      industry,
+      generated_at: new Date().toISOString(),
+      companies: allCompanies
+    };
 
-    return { statusCode: 200, headers, body: JSON.stringify(data) };
+    return { statusCode: 200, headers, body: JSON.stringify(result) };
   } catch (err) {
     return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
   }
