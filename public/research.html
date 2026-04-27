@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Territory Research â CallCanvas AI</title>
+<title>Territory Research  -  CallCanvas AI</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:#080b10;color:#f0f6fc;min-height:100vh}
@@ -63,7 +63,7 @@ select option{background:#131b27}
 .open-text{font-size:13px;line-height:1.55;color:#f0f6fc}
 .tracks{display:flex;flex-direction:column;gap:5px}
 .track{font-size:12px;color:rgba(240,246,252,.6);padding-left:14px;position:relative;line-height:1.5}
-.track::before{content:'ÃÂ¢ÃÂÃÂ¢';position:absolute;left:0;color:#0ea5e9}
+.track::before{content:'ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ¢';position:absolute;left:0;color:#0ea5e9}
 .field-line{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06);font-size:12px;color:rgba(240,246,252,.28)}
 @media print{
   nav,.btn-csv,.btn-print,.results-bar,.stats-row,.form-card,#loading{display:none!important}
@@ -90,12 +90,12 @@ select option{background:#131b27}
 </nav>
 <div class="wrap">
 <div id="success-banner" class="success-banner">
-  <div class="success-title">â You're in. Welcome to CallCanvas AI.</div>
-  <div class="success-msg">Your 7-day free trial is active. Build your first call sheet below â you won't be charged until <span id="trial-end-date">your trial ends</span>. Cancel anytime from your account.</div>
+  <div class="success-title">Ã¢ÂÂ You're in. Welcome to CallCanvas AI.</div>
+  <div class="success-msg">Your 7-day free trial is active. Build your first call sheet below  -  you won't be charged until <span id="trial-end-date">your trial ends</span>. Cancel anytime from your account.</div>
 </div>
 
   <h1>Your Territory.<br><em>Ready in Under 5 Minutes.</em></h1>
-  <p class="sub">Enter your city and what you sell. We research 20 real local businesses â owner names, direct phone numbers, exactly why they need your product, and your personalized cold call opening line. Download as CSV or print field notes. You show up and dial.</p>
+  <p class="sub">Enter your city and what you sell. We research 20 real local businesses  -  owner names, direct phone numbers, exactly why they need your product, and your personalized cold call opening line. Download as CSV or print field notes. You show up and dial.</p>
   <div class="form-card">
     <div class="form-grid">
       <div>
@@ -130,7 +130,7 @@ select option{background:#131b27}
       <button class="coupon-btn" onclick="applyCoupon()">Apply</button>
       <div id="coupon-msg" class="coupon-msg"></div>
     </div>
-    <button class="btn-run" onclick="runResearch()">Build My Call Sheet â</button>
+    <button class="btn-run" onclick="runResearch()">Build My Call Sheet  ></button>
   </div>
   <div id="loading">
     <div class="spin"></div>
@@ -145,10 +145,10 @@ select option{background:#131b27}
       </div>
     </div>
     <div class="stats-row">
-      <div class="stat"><span class="stat-n" id="s-co">â</span><span class="stat-l">Companies</span></div>
-      <div class="stat"><span class="stat-n" id="s-own">â</span><span class="stat-l">Owner Names</span></div>
-      <div class="stat"><span class="stat-n" id="s-ph">â</span><span class="stat-l">Phone Numbers</span></div>
-      <div class="stat"><span class="stat-n" id="s-min">â</span><span class="stat-l">Minutes</span></div>
+      <div class="stat"><span class="stat-n" id="s-co"> - </span><span class="stat-l">Companies</span></div>
+      <div class="stat"><span class="stat-n" id="s-own"> - </span><span class="stat-l">Owner Names</span></div>
+      <div class="stat"><span class="stat-n" id="s-ph"> - </span><span class="stat-l">Phone Numbers</span></div>
+      <div class="stat"><span class="stat-n" id="s-min"> - </span><span class="stat-l">Minutes</span></div>
     </div>
     <div id="co-list"></div>
   </div>
@@ -168,13 +168,13 @@ select option{background:#131b27}
       // Mark this browser as having an active trial so check-access knows
       sessionStorage.setItem('ccai_checkout_success','1');
       // Clean URL so refresh doesn't re-trigger
-      window.history.replaceState({},'',window.location.pathname);
+      // keep checkout=success in URL so refresh shows banner again
     }
   }
 })();
 
 let _data=null,_start=0,_couponValid=false;
-const msgs=['Researching businesses in your territory...','Looking up owner names and direct contacts...','Pulling phone numbers and addresses...','Writing your personalized cold call openers...','Building your field notes and talk tracks...','Almost ready â finalizing your call sheet...'];
+const msgs=['Researching businesses in your territory...','Looking up owner names and direct contacts...','Pulling phone numbers and addresses...','Writing your personalized cold call openers...','Building your field notes and talk tracks...','Almost ready  -  finalizing your call sheet...'];
 let _mi=0,_mt=null;
 
 async function applyCoupon(){
@@ -188,12 +188,12 @@ async function applyCoupon(){
     if(d.valid){
       _couponValid=true;
       msg.className='coupon-msg coupon-ok';
-      msg.textContent='ÃÂ¢ÃÂÃÂ Code applied â '+(d.description||'valid');
+      msg.textContent='ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ Code applied  -  '+(d.description||'valid');
       sessionStorage.setItem('ccai_coupon',code);
     } else {
       _couponValid=false;
       msg.className='coupon-msg coupon-err';
-      msg.textContent='ÃÂ¢ÃÂÃÂ '+(d.error||'Invalid code');
+      msg.textContent='ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ '+(d.error||'Invalid code');
     }
   }catch(e){
     msg.className='coupon-msg coupon-err';
@@ -227,7 +227,7 @@ function runResearch(){
 }
 function render(data,mins){
   const cos=data.companies||[];
-  document.getElementById('res-title').textContent=(data.city||'')+', '+(data.state||'')+' â '+(data.industry||'');
+  document.getElementById('res-title').textContent=(data.city||'')+', '+(data.state||'')+'  -  '+(data.industry||'');
   document.getElementById('s-co').textContent=cos.length;
   document.getElementById('s-own').textContent=cos.filter(c=>c.owner&&c.owner!=='Unknown'&&c.owner.length>2).length;
   document.getElementById('s-ph').textContent=cos.filter(c=>c.phone&&c.phone.length>6).length;
@@ -235,7 +235,7 @@ function render(data,mins){
   const list=document.getElementById('co-list');list.innerHTML='';
   cos.forEach(co=>{
     const pc=co.priority>=8?'hot':co.priority>=6?'warm':'cool';
-    const pl=co.priority>=8?'HOT â Priority '+co.priority:co.priority>=6?'WARM â Priority '+co.priority:'Priority '+co.priority;
+    const pl=co.priority>=8?'HOT  -  Priority '+co.priority:co.priority>=6?'WARM  -  Priority '+co.priority:'Priority '+co.priority;
     const tracks=(co.talk_tracks||[]).map(t=>'<div class="track">'+t+'</div>').join('');
     list.innerHTML+=`<div class="co">
       <div class="co-head">
@@ -245,9 +245,9 @@ function render(data,mins){
       </div>
       <div class="co-details">
         <div class="detail"><div class="detail-label">Address</div><div class="detail-val">${co.address}</div></div>
-        <div class="detail"><div class="detail-label">Phone</div><div class="detail-val">${co.phone||'â'}</div></div>
-        <div class="detail"><div class="detail-label">Decision Maker</div><div class="detail-val">${co.owner?co.owner+' ('+co.owner_title+')':'â'}</div></div>
-        <div class="detail"><div class="detail-label">Est. Revenue</div><div class="detail-val">${co.revenue_est||'â'}</div></div>
+        <div class="detail"><div class="detail-label">Phone</div><div class="detail-val">${co.phone||' - '}</div></div>
+        <div class="detail"><div class="detail-label">Decision Maker</div><div class="detail-val">${co.owner?co.owner+' ('+co.owner_title+')':' - '}</div></div>
+        <div class="detail"><div class="detail-label">Est. Revenue</div><div class="detail-val">${co.revenue_est||' - '}</div></div>
       </div>
       <div class="why-box">${co.why_prospect}</div>
       <div class="open-box"><div class="open-label">Your opening line</div><div class="open-text">"${co.cold_open}"</div></div>
