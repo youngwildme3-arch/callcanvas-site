@@ -13,6 +13,7 @@
 
 [functions."daily-blog"]
   schedule = "0 11 * * *"
+  timeout = 300
 
 [functions."growth-optimizer"]
   schedule = "0 7 * * *"
