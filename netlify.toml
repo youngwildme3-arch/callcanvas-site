@@ -66,3 +66,7 @@
     X-Content-Type-Options = "nosniff"
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
+
+[functions."site-health-check"]
+  schedule = "10 11 * * *"
+  timeout = 60

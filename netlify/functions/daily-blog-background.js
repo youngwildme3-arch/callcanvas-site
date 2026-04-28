@@ -1,7 +1,8 @@
 // Daily blog generator for callcanvasai.com
 // Picks a broad AI/tech/innovation topic from rotation, uses Claude with web search
-// to research current data, writes ~1,500-word SEO-optimized post in listicle/comparison
-// style, commits as static HTML to GitHub.
+// to research current data, writes ~1,500-word SEO post in listicle style.
+// Commits all 3 files (post HTML, manifest, blog index) as ONE atomic commit
+// via GitHub Trees API to avoid mid-deploy supersession on Netlify.
 // Cron: 0 11 * * * (6 AM Central, runs as background function for 5min timeout)
 
 const TOPICS = [
@@ -52,10 +53,8 @@ function escapeHtml(s) {
 }
 
 function extractJson(text) {
-  // strip markdown fences
   let t = text.replace(/^\s*```(?:json)?\s*/i, '').replace(/```\s*$/, '').trim();
   try { return JSON.parse(t); } catch (e) {}
-  // find first { ... last }
   const a = t.indexOf('{');
   const b = t.lastIndexOf('}');
   if (a >= 0 && b > a) {
@@ -80,7 +79,7 @@ Step 2: Write a ~1,500-word SEO-optimized blog post in this EXACT structure:
 4. **3-5 main sections** — each with an H2 (use ## in markdown). Each section is 200-300 words. Use comparison tables, bullet lists, real data, named companies/products/people.
 5. **One section should compare specific named products/companies** in a table.
 6. **One "What's actually changing" or "What this means" section** — original insight, not just news rehash.
-7. **FAQ section** — 5-6 question-style H3 (### in markdown). Each answered in 1-3 sentences. Format as ### Question text\n\nAnswer paragraph. These will be marked up as FAQPage schema.
+7. **FAQ section** — 5-6 question-style H3 (### in markdown). Each answered in 1-3 sentences.
 8. **Closing line** — last-updated date.
 
 STYLE RULES:
@@ -99,11 +98,10 @@ OUTPUT FORMAT — return ONLY a JSON object, no markdown fences, no preamble:
   "metaDescription": "150-character meta description with keyword",
   "primaryKeyword": "` + topic.kw + `",
   "leadHtml": "<p>The lead paragraph as HTML</p>",
-  "verdictHtml": "<h2>Quick Verdict</h2><table>...</table> OR <h2>The honest verdict in one paragraph</h2><p>...</p>",
-  "sectionsHtml": "<h2>Section 1</h2><p>...</p><h2>Section 2</h2><table>...</table>... (3-5 sections, full HTML)",
+  "verdictHtml": "<h2>Quick Verdict</h2><table>...</table>",
+  "sectionsHtml": "<h2>Section 1</h2><p>...</p><h2>Section 2</h2><table>...</table>...",
   "faqs": [
-    { "q": "Question 1?", "a": "Answer 1." },
-    { "q": "Question 2?", "a": "Answer 2." }
+    { "q": "Question 1?", "a": "Answer 1." }
   ]
 }`;
 }
@@ -125,7 +123,6 @@ async function callClaude(prompt) {
   });
   if (!res.ok) throw new Error('Claude API ' + res.status + ': ' + (await res.text()).substring(0,300));
   const data = await res.json();
-  // Extract text from final assistant turn (last text block)
   const textBlocks = (data.content || []).filter(b => b.type === 'text').map(b => b.text);
   if (textBlocks.length === 0) throw new Error('No text in Claude response');
   return textBlocks[textBlocks.length - 1];
@@ -198,8 +195,6 @@ function postPageHtml(post, dateDisplay) {
     'td{color:rgba(240,246,252,.78)}',
     'tr:last-child td{border-bottom:none}',
     'blockquote{border-left:3px solid #0ea5e9;background:rgba(14,165,233,.04);padding:16px 20px;margin:20px 0;border-radius:0 8px 8px 0;font-style:italic;color:rgba(240,246,252,.85)}',
-    '.callout{background:linear-gradient(135deg,rgba(14,165,233,.08),rgba(14,165,233,.02));border:1px solid rgba(14,165,233,.2);border-left:3px solid #0ea5e9;border-radius:10px;padding:18px 22px;margin:28px 0}',
-    '.callout-label{font-size:11px;font-weight:800;color:#0ea5e9;text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px}',
     'footer{border-top:1px solid rgba(255,255,255,.07);margin-top:56px;padding:28px 0;text-align:center;font-size:13px;color:rgba(240,246,252,.4)}',
     'footer a{color:rgba(240,246,252,.6)}',
     '</style>',
@@ -290,7 +285,13 @@ function blogIndexHtml(manifest) {
   ].join('\n');
 }
 
-async function ghGet(path) {
+// === ATOMIC GITHUB COMMIT (Trees API) ===
+// Pushes multiple files in ONE commit, ensuring single Netlify deploy with all changes.
+async function ghHeaders() {
+  return { 'Authorization': 'token ' + GH_TOKEN, 'Content-Type': 'application/json' };
+}
+
+async function ghGetContents(path) {
   const r = await fetch('https://api.github.com/repos/' + REPO + '/contents/' + path, {
     headers: { 'Authorization': 'token ' + GH_TOKEN }
   });
@@ -299,16 +300,49 @@ async function ghGet(path) {
   return await r.json();
 }
 
-async function ghPut(path, content, message, sha) {
-  const body = { message, content: Buffer.from(content, 'utf8').toString('base64') };
-  if (sha) body.sha = sha;
-  const r = await fetch('https://api.github.com/repos/' + REPO + '/contents/' + path, {
-    method: 'PUT',
-    headers: { 'Authorization': 'token ' + GH_TOKEN, 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
+async function atomicCommit(filesByPath, message) {
+  const headers = await ghHeaders();
+  // 1. Get current main ref
+  const refRes = await fetch('https://api.github.com/repos/' + REPO + '/git/ref/heads/main', { headers });
+  if (!refRes.ok) throw new Error('Failed to get ref: ' + refRes.status);
+  const refData = await refRes.json();
+  const parentSha = refData.object.sha;
+  // 2. Get parent commit's tree
+  const commitRes = await fetch('https://api.github.com/repos/' + REPO + '/git/commits/' + parentSha, { headers });
+  const commitData = await commitRes.json();
+  const baseTreeSha = commitData.tree.sha;
+  // 3. Create blobs for each file
+  const treeItems = [];
+  for (const [path, content] of Object.entries(filesByPath)) {
+    const blobRes = await fetch('https://api.github.com/repos/' + REPO + '/git/blobs', {
+      method: 'POST', headers,
+      body: JSON.stringify({ content: Buffer.from(content, 'utf8').toString('base64'), encoding: 'base64' })
+    });
+    if (!blobRes.ok) throw new Error('Failed to create blob for ' + path + ': ' + blobRes.status);
+    const blob = await blobRes.json();
+    treeItems.push({ path, mode: '100644', type: 'blob', sha: blob.sha });
+  }
+  // 4. Create new tree
+  const treeRes = await fetch('https://api.github.com/repos/' + REPO + '/git/trees', {
+    method: 'POST', headers,
+    body: JSON.stringify({ base_tree: baseTreeSha, tree: treeItems })
   });
-  if (!r.ok) throw new Error('GitHub PUT ' + path + ' failed: ' + r.status + ' - ' + (await r.text()).substring(0, 200));
-  return await r.json();
+  if (!treeRes.ok) throw new Error('Failed to create tree: ' + treeRes.status);
+  const newTree = await treeRes.json();
+  // 5. Create commit
+  const newCommitRes = await fetch('https://api.github.com/repos/' + REPO + '/git/commits', {
+    method: 'POST', headers,
+    body: JSON.stringify({ message, tree: newTree.sha, parents: [parentSha] })
+  });
+  if (!newCommitRes.ok) throw new Error('Failed to create commit: ' + newCommitRes.status);
+  const newCommit = await newCommitRes.json();
+  // 6. Update main ref
+  const updateRes = await fetch('https://api.github.com/repos/' + REPO + '/git/refs/heads/main', {
+    method: 'PATCH', headers,
+    body: JSON.stringify({ sha: newCommit.sha })
+  });
+  if (!updateRes.ok) throw new Error('Failed to update ref: ' + updateRes.status);
+  return newCommit.sha;
 }
 
 exports.handler = async (event) => {
@@ -333,50 +367,49 @@ exports.handler = async (event) => {
     if (!post.slug) throw new Error('Missing slug in post output');
     post.slug = post.slug.toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
 
-    // 2. Check if already published today (avoid duplicate runs)
-    const existing = await ghGet('public/blog/' + post.slug + '/index.html');
+    // 2. Idempotency check
+    const existing = await ghGetContents('public/blog/' + post.slug + '/index.html');
     if (existing) {
       console.log('Post already exists today:', post.slug);
       return { statusCode: 200, body: JSON.stringify({ ok: true, skipped: 'already_exists', slug: post.slug }) };
     }
 
-    // 3. Render HTML and commit post page
+    // 3. Render HTML
     const html = postPageHtml(post, dateDisplay);
-    await ghPut('public/blog/' + post.slug + '/index.html', html, 'Daily blog: ' + post.title.substring(0, 60));
 
-    // 4. Update manifest.json
-    const manifestRes = await ghGet('public/blog/manifest.json');
+    // 4. Get current manifest, add new entry
+    const manifestRes = await ghGetContents('public/blog/manifest.json');
     let manifest = { posts: [] };
-    let manifestSha;
-    if (manifestRes) {
+    if (manifestRes && manifestRes.content) {
       manifest = JSON.parse(Buffer.from(manifestRes.content, 'base64').toString('utf8'));
-      manifestSha = manifestRes.sha;
     }
     manifest.posts = manifest.posts || [];
-    // Don't double-add
-    if (!manifest.posts.find(p => p.slug === post.slug)) {
-      manifest.posts.unshift({
-        slug: post.slug,
-        title: post.title,
-        metaDescription: post.metaDescription,
-        date: post.date,
-        dateDisplay: post.dateDisplay,
-        readTime: post.readTime,
-        topicId: topic.id
-      });
-    }
-    // Keep last 60 posts
+    manifest.posts.unshift({
+      slug: post.slug,
+      title: post.title,
+      metaDescription: post.metaDescription,
+      date: post.date,
+      dateDisplay: post.dateDisplay,
+      readTime: post.readTime,
+      topicId: topic.id
+    });
     manifest.posts = manifest.posts.slice(0, 60);
-    await ghPut('public/blog/manifest.json', JSON.stringify(manifest, null, 2), 'Update blog manifest with ' + post.slug, manifestSha);
 
-    // 5. Regenerate index.html
+    // 5. Render new index
     const indexHtml = blogIndexHtml(manifest);
-    const idxRes = await ghGet('public/blog/index.html');
-    await ghPut('public/blog/index.html', indexHtml, 'Regenerate blog index for ' + post.slug, idxRes ? idxRes.sha : undefined);
+
+    // 6. ATOMIC commit all 3 files in ONE operation -> ONE Netlify deploy
+    const commitSha = await atomicCommit({
+      ['public/blog/' + post.slug + '/index.html']: html,
+      'public/blog/manifest.json': JSON.stringify(manifest, null, 2),
+      'public/blog/index.html': indexHtml
+    }, 'Daily blog: ' + post.title.substring(0, 60));
+
+    console.log('Atomic commit', commitSha, 'for slug', post.slug);
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ ok: true, slug: post.slug, title: post.title, topic: topic.id, url: SITE_URL + '/blog/' + post.slug + '/' })
+      body: JSON.stringify({ ok: true, slug: post.slug, title: post.title, topic: topic.id, commit: commitSha, url: SITE_URL + '/blog/' + post.slug + '/' })
     };
   } catch (e) {
     console.error('daily-blog error:', e);
