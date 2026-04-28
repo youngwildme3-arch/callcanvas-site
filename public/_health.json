@@ -1,0 +1,80 @@
+{
+  "timestamp": "2026-04-28T20:17:38.848Z",
+  "overall_ok": true,
+  "failed_count": 0,
+  "critical_failed_count": 0,
+  "tests": [
+    {
+      "name": "homepage",
+      "critical": true,
+      "ok": true,
+      "status_code": 200,
+      "elapsed_ms": 767,
+      "status_ok": true,
+      "content_ok": true,
+      "content_msg": ""
+    },
+    {
+      "name": "blog_index",
+      "critical": true,
+      "ok": true,
+      "status_code": 200,
+      "elapsed_ms": 676,
+      "status_ok": true,
+      "content_ok": true,
+      "content_msg": ""
+    },
+    {
+      "name": "research_page",
+      "critical": false,
+      "ok": true,
+      "status_code": 200,
+      "elapsed_ms": 676,
+      "status_ok": true,
+      "content_ok": true,
+      "content_msg": ""
+    },
+    {
+      "name": "create_checkout",
+      "critical": false,
+      "ok": true,
+      "status_code": 200,
+      "elapsed_ms": 1565,
+      "status_ok": true,
+      "content_ok": true,
+      "content_msg": ""
+    },
+    {
+      "name": "validate_coupon",
+      "critical": false,
+      "ok": true,
+      "status_code": 200,
+      "elapsed_ms": 1069,
+      "status_ok": true,
+      "content_ok": true,
+      "content_msg": ""
+    },
+    {
+      "name": "chat_function",
+      "critical": false,
+      "ok": true,
+      "status_code": 200,
+      "elapsed_ms": 2047,
+      "status_ok": true,
+      "content_ok": true,
+      "content_msg": ""
+    },
+    {
+      "name": "manifest_json",
+      "critical": false,
+      "ok": true,
+      "status_code": 200,
+      "elapsed_ms": 674,
+      "status_ok": true,
+      "content_ok": true,
+      "content_msg": ""
+    }
+  ],
+  "recovery_action": null,
+  "next_check": "tomorrow 11:10 UTC (6:10 AM Central)"
+}
