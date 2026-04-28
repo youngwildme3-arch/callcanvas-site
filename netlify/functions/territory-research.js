@@ -1,81 +1,87 @@
-const Anthropic = require('@anthropic-ai/sdk');
+// territory-research.js — gated + watermarked
+const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
+const { checkAccess } = require('./check-access');
+
+async function callClaude(prompt) {
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_KEY, 'anthropic-version': '2023-06-01' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-5-20250929',
+      max_tokens: 4000,
+      messages: [{ role: 'user', content: prompt }]
+    })
+  });
+  if (!res.ok) throw new Error('Claude API ' + res.status);
+  const data = await res.json();
+  return (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+}
+
+function buildPrompt(city, product, count) {
+  return `Generate a list of ` + count + ` real local businesses in ` + city + ` that would benefit from "` + product + `". Return JSON only.
+
+For each business include:
+- name
+- address (real street if possible)
+- ownerOrDecisionMaker (best-guess name)
+- phone
+- whyTheyNeedIt (one sentence)
+- openingLine (personalized, under 30 words)
+- priorityScore (1-10)
+- talkTrack (3 bullet points)
+
+Return: { "prospects": [ ... ] }`;
+}
 
 exports.handler = async (event) => {
-  const headers = {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-  };
-  if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers };
-  if (event.httpMethod !== 'POST') return { statusCode: 405, headers, body: 'Method not allowed' };
-
-  const { city, state, industry, product } = JSON.parse(event.body || '{}');
-  if (!city || !industry) return { statusCode: 400, headers, body: JSON.stringify({ error: 'City and industry required' }) };
-
-  const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-
-  const makePrompt = (batch, startRank) => `You are a territory research engine for outside sales reps. Research real local businesses in ${city}, ${state || 'IL'} for a rep selling ${product || industry}.
-
-Research exactly 10 real companies for batch ${batch}. ${batch === 2 ? 'These must be DIFFERENT from batch 1 — focus on different business types/industries to avoid duplicates.' : 'Focus on the highest priority prospects.'}
-
-For each find: real business name, street address, phone number, owner or GM name, employee count, why they need ${product || industry}, personalized cold call opening line, 3 talk track points, priority score 1-10.
-
-Return ONLY valid JSON with companies array (rank starts at ${startRank}):
-{
-  "companies": [
-    {
-      "rank": ${startRank},
-      "priority": 9,
-      "name": "Business Name",
-      "address": "123 Main St, ${city} IL",
-      "phone": "(630) 555-1234",
-      "owner": "Owner Name",
-      "owner_title": "Owner",
-      "employees": 14,
-      "revenue_est": "$1M-3M",
-      "business_type": "HVAC Contractor",
-      "why_prospect": "specific reason they need this coverage",
-      "cold_open": "personalized opening line referencing something real about this business",
-      "talk_tracks": ["point 1", "point 2", "point 3"]
-    }
-  ]
-}`;
-
-  const callBatch = async (batch, startRank) => {
-    const response = await client.messages.create({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 4000,
-      system: 'You are a territory research assistant. Return only valid JSON. No markdown, no explanation.',
-      messages: [{ role: 'user', content: makePrompt(batch, startRank) }]
-    });
-    let text = '';
-    for (const block of response.content) {
-      if (block.type === 'text') text += block.text;
-    }
-    const match = text.match(/\{[\s\S]*\}/);
-    if (!match) throw new Error('No JSON in batch ' + batch);
-    return JSON.parse(match[0]).companies || [];
-  };
-
-  try {
-    // Run two parallel 10-company calls
-    const [batch1, batch2] = await Promise.all([
-      callBatch(1, 1),
-      callBatch(2, 11)
-    ]);
-    
-    const allCompanies = [...batch1, ...batch2];
-    
-    const result = {
-      city,
-      state: state || 'IL',
-      industry,
-      generated_at: new Date().toISOString(),
-      companies: allCompanies
-    };
-
-    return { statusCode: 200, headers, body: JSON.stringify(result) };
-  } catch (err) {
-    return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
+  const headers = { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' };
+  if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
+  if (event.httpMethod !== 'POST') return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) };
+  let body = {};
+  try { body = JSON.parse(event.body || '{}'); } catch (e) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid JSON' }) };
   }
+  const { city, product, email, couponCode, count } = body;
+
+  const access = await checkAccess({ email, couponCode });
+  if (!access.hasAccess) {
+    return {
+      statusCode: 403, headers,
+      body: JSON.stringify({
+        error: 'Access denied',
+        reason: access.reason,
+        message: access.reason === 'past_due'
+          ? 'Your payment failed. Please update your card to continue.'
+          : access.reason === 'canceled' || access.reason === 'unknown_status'
+            ? 'Your subscription is no longer active. Please resubscribe to continue.'
+            : 'Active subscription or trial required. Visit /research.html to start your free 7-day trial.'
+      })
+    };
+  }
+  if (!city || !product) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'city and product required' }) };
+  }
+
+  let result;
+  try {
+    const raw = await callClaude(buildPrompt(city, product, Math.min(parseInt(count || 20, 10), 50)));
+    const jsonStart = raw.indexOf('{');
+    const jsonEnd = raw.lastIndexOf('}');
+    if (jsonStart < 0 || jsonEnd < 0) throw new Error('No JSON in response');
+    result = JSON.parse(raw.substring(jsonStart, jsonEnd + 1));
+  } catch (e) {
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Generation failed', detail: e.message }) };
+  }
+
+  const generatedAt = new Date().toISOString();
+  const watermarkSig = Buffer.from((email || 'guest') + ':' + generatedAt + ':callcanvas').toString('base64').substring(0, 16);
+  result.__watermark = {
+    licensed_to: email || 'guest',
+    generated_at: generatedAt,
+    sig: watermarkSig,
+    notice: 'Generated by CallCanvas AI for the licensed user above. Sharing or reuse outside the active subscription is not permitted.'
+  };
+  result.__access = { reason: access.reason, status: access.status };
+
+  return { statusCode: 200, headers, body: JSON.stringify(result) };
 };

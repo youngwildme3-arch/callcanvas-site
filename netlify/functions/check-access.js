@@ -1,38 +1,47 @@
+// check-access.js — determines whether a given email/coupon has active access
+// Returns: { hasAccess: bool, reason: string, status?: string, periodEnd?: number }
+
 const { getStore } = require('@netlify/blobs');
 
-exports.handler = async (event) => {
-  const headers = {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-  };
-  if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers };
-  if (event.httpMethod !== 'POST') return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) };
+const FREE_PASS_COUPONS = ['EVAN-FULL-2026', 'BETA-TEST'];
 
-  try {
-    const { email } = JSON.parse(event.body || '{}');
-    if (!email) return { statusCode: 400, headers, body: JSON.stringify({ access: 'none', reason: 'no_email' }) };
-
-    const store = getStore('subscribers');
-    const record = await store.get(email.toLowerCase(), { type: 'json' });
-
-    if (!record) return { statusCode: 200, headers, body: JSON.stringify({ access: 'none', reason: 'not_found' }) };
-
-    const activeStatuses = ['active', 'trialing'];
-    const hasAccess = activeStatuses.includes(record.status);
-
-    return {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify({
-        access: hasAccess ? record.status : 'none',
-        status: record.status,
-        trial_end: record.trial_end,
-        current_period_end: record.current_period_end,
-        cancel_at_period_end: record.cancel_at_period_end
-      })
-    };
-  } catch (err) {
-    return { statusCode: 500, headers, body: JSON.stringify({ error: err.message, access: 'none' }) };
+async function checkAccess({ email, couponCode }) {
+  if (couponCode && FREE_PASS_COUPONS.includes(String(couponCode).toUpperCase().trim())) {
+    return { hasAccess: true, reason: 'coupon', status: 'coupon' };
   }
+  if (!email || typeof email !== 'string' || !email.includes('@')) {
+    return { hasAccess: false, reason: 'no_email' };
+  }
+  const key = email.trim().toLowerCase();
+  let record;
+  try {
+    const store = getStore('subscribers');
+    record = await store.get(key, { type: 'json' });
+  } catch (e) {
+    return { hasAccess: true, reason: 'blob_error_fail_open', error: e.message };
+  }
+  if (!record) {
+    return { hasAccess: true, reason: 'no_record_fail_open' };
+  }
+  const now = Math.floor(Date.now() / 1000);
+  const status = record.status;
+  const periodEnd = record.current_period_end || 0;
+  if (status === 'active' || status === 'trialing') {
+    return { hasAccess: true, reason: 'subscribed', status, periodEnd };
+  }
+  if (status === 'canceled' && periodEnd > now) {
+    return { hasAccess: true, reason: 'canceled_in_period', status, periodEnd };
+  }
+  return { hasAccess: false, reason: status || 'unknown_status', status, periodEnd };
+}
+
+exports.handler = async (event) => {
+  const headers = { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' };
+  if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
+  let body = {};
+  try { body = JSON.parse(event.body || '{}'); } catch (e) {}
+  const result = await checkAccess(body);
+  return { statusCode: 200, headers, body: JSON.stringify(result) };
 };
+
+exports.checkAccess = checkAccess;

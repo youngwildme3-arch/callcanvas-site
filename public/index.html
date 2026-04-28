@@ -12,9 +12,9 @@ a{text-decoration:none;color:inherit}
 nav{position:fixed;top:0;left:0;right:0;background:rgba(8,11,16,.96);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.07);height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,5vw,64px);z-index:900}
 .logo{font-size:19px;font-weight:900;color:#0ea5e9}
 .nav-right{display:flex;align-items:center;gap:16px}
-.nav-aff{font-size:12px;font-weight:700;color:#22c55e;border:1px solid rgba(34,197,94,.3);padding:5px 13px;border-radius:20px}
+
 .nav-cta{background:#0ea5e9;color:#000;font-weight:800;padding:10px 22px;border-radius:8px;font-size:13px}
-@media(max-width:600px){.nav-aff{display:none}}
+@media(max-width:600px){}
 .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 20px 48px;background:radial-gradient(ellipse 80% 55% at 50% 0%,rgba(14,165,233,.13),transparent)}
 .eyebrow{font-size:11px;font-weight:700;letter-spacing:.2em;color:#0ea5e9;padding:6px 18px;border:1px solid rgba(14,165,233,.3);border-radius:24px;display:inline-block;margin-bottom:32px;text-transform:uppercase}
 .hero h1{font-size:clamp(60px,14vw,130px);font-weight:900;line-height:.9;letter-spacing:-.03em;margin-bottom:28px}
@@ -118,7 +118,7 @@ footer{padding:48px clamp(16px,5vw,64px);border-top:1px solid rgba(255,255,255,.
 <nav>
   <a class="logo" href="/">CALLCANVAS AI</a>
   <div class="nav-right">
-    <a class="nav-aff" href="/affiliate.html">Earn $17.70/referral</a>
+    
     <a class="nav-cta" href="javascript:void(0)" data-trial-btn onclick="startTrial();return false;">Start Free Trial</a>
   </div>
 </nav>
@@ -213,10 +213,10 @@ footer{padding:48px clamp(16px,5vw,64px);border-top:1px solid rgba(255,255,255,.
 </section>
 <div class="aff-band">
   <div style="max-width:600px;margin:0 auto">
-    <div class="sec-label" style="margin-bottom:12px">Affiliate Program</div>
+    
     <h2 style="font-size:clamp(24px,3.5vw,42px);font-weight:900;margin-bottom:14px">Know sales reps? <em style="color:#0ea5e9;font-style:normal">Get paid for it.</em></h2>
-    <p style="color:rgba(240,246,252,.6);font-size:16px;max-width:500px;margin:0 auto 28px">Earn 30% recurring commission &mdash; <strong style="color:#f0f6fc">$17.70/month</strong> for every outside sales rep you refer. No cap. No expiry.</p>
-    <a href="/affiliate.html" class="btn-blue" style="font-size:15px;padding:14px 32px">Learn About the Affiliate Program &rarr;</a>
+    
+    
   </div>
 </div>
 <section class="sec" id="faq">
@@ -242,14 +242,16 @@ footer{padding:48px clamp(16px,5vw,64px);border-top:1px solid rgba(255,255,255,.
   <p class="foot-logo">CALLCANVAS <em>AI</em></p>
   <div class="foot-links">
     <a href="#why">Why Us</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a>
-    <a href="/affiliate.html">Affiliates</a><a href="/blog">Blog</a>
+    <a href="/blog">Blog</a>
     <a href="/outreach">Outreach</a><a href="/growth-log">Growth</a>
     <a href="mailto:callcanvasai@gmail.com">Contact</a>
   </div>
   
   <p style="font-size:12px;color:rgba(240,246,252,.22)">&copy; 2026 CallCanvas AI. All rights reserved.</p>
+
+  <p style="margin-top:12px;font-size:12px;color:rgba(240,246,252,.4)">Already a subscriber? <a href="#" onclick="openCustomerPortal(event)" style="color:rgba(240,246,252,.6);text-decoration:underline">Manage subscription</a></p>
 </footer>
-<div id="cc-vc"><span class="vc-dot"></span><span id="vc-n">24</span>&nbsp;people viewing</div>
+
 <div id="cc-bar"><p>7-Day Free Trial &mdash; No Credit Card Required</p><a href="javascript:void(0)" data-trial-btn onclick="startTrial();return false;" class="bar-btn">Start Free &rarr;</a><button class="bar-close" onclick="document.getElementById('cc-bar').style.display='none'">&times;</button></div>
 <div id="cc-proof"></div>
 <div id="cc-exit" class="popup-bg"><div class="popup-box"><button class="popup-close" onclick="this.closest('.popup-bg').style.display='none';sessionStorage.setItem('exit_shown','1')">&times;</button><div style="font-size:36px;margin-bottom:12px">&#128073;</div><p class="popup-h">Wait &mdash; Before You Go</p><p class="popup-p">Outside sales reps who prep their territory the night before close 3x more deals. Start your free 7-day trial &mdash; no credit card needed.</p><a href="#pricing" onclick="this.closest('.popup-bg').style.display='none'" class="btn-blue" style="display:block;padding:15px;font-size:15px">Claim My 7-Day Free Trial &rarr;</a><button class="popup-dismiss" onclick="this.closest('.popup-bg').style.display='none';sessionStorage.setItem('exit_shown','1')">No thanks, I'll keep driving blind</button></div></div>
@@ -257,105 +259,7 @@ footer{padding:48px clamp(16px,5vw,64px);border-top:1px solid rgba(255,255,255,.
 <div id="cc-chat-btn" onclick="openChat()"><span style="font-size:18px">&#128172;</span> Chat with Alex</div>
 <div id="cc-nudge"><button onclick="this.parentElement.style.display='none'" style="position:absolute;top:6px;right:9px;background:none;border:none;color:rgba(240,246,252,.35);font-size:15px;cursor:pointer;padding:0;line-height:1">&times;</button><strong style="color:#0ea5e9;display:block;margin-bottom:3px">Have questions? I can help!</strong>Ask me anything &mdash; I'll be honest about whether CallCanvas AI is right for you.</div>
 <div id="cc-chat-box"><div class="chat-head"><div style="display:flex;align-items:center;gap:10px"><div class="chat-av">&#129302;</div><div><strong>Alex &mdash; CallCanvas AI</strong><span>Sales &amp; Support &bull; Online now</span></div></div><button class="chat-close" onclick="closeChat()">&times;</button></div><div id="chat-msgs"></div><div class="chat-foot"><input id="chat-inp" type="text" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter')sendChat()"><button class="chat-send" onclick="sendChat()">Send</button></div></div>
-<script>
-var _vc=18+Math.floor(Math.random()*16),_pi=0,_ch=[];
-var _pd=[{n:'Mike R.',c:'Chicago, IL',a:'just started their free trial'},{n:'Sarah K.',c:'Dallas, TX',a:'researched 50 companies today'},{n:'James T.',c:'Atlanta, GA',a:'just subscribed'},{n:'Lisa M.',c:'Phoenix, AZ',a:'completed first session'},{n:'David C.',c:'Denver, CO',a:'just started their free trial'},{n:'Carlos M.',c:'Houston, TX',a:'booked 3 appointments from session one'},{n:'Amy B.',c:'Nashville, TN',a:'just signed up'},{n:'Ryan S.',c:'Columbus, OH',a:'researched his territory overnight'}];
-async async function openChat(){
-  var box=document.getElementById('cc-chat-box');
-  var btn=document.getElementById('cc-chat-btn');
-  var nudge=document.getElementById('cc-nudge');
-  box.style.display='flex';
-  btn.style.display='none';
-  if(nudge)nudge.style.display='none';
-  sessionStorage.setItem('chat_opened','1');
-  if(!_ch.length){
-    var tp=addMsg('bot','...');tp.style.opacity='.45';
-    try{
-      var gr=await fetch('/.netlify/functions/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:'__GREETING__'}]})});
-      var gd=await gr.json();
-      tp.textContent=gd.reply||'Hey! How can I help?';
-    }catch(e){tp.textContent='Hey! How can I help?';}
-    tp.style.opacity='1';
-    addQuickActions();
-  }
-}
-function closeChat(){document.getElementById('cc-chat-box').style.display='none';document.getElementById('cc-chat-btn').style.display='flex';}
-function addMsg(r,t){var m=document.getElementById('chat-msgs');var d=document.createElement('div');d.className='msg '+(r==='bot'?'msg-bot':'msg-user');d.textContent=t;m.appendChild(d);m.scrollTop=99999;return d;}
-function addAction(label,fn){var m=document.getElementById('chat-msgs');var b=document.createElement('button');b.textContent=label;b.style.cssText='display:block;width:100%;margin:4px 0;padding:9px 14px;background:rgba(14,165,233,.15);border:1px solid rgba(14,165,233,.35);border-radius:8px;color:#0ea5e9;font-size:12px;font-weight:700;cursor:pointer;text-align:left;font-family:inherit;';b.onclick=fn;m.appendChild(b);m.scrollTop=99999;return b;}
-function addQuickActions(){
-  var m=document.getElementById('chat-msgs');
-  var wrap=document.createElement('div');
-  wrap.id='cc-qa';
-  wrap.style.cssText='margin-top:6px;';
-  var label=document.createElement('div');
-  label.style.cssText='font-size:10px;color:rgba(240,246,252,.35);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;padding:0 2px;';
-  label.textContent='Quick actions:';
-  wrap.appendChild(label);
-  var actions=[
-    ['Ã°ÂÂÂ Start my free trial',function(){navTo('#pricing');addMsg('bot','Taking you to the trial signup now Ã¢ÂÂ no credit card needed to start!');}],
-    ['Ã°ÂÂÂ° See pricing',function(){navTo('#pricing');addMsg('bot',"It's $59/month, 7-day free trial, cancel anytime. Scrolling you there now.");}],
-    ['Ã°ÂÂÂ§ How it works',function(){navTo('#why');addMsg('bot','Let me show you the comparison Ã¢ÂÂ you can see exactly how we stack up against SPOTIO and SalesRabbit.');}],
-    ['Ã°ÂÂÂµ Earn referral commissions',function(){window.location.href='/affiliate.html';addMsg('bot','Opening the affiliate program Ã¢ÂÂ you earn $17.70/month for every rep you refer.');}],
-    ['Ã¢ÂÂÃ¯Â¸Â Contact / Cancel',function(){navTo('#faq');addMsg('bot','Email us anytime at callcanvasai@gmail.com Ã¢ÂÂ we make cancellation instant, no questions asked.');}],
-  ];
-  actions.forEach(function(a){
-    var b=document.createElement('button');
-    b.textContent=a[0];
-    b.style.cssText='display:block;width:100%;margin:3px 0;padding:8px 12px;background:rgba(14,165,233,.1);border:1px solid rgba(14,165,233,.25);border-radius:8px;color:#e0f2fe;font-size:12px;font-weight:600;cursor:pointer;text-align:left;font-family:inherit;transition:background .15s;';
-    b.onmouseover=function(){this.style.background='rgba(14,165,233,.22)';};
-    b.onmouseout=function(){this.style.background='rgba(14,165,233,.1)';};
-    b.onclick=a[1];
-    wrap.appendChild(b);
-  });
-  m.appendChild(wrap);
-  m.scrollTop=99999;
-}
-function navTo(target){
-  var qa=document.getElementById('cc-qa');if(qa)qa.remove();
-  if(target.startsWith('#')){
-    var el=document.querySelector(target);
-    if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
-  } else {window.location.href=target;}
-}
-function getNavIntent(t){
-  t=t.toLowerCase();
-  if(/trial|sign.?up|start|join|subscribe/.test(t))return 'trial';
-  if(/pric|cost|how much|$|pay|plan/.test(t))return 'pricing';
-  if(/cancel|quit|stop|end|refund/.test(t))return 'cancel';
-  if(/affili|refer|earn|commission/.test(t))return 'affiliate';
-  if(/how.*(work|use)|what.*do|explain/.test(t))return 'howto';
-  if(/blog|article|post/.test(t))return 'blog';
-  return null;
-}
-async function sendChat(){
-  var i=document.getElementById('chat-inp');
-  var t=i.value.trim();
-  if(!t)return;
-  i.value='';
-  var qa=document.getElementById('cc-qa');if(qa)qa.remove();
-  addMsg('user',t);
-  _ch.push({role:'user',content:t});
-  var tp=addMsg('bot','Typing...');
-  tp.style.opacity='.45';
-  var intent=getNavIntent(t);
-  try{
-    var r=await fetch('/.netlify/functions/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:_ch})});
-    var d=await r.json();
-    tp.textContent=d.reply||'Give me a sec...';
-    tp.style.opacity='1';
-    _ch.push({role:'assistant',content:tp.textContent});
-    if(intent==='trial'){setTimeout(function(){addAction('Ã¢ÂÂ Take me to the trial signup',function(){navTo('#pricing');});},400);}
-    else if(intent==='pricing'){setTimeout(function(){addAction('Ã¢ÂÂ Show me pricing',function(){navTo('#pricing');});},400);}
-    else if(intent==='cancel'){setTimeout(function(){addAction('Ã¢ÂÂ Email us to cancel',function(){window.location.href='mailto:callcanvasai@gmail.com?subject=Cancel my subscription';});},400);}
-    else if(intent==='affiliate'){setTimeout(function(){addAction('Ã¢ÂÂ Open affiliate page',function(){window.location.href='/affiliate.html';});},400);}
-    else if(intent==='howto'){setTimeout(function(){addAction('Ã¢ÂÂ See how it works',function(){navTo('#why');});},400);}
-    else if(intent==='blog'){setTimeout(function(){addAction('Ã¢ÂÂ Visit the blog',function(){window.location.href='/blog';});},400);}
-  }catch(e){tp.textContent='Something went wrong. Try again!';tp.style.opacity='1';}
-  document.getElementById('chat-msgs').scrollTop=99999;
-}
-async function submitEmail(){var e=document.getElementById('email-inp').value.trim();if(!e||!e.includes('@')){document.getElementById('email-inp').style.borderColor='#f87171';return;}try{await fetch('/.netlify/functions/email-capture',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e,source:'popup'})});}catch(x){}document.getElementById('email-ok').style.display='block';document.getElementById('email-inp').style.display='none';document.getElementById('email-btn').style.display='none';sessionStorage.setItem('email_shown','1');setTimeout(function(){document.getElementById('cc-email').style.display='none';},2800);}
-(function(){window.addEventListener('scroll',function(){if(window.scrollY/Math.max(1,document.body.scrollHeight-window.innerHeight)>.35)document.getElementById('cc-bar').style.transform='translateY(0)';},{passive:true});setInterval(function(){_vc=Math.max(12,Math.min(50,_vc+(Math.random()>.5?1:-1)));var e=document.getElementById('vc-n');if(e)e.textContent=_vc;},9000);function showProof(){var p=_pd[_pi++%_pd.length];var w=document.getElementById('cc-proof');var el=document.createElement('div');el.className='proof-card';el.style.animation='sIn .4s ease';el.innerHTML='<div class="proof-av">'+p.n[0]+'</div><div><span class="proof-name">'+p.n+' from '+p.c+'</span><span class="proof-action">'+p.a+'</span></div>';w.appendChild(el);setTimeout(function(){el.style.animation='sOut .4s ease forwards';setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},420);},5000);}setTimeout(function(){showProof();setInterval(showProof,28000);},12000);if(!sessionStorage.getItem('exit_shown')){document.addEventListener('mouseleave',function(e){if(e.clientY<5){sessionStorage.setItem('exit_shown','1');document.getElementById('cc-exit').style.display='flex';}});}if(!sessionStorage.getItem('email_shown')){var _es=false;function me(){if(_es)return;_es=true;sessionStorage.setItem('email_shown','1');document.getElementById('cc-email').style.display='flex';}setTimeout(me,45000);window.addEventListener('scroll',function(){if(window.scrollY/Math.max(1,document.body.scrollHeight-window.innerHeight)>.65)me();},{passive:true});}if(!sessionStorage.getItem('chat_opened')){setTimeout(function(){if(document.getElementById('cc-chat-box').style.display!=='flex'){document.getElementById('cc-nudge').style.display='block';setTimeout(function(){var n=document.getElementById('cc-nudge');if(n)n.style.display='none';},14000);}},20000);}})();
-</script>
+
 <script>
 async function startTrial(email){
   try{
@@ -371,6 +275,24 @@ async function startTrial(email){
     document.querySelectorAll('[data-trial-btn]').forEach(function(b){b.disabled=false;b.textContent=b.dataset.origText||'Start Free Trial';});
   }
   return false;
+}
+</script>
+
+<script>
+async function openCustomerPortal(e) {
+  if (e) e.preventDefault();
+  const email = prompt("Enter the email address you used to sign up:");
+  if (!email || !email.includes("@")) return;
+  try {
+    const r = await fetch("/.netlify/functions/customer-portal", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: email.trim().toLowerCase() })
+    });
+    const d = await r.json();
+    if (d.url) { window.location.href = d.url; }
+    else { alert(d.error || "Could not open billing portal. Email support@callcanvasai.com"); }
+  } catch (err) { alert("Could not open billing portal. Email support@callcanvasai.com"); }
 }
 </script>
 </body>
