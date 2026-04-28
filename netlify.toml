@@ -11,7 +11,7 @@
 [functions."chat"]
   timeout = 26
 
-[functions."daily-blog"]
+[functions."daily-blog-background"]
   schedule = "0 11 * * *"
   timeout = 300
 
