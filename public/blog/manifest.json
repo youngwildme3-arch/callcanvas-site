@@ -1,6 +1,15 @@
 {
   "posts": [
     {
+      "slug": "open-source-ai-models-2026-which-compete-with-closed-models",
+      "title": "Which Open-Source AI Models Actually Compete with Closed Models in 2026?",
+      "metaDescription": "DeepSeek V4, Qwen 3.6, and GLM-5 lead open-source AI in 2026. Compare benchmarks, pricing, and real performance against GPT-5 and Claude Opus 4.6.",
+      "date": "2026-04-29",
+      "dateDisplay": "April 29, 2026",
+      "readTime": "7 min read",
+      "topicId": "open-source-ai"
+    },
+    {
       "slug": "warehouse-robots-2026-amazon-symbotic-locus-productivity-deployment-numbers",
       "title": "How Many Warehouse Robots Are Actually Working in 2026? Amazon, Symbotic, and Locus Numbers",
       "metaDescription": "Amazon operates 1M+ warehouse robots. Symbotic has a $5B backlog. Locus hit 7B picks. Real deployment numbers and productivity data from 2026.",
