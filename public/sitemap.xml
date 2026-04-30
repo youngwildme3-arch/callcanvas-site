@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url><loc>https://callcanvasai.com/</loc><lastmod>2026-04-30</lastmod><priority>1.0</priority></url>
-<url><loc>https://callcanvasai.com/research.html</loc><lastmod>2026-04-30</lastmod><priority>0.9</priority></url>
+<url><loc>https://callcanvasai.com/research.html</loc><lastmod>2026-04-30</lastmod><priority>0.95</priority></url>
 <url><loc>https://callcanvasai.com/blog/</loc><lastmod>2026-04-30</lastmod><priority>0.9</priority></url>
-<url><loc>https://callcanvasai.com/privacy.html</loc><lastmod>2026-04-30</lastmod><priority>0.4</priority></url>
-<url><loc>https://callcanvasai.com/terms.html</loc><lastmod>2026-04-30</lastmod><priority>0.4</priority></url>
+<url><loc>https://callcanvasai.com/welcome.html</loc><lastmod>2026-04-30</lastmod><priority>0.5</priority></url>
+<url><loc>https://callcanvasai.com/login.html</loc><lastmod>2026-04-30</lastmod><priority>0.6</priority></url>
+<url><loc>https://callcanvasai.com/account.html</loc><lastmod>2026-04-30</lastmod><priority>0.5</priority></url>
+<url><loc>https://callcanvasai.com/help.html</loc><lastmod>2026-04-30</lastmod><priority>0.7</priority></url>
 <url><loc>https://callcanvasai.com/contact.html</loc><lastmod>2026-04-30</lastmod><priority>0.4</priority></url>
+<url><loc>https://callcanvasai.com/privacy.html</loc><lastmod>2026-04-30</lastmod><priority>0.3</priority></url>
+<url><loc>https://callcanvasai.com/terms.html</loc><lastmod>2026-04-30</lastmod><priority>0.3</priority></url>
 <url><loc>https://callcanvasai.com/blog/chatgpt-gpt-5-5-openai-updates-whats-new-april-2026</loc><lastmod>2026-04-30</lastmod><priority>0.7</priority></url>
 <url><loc>https://callcanvasai.com/blog/open-source-ai-models-2026-which-compete-with-closed-models</loc><lastmod>2026-04-30</lastmod><priority>0.7</priority></url>
 <url><loc>https://callcanvasai.com/blog/warehouse-robots-2026-amazon-symbotic-locus-productivity-deployment-numbers</loc><lastmod>2026-04-30</lastmod><priority>0.7</priority></url>

@@ -63,7 +63,7 @@ select option{background:#131b27}
 .open-text{font-size:13px;line-height:1.55;color:#f0f6fc}
 .tracks{display:flex;flex-direction:column;gap:5px}
 .track{font-size:12px;color:rgba(240,246,252,.6);padding-left:14px;position:relative;line-height:1.5}
-.track::before{content:'ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢';position:absolute;left:0;color:#0ea5e9}
+.track::before{content:'ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢';position:absolute;left:0;color:#0ea5e9}
 .field-line{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06);font-size:12px;color:rgba(240,246,252,.28)}
 @media print{
   nav,.btn-csv,.btn-print,.results-bar,.stats-row,.form-card,#loading{display:none!important}
@@ -87,6 +87,7 @@ select option{background:#131b27}
 <nav>
   <a class="logo" href="/">CALLCANVAS AI</a>
   <a href="/" style="font-size:13px;color:rgba(240,246,252,.5)">Back to site</a>
+<a href="#" onclick="localStorage.removeItem('callcanvas_email');location.href='/';return false;" style="color:rgba(240,246,252,.5);text-decoration:none;font-size:13px;margin-left:18px">Log out</a>
 </nav>
 <div class="wrap">
 <div id="success-banner" class="success-banner">
@@ -193,12 +194,12 @@ async function applyCoupon(){
     if(d.valid){
       _couponValid=true;
       msg.className='coupon-msg coupon-ok';
-      msg.textContent='ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Code applied  -  '+(d.description||'valid');
+      msg.textContent='ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Code applied  -  '+(d.description||'valid');
       sessionStorage.setItem('ccai_coupon',code);
     } else {
       _couponValid=false;
       msg.className='coupon-msg coupon-err';
-      msg.textContent='ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ '+(d.error||'Invalid code');
+      msg.textContent='ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ '+(d.error||'Invalid code');
     }
   }catch(e){
     msg.className='coupon-msg coupon-err';
@@ -342,7 +343,7 @@ function downloadCSV(){
         const t = banner.querySelector('.success-title');
         const m = banner.querySelector('.success-msg');
         if (t) t.textContent = 'Welcome aboard!';
-        if (m) m.textContent = 'Your trial is active. Build your first call sheet below — it takes about 5 minutes.';
+        if (m) m.textContent = 'Your trial is active. Build your first call sheet below â it takes about 5 minutes.';
       }
     }
 

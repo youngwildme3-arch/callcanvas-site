@@ -1,4 +1,4 @@
-// verify-checkout-session.js — looks up a Stripe Checkout Session, returns the customer email
+// verify-checkout-session.js â looks up a Stripe Checkout Session, returns the customer email
 // Used by /welcome.html after a successful Stripe redirect to identify who just signed up
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
@@ -33,6 +33,6 @@ exports.handler = async (event) => {
     }) };
   } catch (e) {
     console.error('verify-checkout-session error:', e.message);
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Could not verify checkout session: ' + e.message }) };
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Could not verify checkout session: ' + e.message }) };
   }
 };
