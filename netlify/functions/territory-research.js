@@ -1,8 +1,11 @@
-// territory-research.js — gated + watermarked
+// territory-research.js â gated + watermarked
 const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
+
+if (!ANTHROPIC_KEY) console.error("WARN: ANTHROPIC_API_KEY env var not set");
 const { checkAccess } = require('./check-access');
 
 async function callClaude(prompt) {
+  if (!ANTHROPIC_KEY) throw new Error("ANTHROPIC_API_KEY env var not configured");
   const res = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_KEY, 'anthropic-version': '2023-06-01' },

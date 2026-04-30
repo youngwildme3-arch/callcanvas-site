@@ -51,11 +51,6 @@
   status = 200
 
 [[redirects]]
-  from = "/ref"
-  to = "/.netlify/functions/affiliate-tracker"
-  status = 200
-
-[[redirects]]
   from = "/research"
   to = "/research.html"
   status = 200

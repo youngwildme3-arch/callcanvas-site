@@ -7,7 +7,7 @@ const handler = async () => {
     const r = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-key': KEY, 'anthropic-version': '2023-06-01' },
-      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: tokens || 800,
+      body: JSON.stringify({ model: 'claude-sonnet-4-5-20250929', max_tokens: tokens || 800,
         tools: [{ type: 'web_search_20250305', name: 'web_search' }],
         messages: [{ role: 'user', content: prompt }] })
     });

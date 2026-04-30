@@ -269,7 +269,7 @@ footer{padding:48px clamp(16px,5vw,64px);border-top:1px solid rgba(255,255,255,.
     <a href="#why">Why Us</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a>
     <a href="/blog">Blog</a>
     <a href="/outreach">Outreach</a><a href="/growth-log">Growth</a>
-    <a href="mailto:callcanvasai@gmail.com">Contact</a>
+    <a href="mailto:support@callcanvasai.com">Contact</a>
   </div>
   
   <p style="font-size:12px;color:rgba(240,246,252,.22)">&copy; 2026 CallCanvas AI. All rights reserved.</p>
@@ -306,7 +306,7 @@ async function startTrial(email){
 
 
 <script>
-/* CallCanvas AI ÃÂ¢ÃÂÃÂ Alex chat widget. Self-contained. */
+/* CallCanvas AI ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ Alex chat widget. Self-contained. */
 (function() {
   'use strict';
   var btn = document.getElementById('cc-chat-btn');
@@ -317,7 +317,7 @@ async function startTrial(email){
   var sendBtn = box ? box.querySelector('.chat-send') : null;
   
   if (!btn || !box || !msgs || !inp) {
-    console.error('[Alex] Chat widget elements missing ÃÂ¢ÃÂÃÂ skipping wire-up');
+    console.error('[Alex] Chat widget elements missing ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ skipping wire-up');
     return;
   }
   
@@ -348,7 +348,7 @@ async function startTrial(email){
     box.style.display = 'flex';
     btn.style.display = 'none';
     if (msgs.children.length === 0) {
-      addMessage('assistant', "Hey! I'm Alex. Ask me anything about CallCanvas AI ÃÂ¢ÃÂÃÂ pricing, what it does, how the trial works, whatever.");
+      addMessage('assistant', "Hey! I'm Alex. Ask me anything about CallCanvas AI ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ pricing, what it does, how the trial works, whatever.");
     }
     setTimeout(function(){ inp.focus(); }, 100);
   }
@@ -423,14 +423,14 @@ async function startTrial(email){
 </script>
 
 <script>
-/* Frontend smoke test ÃÂ¢ÃÂÃÂ runs 2s after page load, alerts in console if chat is broken */
+/* Frontend smoke test ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ runs 2s after page load, alerts in console if chat is broken */
 window.addEventListener('load', function() {
   setTimeout(function() {
     var btn = document.getElementById('cc-chat-btn');
     var hasOpenChat = typeof window.openChat === 'function';
     var hasFetch = typeof fetch === 'function';
     if (!btn) console.warn('[CC-SMOKETEST] Chat button missing from page');
-    else if (!hasOpenChat) console.error('[CC-SMOKETEST] window.openChat NOT DEFINED ÃÂ¢ÃÂÃÂ chat is broken!');
+    else if (!hasOpenChat) console.error('[CC-SMOKETEST] window.openChat NOT DEFINED ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ chat is broken!');
     else if (!hasFetch) console.error('[CC-SMOKETEST] fetch unavailable');
     else console.log('[CC-SMOKETEST] All frontend systems OK');
   }, 2000);

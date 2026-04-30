@@ -6,7 +6,7 @@ const handler = async () => {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'x-api-key': KEY, 'anthropic-version': '2023-06-01' },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514', max_tokens: 1000,
+      model: 'claude-sonnet-4-5-20250929', max_tokens: 1000,
       tools: [{ type: 'web_search_20250305', name: 'web_search' }],
       messages: [{ role: 'user', content: 'Search for callcanvasai.com and check if it appears in Google results. Then search for SPOTIO alternative 2026 and note if callcanvasai.com ranks. Then find 3 new low-competition keywords for outside sales tools. Report findings.' }]
     })
