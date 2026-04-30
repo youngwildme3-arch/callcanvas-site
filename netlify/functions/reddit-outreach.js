@@ -17,7 +17,7 @@ const handler = async () => {
   const opportunities = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
   
   try {
-    await require('@netlify/blobs').getStore('growth-logs').set('reddit-' + today, JSON.stringify({ date: today, opportunities }));
+    await require('@netlify/blobs').getStore({ name: 'growth-logs', siteID: process.env.NETLIFY_SITE_ID, token: process.env.NETLIFY_PAT }).set('reddit-' + today, JSON.stringify({ date: today, opportunities }));
   } catch(e) {}
   return { statusCode: 200, body: JSON.stringify({ success: true, preview: opportunities.substring(0, 200) }) };
 };

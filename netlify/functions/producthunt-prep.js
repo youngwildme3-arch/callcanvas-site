@@ -14,7 +14,7 @@ exports.handler = async (event) => {
   const assets = data.content?.[0]?.text || '';
   
   try {
-    await require('@netlify/blobs').getStore('growth-logs').set('producthunt-assets', JSON.stringify({ generated: new Date().toISOString(), assets }));
+    await require('@netlify/blobs').getStore({ name: 'growth-logs', siteID: process.env.NETLIFY_SITE_ID, token: process.env.NETLIFY_PAT }).set('producthunt-assets', JSON.stringify({ generated: new Date().toISOString(), assets }));
   } catch(e) {}
   return { statusCode: 200, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }, body: JSON.stringify({ success: true, assets }) };
 };

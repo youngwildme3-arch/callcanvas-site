@@ -6,12 +6,12 @@ const handler = async () => {
   const today = new Date().toISOString().split('T')[0];
   const postTypes = [
     'A LinkedIn post revealing a shocking stat about outside sales reps wasting time on research, with a subtle CTA to callcanvasai.com',
-    'A LinkedIn story post: "I watched a top insurance rep spend 3 hours researching before a field day. Here is what I learned..." — ends with callcanvasai.com',
-    'A LinkedIn hook post: "What if you could walk into every sales call already knowing the owners name, revenue, and biggest pain point?" — CTA to callcanvasai.com',
+    'A LinkedIn story post: "I watched a top insurance rep spend 3 hours researching before a field day. Here is what I learned..." â ends with callcanvasai.com',
+    'A LinkedIn hook post: "What if you could walk into every sales call already knowing the owners name, revenue, and biggest pain point?" â CTA to callcanvasai.com',
     'A LinkedIn comparison post: SPOTIO costs $395/month minimum for teams. CallCanvas AI costs $59/month for one rep. Breakdown post with CTA to callcanvasai.com',
-    'A LinkedIn post written as a day-in-the-life of an outside sales rep using CallCanvas AI — authentic, specific, ends with callcanvasai.com free trial',
-    'A LinkedIn objection-crusher post: "3 reasons outside sales reps say they dont need territory research software (and why theyre wrong)" — CTA to callcanvasai.com',
-    'A LinkedIn carousel-style post with 5 tips for researching territories faster — tip 5 mentions callcanvasai.com'
+    'A LinkedIn post written as a day-in-the-life of an outside sales rep using CallCanvas AI â authentic, specific, ends with callcanvasai.com free trial',
+    'A LinkedIn objection-crusher post: "3 reasons outside sales reps say they dont need territory research software (and why theyre wrong)" â CTA to callcanvasai.com',
+    'A LinkedIn carousel-style post with 5 tips for researching territories faster â tip 5 mentions callcanvasai.com'
   ];
   const dayIdx = new Date().getDay();
   const postType = postTypes[dayIdx % postTypes.length];
@@ -29,7 +29,7 @@ const handler = async () => {
   
   try {
     const { getStore } = require('@netlify/blobs');
-    const store = getStore('growth-logs');
+    const store = getStore({ name: 'growth-logs', siteID: process.env.NETLIFY_SITE_ID, token: process.env.NETLIFY_PAT });
     await store.set('linkedin-' + today, JSON.stringify({ date: today, post, type: postType }));
     console.log('[LinkedIn] Post generated for ' + today);
   } catch(e) {}

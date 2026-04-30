@@ -113,6 +113,29 @@ footer{padding:48px clamp(16px,5vw,64px);border-top:1px solid rgba(255,255,255,.
 @keyframes sIn{from{transform:translateX(-105%);opacity:0}to{transform:translateX(0);opacity:1}}
 @keyframes sOut{from{transform:translateX(0);opacity:1}to{transform:translateX(-105%);opacity:0}}
 </style>
+
+<style>
+  /* Mobile chat bubble + bottom padding fix (added 2026-04-30) */
+  @media (max-width: 600px) {
+    #cc-chat-btn {
+      right: 12px !important;
+      bottom: 12px !important;
+      padding: 8px 14px !important;
+      font-size: 13px !important;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    #cc-chat-box {
+      width: calc(100vw - 24px) !important;
+      max-width: 360px !important;
+      right: 12px !important;
+      bottom: 12px !important;
+    }
+    /* Ensure last section content has breathing room above chat bubble */
+    body {
+      padding-bottom: 70px;
+    }
+  }
+</style>
 </head>
 <body>
 <nav>
@@ -280,7 +303,7 @@ async function startTrial(email){
 
 
 <script>
-/* CallCanvas AI — Alex chat widget. Self-contained. */
+/* CallCanvas AI â Alex chat widget. Self-contained. */
 (function() {
   'use strict';
   var btn = document.getElementById('cc-chat-btn');
@@ -291,7 +314,7 @@ async function startTrial(email){
   var sendBtn = box ? box.querySelector('.chat-send') : null;
   
   if (!btn || !box || !msgs || !inp) {
-    console.error('[Alex] Chat widget elements missing — skipping wire-up');
+    console.error('[Alex] Chat widget elements missing â skipping wire-up');
     return;
   }
   
@@ -322,7 +345,7 @@ async function startTrial(email){
     box.style.display = 'flex';
     btn.style.display = 'none';
     if (msgs.children.length === 0) {
-      addMessage('assistant', "Hey! I'm Alex. Ask me anything about CallCanvas AI — pricing, what it does, how the trial works, whatever.");
+      addMessage('assistant', "Hey! I'm Alex. Ask me anything about CallCanvas AI â pricing, what it does, how the trial works, whatever.");
     }
     setTimeout(function(){ inp.focus(); }, 100);
   }
@@ -397,14 +420,14 @@ async function startTrial(email){
 </script>
 
 <script>
-/* Frontend smoke test — runs 2s after page load, alerts in console if chat is broken */
+/* Frontend smoke test â runs 2s after page load, alerts in console if chat is broken */
 window.addEventListener('load', function() {
   setTimeout(function() {
     var btn = document.getElementById('cc-chat-btn');
     var hasOpenChat = typeof window.openChat === 'function';
     var hasFetch = typeof fetch === 'function';
     if (!btn) console.warn('[CC-SMOKETEST] Chat button missing from page');
-    else if (!hasOpenChat) console.error('[CC-SMOKETEST] window.openChat NOT DEFINED — chat is broken!');
+    else if (!hasOpenChat) console.error('[CC-SMOKETEST] window.openChat NOT DEFINED â chat is broken!');
     else if (!hasFetch) console.error('[CC-SMOKETEST] fetch unavailable');
     else console.log('[CC-SMOKETEST] All frontend systems OK');
   }, 2000);

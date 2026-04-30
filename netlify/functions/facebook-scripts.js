@@ -18,7 +18,7 @@ const handler = async () => {
   
   try {
     const { getStore } = require('@netlify/blobs');
-    await getStore('growth-logs').set('facebook-' + today, JSON.stringify({ date: today, scripts }));
+    await getStore({ name: 'growth-logs', siteID: process.env.NETLIFY_SITE_ID, token: process.env.NETLIFY_PAT }).set('facebook-' + today, JSON.stringify({ date: today, scripts }));
   } catch(e) {}
   return { statusCode: 200, body: JSON.stringify({ success: true, preview: scripts.substring(0, 150) }) };
 };

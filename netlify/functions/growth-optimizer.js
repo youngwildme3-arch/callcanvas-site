@@ -24,7 +24,7 @@ const handler = async () => {
   
   try {
     const { getStore } = require('@netlify/blobs');
-    const store = getStore('growth-logs');
+    const store = getStore({ name: 'growth-logs', siteID: process.env.NETLIFY_SITE_ID, token: process.env.NETLIFY_PAT });
     await store.set('latest-' + today, JSON.stringify({ date: today, evaluation: eval_ }));
   } catch(e) { console.log('Blob error:', e.message); }
   
