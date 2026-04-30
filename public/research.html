@@ -64,7 +64,7 @@ select option{background:#131b27}
 .open-text{font-size:13px;line-height:1.55;color:#f0f6fc}
 .tracks{display:flex;flex-direction:column;gap:5px}
 .track{font-size:12px;color:rgba(240,246,252,.6);padding-left:14px;position:relative;line-height:1.5}
-.track::before{content:'¢¢';position:absolute;left:0;color:#0ea5e9}
+.track::before{content:'ÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂ¢ÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂ¢';position:absolute;left:0;color:#0ea5e9}
 .field-line{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06);font-size:12px;color:rgba(240,246,252,.28)}
 @media print{
   nav,.btn-csv,.btn-print,.results-bar,.stats-row,.form-card,#loading{display:none!important}
@@ -128,6 +128,21 @@ select option{background:#131b27}
       <div>
         <label>Specific Product (optional)</label>
         <input id="product" type="text" placeholder="e.g. workers comp, fleet insurance" />
+        </div>
+        <div class="form-cell" style="grid-column:1/-1">
+          <label class="form-lbl">SPECIFIC COMPANY (optional - leave blank for full territory list)</label>
+          <input id="specific_company" type="text" placeholder="e.g. ABC Trucking - just research this one" />
+        </div>
+        <div class="form-cell" style="grid-column:1/-1">
+          <label class="form-lbl">RESULTS COUNT</label>
+          <select id="count_select">
+            <option value="10">10 companies (fastest)</option>
+            <option value="25">25 companies</option>
+            <option value="50" selected>50 companies (full territory)</option>
+            <option value="1">Single company only (use specific company above)</option>
+          </select>
+        </div>
+        <div style="display:none">
       </div>
     </div>
     <div class="email-row" style="margin-bottom:14px">
@@ -199,12 +214,12 @@ async function applyCoupon(){
     if(d.valid){
       _couponValid=true;
       msg.className='coupon-msg coupon-ok';
-      msg.textContent='¢ Code applied  -  '+(d.description||'valid');
+      msg.textContent='ÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂ¢ÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂ Code applied  -  '+(d.description||'valid');
       sessionStorage.setItem('ccai_coupon',code);
     } else {
       _couponValid=false;
       msg.className='coupon-msg coupon-err';
-      msg.textContent='¢ '+(d.error||'Invalid code');
+      msg.textContent='ÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂ¢ÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂÂ '+(d.error||'Invalid code');
     }
   }catch(e){
     msg.className='coupon-msg coupon-err';
@@ -231,7 +246,7 @@ function runResearch(){
   _start=Date.now();_mi=0;
   document.getElementById('load-msg').textContent=msgs[0];
   _mt=setInterval(()=>{_mi=Math.min(_mi+1,msgs.length-1);document.getElementById('load-msg').textContent=msgs[_mi];},7000);
-  fetch('/.netlify/functions/territory-research',{method:'POST',headers:{'Content-Type':'application/json'},body: JSON.stringify({ city, state, industry, product, coupon, email: (function(){var i=document.getElementById("user-email");return i?(i.value||"").trim().toLowerCase():""})() })})
+  fetch('/.netlify/functions/territory-research',{method:'POST',headers:{'Content-Type':'application/json'},body: JSON.stringify({ city, state, industry, product, coupon, email: (function(){var i=document.getElementById("user-email");return i?(i.value||"").trim().toLowerCase():"", specificCompany: (document.getElementById("specific_company")?.value||"").trim(), count: parseInt(document.getElementById("count_select")?.value||"10",10)})() })})
   .then(r=>r.json())
   .then(data=>{clearInterval(_mt);_data=data;const mins=((Date.now()-_start)/60000).toFixed(1);document.getElementById('loading').style.display='none';document.querySelector('.btn-run').disabled=false;render(data,mins);})
   .catch(err=>{clearInterval(_mt);document.getElementById('loading').style.display='none';document.querySelector('.btn-run').disabled=false;alert('Something went wrong. Please try again.');});
@@ -348,7 +363,7 @@ function downloadCSV(){
         const t = banner.querySelector('.success-title');
         const m = banner.querySelector('.success-msg');
         if (t) t.textContent = 'Welcome aboard!';
-        if (m) m.textContent = 'Your trial is active. Build your first call sheet below  it takes about 5 minutes.';
+        if (m) m.textContent = 'Your trial is active. Build your first call sheet below ÂÂ it takes about 5 minutes.';
       }
     }
 

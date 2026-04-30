@@ -1,133 +1,201 @@
+// territory-research.js - returns companies[] matching frontend schema
+// Supports: bulk (count 1-50), single-company lookup (specificCompany), couponCode bypass
+
+const { getStore } = require('@netlify/blobs');
+
 const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
 const MODEL = 'claude-haiku-4-5-20251001';
-const VALID_FREE_COUPONS = ['EVAN-FULL-2026', 'BETA-TEST'];
+const HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Content-Type': 'application/json'
+};
 
-function buildPrompt(city, state, product, count) {
-  return 'Generate exactly ' + count + ' real local businesses in ' + city + (state ? ', ' + state : '') + ' that would benefit from "' + product + '". Return ONLY a valid JSON array. NO prose, NO markdown fences, NO trailing commas, NO comments. Each item MUST have:\n' +
-    '- name (real business name)\n' +
-    '- address (real street address with city, state, zip)\n' +
-    '- ownerOrDecisionMaker (best-guess first and last name)\n' +
-    '- phone (with area code, format "(xxx) xxx-xxxx")\n' +
-    '- whyTheyNeedIt (one sentence, specific to their operation)\n' +
-    '- openingLine (personalized, under 30 words, uses owner first name)\n' +
-    '- priorityScore (1-10 number)\n\n' +
-    'Output format example: [{"name":"Acme Corp","address":"...","ownerOrDecisionMaker":"...","phone":"...","whyTheyNeedIt":"...","openingLine":"...","priorityScore":8}]';
+if (!ANTHROPIC_KEY) console.error('WARN: ANTHROPIC_API_KEY env var not set');
+
+const FREE_PASS_COUPONS = ['EVAN-FULL-2026', 'BETA-TEST', 'DEBUG-5DAYS'];
+
+function getSubscriberStore() {
+  return getStore({
+    name: 'subscribers',
+    siteID: process.env.NETLIFY_SITE_ID,
+    token: process.env.NETLIFY_PAT
+  });
 }
 
-async function callClaudeOnce(prompt, signal) {
+async function userHasAccess(email, couponCode) {
+  if (couponCode && FREE_PASS_COUPONS.includes(couponCode.toUpperCase())) return true;
+  if (!email) return false;
+  try {
+    const store = getSubscriberStore();
+    const rec = await store.get(email.toLowerCase(), { type: 'json' });
+    if (!rec) return false;
+    const ok = ['active', 'trialing'].includes(rec.status);
+    return ok;
+  } catch (e) {
+    console.error('access check error:', e.message);
+    return false;
+  }
+}
+
+function buildBulkPrompt(city, state, product, count) {
+  return `You are a B2B sales prospect researcher. Generate exactly ${count} real-feeling local business prospects in ${city}, ${state} who would buy: ${product}.
+
+Return STRICT JSON only — no prose, no markdown fences. Schema:
+{
+  "companies": [
+    {
+      "rank": 1,
+      "name": "Company name",
+      "business_type": "What they do (5-8 words)",
+      "owner": "Decision maker full name",
+      "owner_title": "Their title (Owner / GM / Operations Mgr)",
+      "address": "Street address, City, State ZIP",
+      "phone": "(XXX) XXX-XXXX",
+      "employees": "5-15",
+      "revenue_est": "$1M-$5M",
+      "why_prospect": "One sentence: why THIS business needs ${product}",
+      "cold_open": "First sentence the rep should say on the call. Specific to this business. Plain talk, no fluff.",
+      "talk_tracks": ["Quick value point 1", "Quick value point 2", "Quick value point 3"],
+      "priority": "high|medium|low"
+    }
+  ]
+}
+
+Rules: realistic addresses for ${city} ${state}, plausible phone area codes, vary business types, prioritize fleet/multi-vehicle/multi-location operations for insurance/services products. Rank 1 = best prospect.`;
+}
+
+function buildSingleCompanyPrompt(companyName, city, state, product) {
+  return `You are a B2B sales prospect researcher. Research this specific company:
+
+Company: ${companyName}
+Location: ${city}, ${state}
+Product being sold to them: ${product}
+
+Return STRICT JSON only — no prose, no markdown fences. Schema:
+{
+  "companies": [
+    {
+      "rank": 1,
+      "name": "${companyName}",
+      "business_type": "What they do (5-8 words)",
+      "owner": "Most likely decision maker full name (use realistic placeholder if unknown)",
+      "owner_title": "Their title",
+      "address": "Best-guess street address, ${city}, ${state} ZIP",
+      "phone": "(XXX) XXX-XXXX (realistic area code for ${city})",
+      "employees": "5-15",
+      "revenue_est": "$1M-$5M",
+      "why_prospect": "One sentence: why THIS specific business needs ${product}",
+      "cold_open": "First sentence the rep should say on the call. Specific to this business. Plain talk.",
+      "talk_tracks": ["Specific value point 1", "Specific value point 2", "Specific value point 3"],
+      "priority": "high|medium|low"
+    }
+  ]
+}
+
+Be realistic. If ${companyName} is a known business type, infer accurately. If you don't know specifics, use plausible values consistent with a business of this name in ${city}.`;
+}
+
+async function callClaude(prompt) {
   const r = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_KEY, 'anthropic-version': '2023-06-01' },
-    body: JSON.stringify({ model: MODEL, max_tokens: 4096, messages: [{ role: 'user', content: prompt }] }),
-    signal
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': ANTHROPIC_KEY,
+      'anthropic-version': '2023-06-01'
+    },
+    body: JSON.stringify({
+      model: MODEL,
+      max_tokens: 4096,
+      messages: [{ role: 'user', content: prompt }]
+    })
   });
   if (!r.ok) {
     const errText = await r.text();
-    throw new Error('Anthropic API ' + r.status + ': ' + errText.substring(0, 150));
+    throw new Error('Anthropic API error ' + r.status + ': ' + errText.substring(0, 200));
   }
-  const j = await r.json();
-  const text = j.content?.[0]?.text || '';
-  // Extract JSON array — find first [ and last ]
-  const start = text.indexOf('[');
-  const end = text.lastIndexOf(']');
-  if (start === -1 || end === -1 || end < start) throw new Error('No JSON array in response');
-  const jsonStr = text.substring(start, end + 1);
-  return JSON.parse(jsonStr);
+  const data = await r.json();
+  return data.content[0].text;
 }
 
-// Retry once on parse failure (Claude occasionally returns malformed JSON under load)
-async function callClaude(prompt, signal) {
-  if (!ANTHROPIC_KEY) throw new Error('ANTHROPIC_API_KEY not configured');
-  try {
-    return await callClaudeOnce(prompt, signal);
-  } catch (e) {
-    // Retry once with a stricter prompt suffix
-    if (e.message.includes('JSON') || e.message.includes('No JSON')) {
-      try {
-        return await callClaudeOnce(prompt + '\n\nIMPORTANT: Return ONLY the JSON array, nothing else. No preamble. Start with [ and end with ].', signal);
-      } catch (e2) {
-        throw e2;
-      }
-    }
-    throw e;
+function tryParseJSON(text) {
+  // Strip markdown fences if present
+  let cleaned = text.trim();
+  cleaned = cleaned.replace(/^\s*```(?:json)?\s*/, '').replace(/\s*```\s*$/, '');
+  // Find first { and last }
+  const start = cleaned.indexOf('{');
+  const end = cleaned.lastIndexOf('}');
+  if (start >= 0 && end > start) {
+    cleaned = cleaned.substring(start, end + 1);
   }
+  return JSON.parse(cleaned);
 }
 
 exports.handler = async (event) => {
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type', 'Access-Control-Allow-Methods': 'POST,OPTIONS' }, body: '' };
-  }
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ error: 'Method not allowed' }) };
-  }
-  
-  let body = {};
-  try { body = JSON.parse(event.body || '{}'); } catch (e) { return { statusCode: 400, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ error: 'Invalid JSON body' }) }; }
-  
-  const { city, state, product, count: requestedCount, couponCode, email } = body;
-  const count = Math.min(Math.max(parseInt(requestedCount) || 20, 1), 50);
-  
+  if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers: HEADERS, body: '' };
+  if (event.httpMethod !== 'POST') return { statusCode: 405, headers: HEADERS, body: JSON.stringify({ error: 'Method not allowed' }) };
+  if (!ANTHROPIC_KEY) return { statusCode: 500, headers: HEADERS, body: JSON.stringify({ error: 'Server misconfigured' }) };
+
+  let body;
+  try { body = JSON.parse(event.body || '{}'); }
+  catch { return { statusCode: 400, headers: HEADERS, body: JSON.stringify({ error: 'Invalid JSON' }) }; }
+
+  const email = (body.email || '').trim().toLowerCase();
+  const couponCode = (body.couponCode || '').trim();
+  const city = (body.city || '').trim();
+  const state = (body.state || 'IL').trim();
+  const product = (body.product || '').trim();
+  const specificCompany = (body.specificCompany || '').trim();
+  let count = parseInt(body.count || 10, 10);
+  if (isNaN(count) || count < 1) count = 10;
+  if (count > 50) count = 50;
+
+  // Input validation
   if (!city || !product) {
-    return { statusCode: 400, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }, body: JSON.stringify({ error: 'city and product are required' }) };
+    return { statusCode: 400, headers: HEADERS, body: JSON.stringify({ error: 'city and product required' }) };
   }
-  
-  let access = null;
-  if (couponCode && VALID_FREE_COUPONS.includes(couponCode.toUpperCase())) {
-    access = { granted: true, via: 'coupon', code: couponCode.toUpperCase() };
-  } else if (email) {
-    try {
-      const { getStore } = await import('@netlify/blobs');
-      const store = getStore({ name: 'subscribers', siteID: process.env.NETLIFY_SITE_ID, token: process.env.NETLIFY_PAT });
-      const sub = await store.get(email.toLowerCase(), { type: 'json' });
-      if (sub && (sub.status === 'active' || sub.status === 'trialing')) {
-        access = { granted: true, via: 'subscription', email: email.toLowerCase() };
-      }
-    } catch (e) {}
+
+  // Auth check
+  const hasAccess = await userHasAccess(email, couponCode);
+  if (!hasAccess) {
+    return { statusCode: 403, headers: HEADERS, body: JSON.stringify({ error: 'Access denied. Start a free trial to use this feature.' }) };
   }
-  
-  if (!access || !access.granted) {
-    return { statusCode: 403, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }, body: JSON.stringify({ error: 'Access denied. Active subscription or valid coupon required.' }) };
-  }
-  
-  const CHUNK_SIZE = 10;
-  const chunks = [];
-  let remaining = count;
-  while (remaining > 0) { const c = Math.min(remaining, CHUNK_SIZE); chunks.push(c); remaining -= c; }
-  
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 24000);
-  
+
+  // Build prompt based on mode
+  const prompt = specificCompany
+    ? buildSingleCompanyPrompt(specificCompany, city, state, product)
+    : buildBulkPrompt(city, state, product, count);
+
+  let parsed;
   try {
-    // RESILIENT: Promise.allSettled — if one chunk fails, others still return
-    const settled = await Promise.allSettled(chunks.map(chunkCount => callClaude(buildPrompt(city, state, product, chunkCount), controller.signal)));
-    clearTimeout(timeoutId);
-    
-    const successful = settled.filter(s => s.status === 'fulfilled').map(s => s.value);
-    const failed = settled.filter(s => s.status === 'rejected');
-    const prospects = successful.flat().slice(0, count);
-    
-    if (prospects.length === 0) {
-      // All chunks failed — return error
-      return { statusCode: 502, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }, body: JSON.stringify({ error: 'AI generation failed. Please try again.', diagnostic: failed.map(f => f.reason?.message?.substring(0, 100)).slice(0, 2) }) };
-    }
-    
-    return {
-      statusCode: 200,
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-      body: JSON.stringify({
-        prospects,
-        partial: failed.length > 0 ? { failedChunks: failed.length, requestedCount: count, returnedCount: prospects.length } : undefined,
-        __watermark: { licensedTo: access.email || access.code, generatedAt: new Date().toISOString(), city, state, product },
-        __access: access
-      })
-    };
-  } catch (err) {
-    clearTimeout(timeoutId);
-    const isAbort = err.name === 'AbortError';
-    return {
-      statusCode: isAbort ? 504 : 500,
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-      body: JSON.stringify({ error: isAbort ? 'Generation timed out — try fewer prospects' : 'Generation failed: ' + err.message })
-    };
+    const responseText = await callClaude(prompt);
+    parsed = tryParseJSON(responseText);
+  } catch (e) {
+    console.error('research generation failed:', e.message);
+    return { statusCode: 502, headers: HEADERS, body: JSON.stringify({ error: 'Research generation failed. Please try again.' }) };
   }
+
+  if (!parsed || !Array.isArray(parsed.companies) || parsed.companies.length === 0) {
+    return { statusCode: 502, headers: HEADERS, body: JSON.stringify({ error: 'No results returned. Please try again.' }) };
+  }
+
+  // Add watermark
+  const watermark = {
+    licensed_to: email || ('coupon:' + couponCode) || 'unknown',
+    generated_at: new Date().toISOString(),
+    territory: city + ', ' + state,
+    product: product,
+    mode: specificCompany ? 'single_company' : 'bulk',
+    count_returned: parsed.companies.length
+  };
+
+  return {
+    statusCode: 200,
+    headers: HEADERS,
+    body: JSON.stringify({
+      companies: parsed.companies,
+      watermark: watermark,
+      licensed_to: watermark.licensed_to
+    })
+  };
 };

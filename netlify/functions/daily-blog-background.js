@@ -64,7 +64,7 @@ function extractJson(text) {
 }
 
 function buildPrompt(topic, today) {
-  return `You are writing today's blog post for callcanvasai.com — a daily AI/tech/innovation publication. Today is ` + today + `.
+  return `You are writing today's blog post for callcanvasai.com â a daily AI/tech/innovation publication. Today is ` + today + `.
 
 TOPIC: ` + topic.label + `
 PRIMARY KEYWORD: ` + topic.kw + `
@@ -73,25 +73,25 @@ Step 1: Use the web_search tool 2-4 times to research the latest news, data, sta
 
 Step 2: Write a ~1,500-word SEO-optimized blog post in this EXACT structure:
 
-1. **Title** — long-tail (8-12 words), question-style or list-style, includes primary keyword, includes "2026" or "in 2026"
-2. **Lead paragraph** (hook) — open with a specific surprising fact or statistic. Set up the question the post answers. 60-100 words.
-3. **"Quick verdict" or "Honest verdict" section** — a short paragraph or comparison TABLE that gives readers the answer in 30 seconds. Use HTML <table> with <thead> and <tbody>.
-4. **3-5 main sections** — each with an H2 (use ## in markdown). Each section is 200-300 words. Use comparison tables, bullet lists, real data, named companies/products/people.
+1. **Title** â long-tail (8-12 words), question-style or list-style, includes primary keyword, includes "2026" or "in 2026"
+2. **Lead paragraph** (hook) â open with a specific surprising fact or statistic. Set up the question the post answers. 60-100 words.
+3. **"Quick verdict" or "Honest verdict" section** â a short paragraph or comparison TABLE that gives readers the answer in 30 seconds. Use HTML <table> with <thead> and <tbody>.
+4. **3-5 main sections** â each with an H2 (use ## in markdown). Each section is 200-300 words. Use comparison tables, bullet lists, real data, named companies/products/people.
 5. **One section should compare specific named products/companies** in a table.
-6. **One "What's actually changing" or "What this means" section** — original insight, not just news rehash.
-7. **FAQ section** — 5-6 question-style H3 (### in markdown). Each answered in 1-3 sentences.
-8. **Closing line** — last-updated date.
+6. **One "What's actually changing" or "What this means" section** â original insight, not just news rehash.
+7. **FAQ section** â 5-6 question-style H3 (### in markdown). Each answered in 1-3 sentences.
+8. **Closing line** â last-updated date.
 
 STYLE RULES:
 - Write like a knowledgeable human tracking the industry, not a marketing agency
 - NO mentions of CallCanvas, sales tools, cold calling, or anything sales-related
-- NO em-dashes (—). Use commas, semicolons, or periods.
+- NO em-dashes (â). Use commas, semicolons, or periods.
 - NO "in conclusion", "in today's fast-paced world", "leverage", "robust", "cutting-edge"
 - Include real numbers, real names, real product versions
 - Be willing to push back on hype with real data
 - Long-tail title (8-12 words). Question-style or comparison-style.
 
-OUTPUT FORMAT — return ONLY a JSON object, no markdown fences, no preamble:
+OUTPUT FORMAT â return ONLY a JSON object, no markdown fences, no preamble:
 {
   "slug": "url-safe-slug-with-keyword-and-2026",
   "title": "The full SEO title",
@@ -346,6 +346,28 @@ async function atomicCommit(filesByPath, message) {
 }
 
 exports.handler = async (event) => {
+  // Same-day dedup: skip if a post was already published today
+  try {
+    const todayDate = new Date().toISOString().slice(0, 10);
+    const manifestPath = 'public/blog/manifest.json';
+    let existingManifest = null;
+    try {
+      const ghHeadersObj = await ghHeaders();
+      const r = await fetch('https://api.github.com/repos/' + (process.env.GITHUB_REPO || 'youngwildme3-arch/callcanvas-site') + '/contents/' + manifestPath, { headers: ghHeadersObj });
+      if (r.ok) {
+        const j = await r.json();
+        existingManifest = JSON.parse(Buffer.from(j.content, 'base64').toString('utf8'));
+      }
+    } catch (e) { console.log('manifest fetch failed (ok):', e.message); }
+    if (existingManifest && Array.isArray(existingManifest.posts)) {
+      const todayPostExists = existingManifest.posts.some(p => (p.date || p.published_at || '').startsWith(todayDate));
+      if (todayPostExists) {
+        console.log('Daily blog: post already published today, skipping');
+        return { statusCode: 200, body: JSON.stringify({ ok: true, skipped: true, reason: 'already published today' }) };
+      }
+    }
+  } catch (e) { console.log('Same-day check failed (proceeding):', e.message); }
+
   try {
     if (!REPO || !GH_TOKEN || !ANTHROPIC_KEY) {
       throw new Error('Missing env vars: GITHUB_REPO=' + !!REPO + ' GITHUB_TOKEN=' + !!GH_TOKEN + ' ANTHROPIC_API_KEY=' + !!ANTHROPIC_KEY);
