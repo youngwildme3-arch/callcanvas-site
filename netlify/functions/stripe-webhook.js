@@ -1,10 +1,18 @@
-// stripe-webhook.js — keeps 'subscribers' blob in sync with Stripe subscription status
+// stripe-webhook.js — keeps subscribers blob in sync with Stripe subscription status
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const { getStore } = require('@netlify/blobs');
 const WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
 
+function getSubscribersStore() {
+  return getStore({
+    name: 'subscribers',
+    siteID: process.env.NETLIFY_SITE_ID,
+    token: process.env.NETLIFY_PAT
+  });
+}
+
 async function upsertSubscriber(email, patch) {
-  const store = getStore('subscribers');
+  const store = getSubscribersStore();
   const key = email.trim().toLowerCase();
   let existing = {};
   try { existing = (await store.get(key, { type: 'json' })) || {}; } catch (e) {}

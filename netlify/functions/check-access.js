@@ -1,9 +1,17 @@
 // check-access.js — determines whether a given email/coupon has active access
-// Returns: { hasAccess: bool, reason: string, status?: string, periodEnd?: number }
 
 const { getStore } = require('@netlify/blobs');
 
 const FREE_PASS_COUPONS = ['EVAN-FULL-2026', 'BETA-TEST'];
+
+function getSubscribersStore() {
+  // Always use explicit config — Blobs auto-config is unreliable in some function contexts
+  return getStore({
+    name: 'subscribers',
+    siteID: process.env.NETLIFY_SITE_ID,
+    token: process.env.NETLIFY_PAT
+  });
+}
 
 async function checkAccess({ email, couponCode }) {
   if (couponCode && FREE_PASS_COUPONS.includes(String(couponCode).toUpperCase().trim())) {
@@ -15,13 +23,19 @@ async function checkAccess({ email, couponCode }) {
   const key = email.trim().toLowerCase();
   let record;
   try {
-    const store = getStore('subscribers');
+    const store = getSubscribersStore();
     record = await store.get(key, { type: 'json' });
   } catch (e) {
-    return { hasAccess: true, reason: 'blob_error_fail_open', error: e.message };
+    console.error('Blob get failed for', key, ':', e.message);
+    // Fail closed if explicitly configured but still broken — better to deny than to leak access
+    if (process.env.NETLIFY_SITE_ID && process.env.NETLIFY_PAT) {
+      return { hasAccess: false, reason: 'blob_error_fail_closed', error: e.message };
+    }
+    // Only fail-open if creds are missing entirely (avoid locking out everyone during config issues)
+    return { hasAccess: true, reason: 'blob_unconfigured_fail_open', error: e.message };
   }
   if (!record) {
-    return { hasAccess: true, reason: 'no_record_fail_open' };
+    return { hasAccess: false, reason: 'no_record' };
   }
   const now = Math.floor(Date.now() / 1000);
   const status = record.status;
