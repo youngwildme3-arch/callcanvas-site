@@ -1,6 +1,15 @@
 {
   "posts": [
     {
+      "slug": "chatgpt-gpt-5-5-openai-news-april-2026-model-updates",
+      "title": "What's New in ChatGPT and OpenAI This Month? April 2026 Model Updates, GPT-5.5 Features, and Ecosystem Changes",
+      "metaDescription": "OpenAI launched GPT-5.5 in April 2026 with agentic coding and ChatGPT for Clinicians. 900M weekly users, $8 tier rollout, and AWS partnership details.",
+      "date": "2026-04-30",
+      "dateDisplay": "April 30, 2026",
+      "readTime": "7 min read",
+      "topicId": "chatgpt-openai"
+    },
+    {
       "slug": "chatgpt-gpt-5-5-openai-updates-whats-new-april-2026",
       "title": "What's New with ChatGPT and OpenAI in April 2026? GPT-5.5, Pricing Changes, and the AI Arms Race",
       "metaDescription": "ChatGPT just launched GPT-5.5 six weeks after GPT-5.4. Here's what changed, how pricing is shifting, and what OpenAI's release cadence means for 2026.",
