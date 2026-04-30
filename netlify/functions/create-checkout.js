@@ -12,6 +12,9 @@ exports.handler = async (event) => {
   try {
     const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
     const { email } = JSON.parse(event.body || '{}');
+  if (!email || typeof email !== 'string' || !email.includes('@')) {
+    return { statusCode: 400, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }, body: JSON.stringify({ error: 'Valid email required' }) };
+  }
 
     const session = await stripe.checkout.sessions.create({
       mode: 'subscription',
