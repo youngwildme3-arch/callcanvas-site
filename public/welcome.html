@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Welcome to CallCanvas AI</title>
+<meta name="description" content="Welcome to CallCanvas AI. Your subscription is active. Build your first call sheet now.">
+<meta name="robots" content="noindex">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;background:#080b10;color:#f0f6fc;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.card{max-width:560px;width:100%;background:#131b27;border:1px solid rgba(14,165,233,.2);border-radius:18px;padding:48px 40px;text-align:center}
+.check{font-size:54px;color:#22c55e;line-height:1;margin-bottom:18px}
+h1{font-size:32px;font-weight:900;margin-bottom:14px;letter-spacing:-.01em}
+.sub{color:rgba(240,246,252,.7);font-size:17px;line-height:1.55;margin-bottom:26px}
+.email{display:inline-block;padding:6px 14px;background:rgba(14,165,233,.12);color:#0ea5e9;border-radius:8px;font-size:14px;font-weight:600;margin-bottom:32px;font-family:ui-monospace,Consolas,monospace}
+.btn{display:inline-block;padding:14px 32px;background:#0ea5e9;color:#000;border-radius:10px;text-decoration:none;font-weight:800;font-size:16px;border:0;cursor:pointer}
+.btn:hover{background:#0284c7}
+.btn:disabled{opacity:.5;cursor:wait}
+.alt{display:block;margin-top:18px;color:rgba(240,246,252,.5);font-size:13px;text-decoration:none}
+.alt:hover{color:rgba(240,246,252,.8)}
+.error{color:#ef4444;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:10px;padding:14px 18px;margin-top:20px;font-size:14px;display:none}
+.error.show{display:block}
+.spinner{width:32px;height:32px;border:3px solid rgba(14,165,233,.2);border-top-color:#0ea5e9;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 18px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.muted{color:rgba(240,246,252,.45);font-size:13px;margin-top:24px}
+</style>
+</head><body>
+<div class="card">
+  <div id="loading-state">
+    <div class="spinner"></div>
+    <h1>Verifying your subscription&hellip;</h1>
+    <p class="sub">One moment while we confirm your payment with Stripe.</p>
+  </div>
+
+  <div id="success-state" style="display:none">
+    <div class="check">&check;</div>
+    <h1>You&rsquo;re in!</h1>
+    <p class="sub">Your CallCanvas AI subscription is active. Your 7-day free trial starts now &mdash; no charge until day 8.</p>
+    <span class="email" id="email-display"></span>
+    <div>
+      <button class="btn" id="go-research">Build My First Call Sheet &rarr;</button>
+    </div>
+    <a href="/account.html" class="alt">Manage subscription &rarr;</a>
+    <p class="muted">We saved your email to this browser. Bookmark <a href="/research.html" style="color:#0ea5e9">callcanvasai.com/research.html</a> to come back anytime.</p>
+  </div>
+
+  <div id="error-state" style="display:none">
+    <h1>Hmm, something went wrong.</h1>
+    <p class="sub">We couldn&rsquo;t automatically verify your checkout. This sometimes happens if you opened the link from a different browser. Don&rsquo;t worry &mdash; if you completed checkout, you have access.</p>
+    <a href="/login.html" class="btn" style="text-decoration:none">Log in with your email &rarr;</a>
+    <a href="mailto:support@callcanvasai.com" class="alt">Email support@callcanvasai.com</a>
+    <div class="error" id="err-detail"></div>
+  </div>
+</div>
+
+<script>
+(async function() {
+  const params = new URLSearchParams(location.search);
+  const sessionId = params.get('session_id');
+  const loadingEl = document.getElementById('loading-state');
+  const successEl = document.getElementById('success-state');
+  const errorEl = document.getElementById('error-state');
+  const emailEl = document.getElementById('email-display');
+  const errDetail = document.getElementById('err-detail');
+
+  function showError(msg) {
+    loadingEl.style.display = 'none';
+    errorEl.style.display = 'block';
+    if (msg) { errDetail.textContent = msg; errDetail.classList.add('show'); }
+  }
+
+  if (!sessionId) {
+    showError('No checkout session ID in the URL. If you reached this page by mistake, click below to log in.');
+    return;
+  }
+
+  try {
+    const r = await fetch('/.netlify/functions/verify-checkout-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId })
+    });
+    const data = await r.json();
+
+    if (!r.ok || !data.email) {
+      showError(data.error || 'Could not verify your session.');
+      return;
+    }
+
+    // Save email to localStorage so research.html can use it
+    try {
+      localStorage.setItem('callcanvas_email', data.email);
+      localStorage.setItem('callcanvas_customer_id', data.customerId || '');
+    } catch (e) {
+      console.warn('localStorage unavailable:', e.message);
+    }
+
+    emailEl.textContent = data.email;
+    loadingEl.style.display = 'none';
+    successEl.style.display = 'block';
+
+    document.getElementById('go-research').addEventListener('click', function() {
+      location.href = '/research.html?welcome=1';
+    });
+  } catch (e) {
+    showError('Network error: ' + e.message);
+  }
+})();
+</script>
+</body></html>

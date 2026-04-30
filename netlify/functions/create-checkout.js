@@ -27,7 +27,7 @@ exports.handler = async (event) => {
         trial_period_days: 7,
       },
       customer_email: email || undefined,
-      success_url: (process.env.SITE_URL || 'https://callcanvasai.com')+'/research.html?checkout=success&session_id={CHECKOUT_SESSION_ID}',
+      success_url: (process.env.SITE_URL || 'https://callcanvasai.com')+'/welcome.html?session_id={CHECKOUT_SESSION_ID}',
       cancel_url: (process.env.SITE_URL || 'https://callcanvasai.com')+'/?checkout=cancelled',
       allow_promotion_codes: true,
     });

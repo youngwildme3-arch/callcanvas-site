@@ -63,7 +63,7 @@ select option{background:#131b27}
 .open-text{font-size:13px;line-height:1.55;color:#f0f6fc}
 .tracks{display:flex;flex-direction:column;gap:5px}
 .track{font-size:12px;color:rgba(240,246,252,.6);padding-left:14px;position:relative;line-height:1.5}
-.track::before{content:'ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢';position:absolute;left:0;color:#0ea5e9}
+.track::before{content:'ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢';position:absolute;left:0;color:#0ea5e9}
 .field-line{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06);font-size:12px;color:rgba(240,246,252,.28)}
 @media print{
   nav,.btn-csv,.btn-print,.results-bar,.stats-row,.form-card,#loading{display:none!important}
@@ -124,7 +124,12 @@ select option{background:#131b27}
         <input id="product" type="text" placeholder="e.g. workers comp, fleet insurance" />
       </div>
     </div>
-    <div class="coupon-bar">
+    <div class="email-row" style="margin-bottom:14px">
+    <label for="user-email" style="display:block;font-size:11px;font-weight:700;color:rgba(240,246,252,.55);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px">Your Email <span style="color:rgba(240,246,252,.35);font-weight:400;text-transform:none;letter-spacing:0">(the one you used to sign up)</span></label>
+    <input id="user-email" type="email" placeholder="you@company.com" autocomplete="email" style="width:100%;padding:11px 14px;background:#0b1220;border:1px solid rgba(255,255,255,.1);border-radius:9px;color:#f0f6fc;font-size:14px;font-family:inherit" />
+    <div id="email-status" style="margin-top:6px;font-size:12px;color:rgba(240,246,252,.5);min-height:18px"></div>
+  </div>
+  <div class="coupon-bar">
       <span class="coupon-label">Coupon Code</span>
       <input id="coupon" class="coupon-input" type="text" placeholder="Enter code" autocomplete="off" />
       <button class="coupon-btn" onclick="applyCoupon()">Apply</button>
@@ -188,12 +193,12 @@ async function applyCoupon(){
     if(d.valid){
       _couponValid=true;
       msg.className='coupon-msg coupon-ok';
-      msg.textContent='ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Code applied  -  '+(d.description||'valid');
+      msg.textContent='ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Code applied  -  '+(d.description||'valid');
       sessionStorage.setItem('ccai_coupon',code);
     } else {
       _couponValid=false;
       msg.className='coupon-msg coupon-err';
-      msg.textContent='ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ '+(d.error||'Invalid code');
+      msg.textContent='ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ '+(d.error||'Invalid code');
     }
   }catch(e){
     msg.className='coupon-msg coupon-err';
@@ -220,7 +225,7 @@ function runResearch(){
   _start=Date.now();_mi=0;
   document.getElementById('load-msg').textContent=msgs[0];
   _mt=setInterval(()=>{_mi=Math.min(_mi+1,msgs.length-1);document.getElementById('load-msg').textContent=msgs[_mi];},7000);
-  fetch('/.netlify/functions/territory-research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({city,state,industry,product,coupon})})
+  fetch('/.netlify/functions/territory-research',{method:'POST',headers:{'Content-Type':'application/json'},body: JSON.stringify({ city, state, industry, product, coupon, email: (function(){var i=document.getElementById("user-email");return i?(i.value||"").trim().toLowerCase():""})() })})
   .then(r=>r.json())
   .then(data=>{clearInterval(_mt);_data=data;const mins=((Date.now()-_start)/60000).toFixed(1);document.getElementById('loading').style.display='none';document.querySelector('.btn-run').disabled=false;render(data,mins);})
   .catch(err=>{clearInterval(_mt);document.getElementById('loading').style.display='none';document.querySelector('.btn-run').disabled=false;alert('Something went wrong. Please try again.');});
@@ -267,6 +272,100 @@ function downloadCSV(){
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
   a.download='CallCanvas-'+(_data.city||'territory')+'-'+new Date().toISOString().split('T')[0]+'.csv';a.click();
 }
+
+
+  // === Email handling, session, welcome (added by audit) ===
+  const _emailInput = document.getElementById('user-email');
+  const _emailStatus = document.getElementById('email-status');
+  const STORAGE_KEY = 'callcanvas_email';
+
+  function _setStatus(msg, isError) {
+    if (!_emailStatus) return;
+    _emailStatus.textContent = msg || '';
+    _emailStatus.style.color = isError ? '#fca5a5' : 'rgba(34,197,94,.85)';
+  }
+
+  function _saveEmail(email) {
+    try { localStorage.setItem(STORAGE_KEY, email); } catch (e) {}
+  }
+
+  function _loadEmail() {
+    try { return localStorage.getItem(STORAGE_KEY) || ''; } catch (e) { return ''; }
+  }
+
+  function _getEmail() {
+    return (_emailInput && _emailInput.value || '').trim().toLowerCase();
+  }
+
+  // On page load, hydrate from localStorage and handle session_id from Stripe redirect
+  (async function _initAuth() {
+    if (!_emailInput) return;
+    const params = new URLSearchParams(location.search);
+    const sessionId = params.get('session_id');
+    const isWelcome = params.get('welcome') === '1';
+    const checkoutStatus = params.get('checkout');
+
+    // First priority: localStorage
+    const saved = _loadEmail();
+    if (saved) {
+      _emailInput.value = saved;
+      _setStatus('Logged in as ' + saved, false);
+    }
+
+    // If we landed here directly from Stripe (not via /welcome.html), try to resolve session_id
+    if (sessionId && !saved) {
+      _setStatus('Verifying your subscription...', false);
+      try {
+        const r = await fetch('/.netlify/functions/verify-checkout-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sessionId })
+        });
+        const d = await r.json();
+        if (d.email) {
+          _saveEmail(d.email);
+          _emailInput.value = d.email;
+          _setStatus('Subscription verified. Welcome!', false);
+        } else {
+          _setStatus('Could not verify session. Please enter your email manually.', true);
+        }
+      } catch (e) {
+        _setStatus('Verification failed. Please enter your email manually.', true);
+      }
+    }
+
+    // Welcome banner: if welcome=1 in URL, ensure success-banner is shown with welcome message
+    if (isWelcome || checkoutStatus === 'success') {
+      const banner = document.getElementById('success-banner');
+      if (banner) {
+        banner.style.display = 'block';
+        const t = banner.querySelector('.success-title');
+        const m = banner.querySelector('.success-msg');
+        if (t) t.textContent = 'Welcome aboard!';
+        if (m) m.textContent = 'Your trial is active. Build your first call sheet below — it takes about 5 minutes.';
+      }
+    }
+
+    // Save email on input change
+    _emailInput.addEventListener('change', function() {
+      const v = _getEmail();
+      if (v && v.includes('@')) {
+        _saveEmail(v);
+        _setStatus('Saved.', false);
+      }
+    });
+  })();
+
+  // Wrap the original runResearch so it includes email in the request
+  if (typeof window.runResearch === 'function') {
+    const _origRun = window.runResearch;
+    window.runResearch = async function() {
+      const email = _getEmail();
+      // Save before running so the user doesn't have to remember
+      if (email && email.includes('@')) _saveEmail(email);
+      return _origRun.apply(this, arguments);
+    };
+  }
 </script>
 </body>
 </html>
