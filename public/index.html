@@ -278,6 +278,138 @@ async function startTrial(email){
 }
 </script>
 
+
+<script>
+/* CallCanvas AI — Alex chat widget. Self-contained. */
+(function() {
+  'use strict';
+  var btn = document.getElementById('cc-chat-btn');
+  var box = document.getElementById('cc-chat-box');
+  var msgs = document.getElementById('chat-msgs');
+  var inp = document.getElementById('chat-inp');
+  var closeBtn = box ? box.querySelector('.chat-close') : null;
+  var sendBtn = box ? box.querySelector('.chat-send') : null;
+  
+  if (!btn || !box || !msgs || !inp) {
+    console.error('[Alex] Chat widget elements missing — skipping wire-up');
+    return;
+  }
+  
+  var conversation = [];
+  var sending = false;
+  
+  function escapeHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  
+  function addMessage(role, text) {
+    var div = document.createElement('div');
+    div.style.cssText = 'margin:8px 0;padding:10px 14px;border-radius:12px;max-width:85%;font-size:14px;line-height:1.5;word-wrap:break-word;' +
+      (role === 'user' ? 'background:#0ea5e9;color:#000;margin-left:auto;border-bottom-right-radius:3px;' : 'background:#1f2937;color:#f0f6fc;margin-right:auto;border-bottom-left-radius:3px;');
+    div.textContent = text;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+    return div;
+  }
+  
+  function showTyping() {
+    var d = addMessage('assistant', '...');
+    d.dataset.typing = '1';
+    return d;
+  }
+  
+  function openChat() {
+    box.style.display = 'flex';
+    btn.style.display = 'none';
+    if (msgs.children.length === 0) {
+      addMessage('assistant', "Hey! I'm Alex. Ask me anything about CallCanvas AI — pricing, what it does, how the trial works, whatever.");
+    }
+    setTimeout(function(){ inp.focus(); }, 100);
+  }
+  
+  function closeChat() {
+    box.style.display = 'none';
+    btn.style.display = 'flex';
+  }
+  
+  async function sendMsg() {
+    if (sending) return;
+    var text = (inp.value || '').trim();
+    if (!text) return;
+    
+    addMessage('user', text);
+    conversation.push({ role: 'user', content: text });
+    inp.value = '';
+    sending = true;
+    sendBtn.disabled = true;
+    
+    var typingEl = showTyping();
+    
+    try {
+      var res = await fetch('/.netlify/functions/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: conversation })
+      });
+      
+      typingEl.remove();
+      
+      if (!res.ok) {
+        addMessage('assistant', "Sorry, I'm having trouble right now. Please try again or email support@callcanvasai.com.");
+        sending = false;
+        sendBtn.disabled = false;
+        return;
+      }
+      
+      var data = await res.json();
+      var reply = data.reply || "Hmm, I didn't get that. Can you rephrase?";
+      addMessage('assistant', reply);
+      conversation.push({ role: 'assistant', content: reply });
+    } catch (err) {
+      typingEl.remove();
+      addMessage('assistant', "I can't reach the server right now. Try again in a moment.");
+      console.error('[Alex] send error:', err);
+    } finally {
+      sending = false;
+      sendBtn.disabled = false;
+      inp.focus();
+    }
+  }
+  
+  // Wire up handlers
+  btn.addEventListener('click', openChat);
+  if (closeBtn) closeBtn.addEventListener('click', closeChat);
+  if (sendBtn) sendBtn.addEventListener('click', sendMsg);
+  inp.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMsg();
+    }
+  });
+  
+  // Expose globally so any inline onclick="openChat()" still works as fallback
+  window.openChat = openChat;
+  window.closeChat = closeChat;
+  window.sendMsg = sendMsg;
+  
+  console.log('[Alex] Chat widget initialized');
+})();
+</script>
+
+<script>
+/* Frontend smoke test — runs 2s after page load, alerts in console if chat is broken */
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    var btn = document.getElementById('cc-chat-btn');
+    var hasOpenChat = typeof window.openChat === 'function';
+    var hasFetch = typeof fetch === 'function';
+    if (!btn) console.warn('[CC-SMOKETEST] Chat button missing from page');
+    else if (!hasOpenChat) console.error('[CC-SMOKETEST] window.openChat NOT DEFINED — chat is broken!');
+    else if (!hasFetch) console.error('[CC-SMOKETEST] fetch unavailable');
+    else console.log('[CC-SMOKETEST] All frontend systems OK');
+  }, 2000);
+});
+</script>
 <script>
 async function openCustomerPortal(e) {
   if (e) e.preventDefault();
