@@ -1,3 +1,4 @@
+<!-- build: 1777579594539 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -274,7 +275,7 @@ footer{padding:48px clamp(16px,5vw,64px);border-top:1px solid rgba(255,255,255,.
   
   <p style="font-size:12px;color:rgba(240,246,252,.22)">&copy; 2026 CallCanvas AI. All rights reserved.</p>
 
-  <p style="margin-top:14px;font-size:13px;color:rgba(240,246,252,.5)">Subscriber? <a href="/research.html" style="color:#0ea5e9;text-decoration:none;font-weight:600">Go to your call sheet →</a> &middot; <a href="/account.html" style="color:#0ea5e9;text-decoration:none;font-weight:600">Account</a> &middot; <a href="/help.html" style="color:#0ea5e9;text-decoration:none;font-weight:600">Help</a></p><p style="margin-top:12px;font-size:12px;color:rgba(240,246,252,.4)">Already a subscriber? <a href="#" onclick="openCustomerPortal(event)" style="color:rgba(240,246,252,.6);text-decoration:underline">Manage subscription</a></p>
+  <p style="margin-top:14px;font-size:13px;color:rgba(240,246,252,.5)">Subscriber? <a href="/research.html" style="color:#0ea5e9;text-decoration:none;font-weight:600">Go to your call sheet â</a> &middot; <a href="/account.html" style="color:#0ea5e9;text-decoration:none;font-weight:600">Account</a> &middot; <a href="/help.html" style="color:#0ea5e9;text-decoration:none;font-weight:600">Help</a></p><p style="margin-top:12px;font-size:12px;color:rgba(240,246,252,.4)">Already a subscriber? <a href="#" onclick="openCustomerPortal(event)" style="color:rgba(240,246,252,.6);text-decoration:underline">Manage subscription</a></p>
 <p style="margin-top:8px;font-size:11px;color:rgba(240,246,252,.35)"><a href="/privacy.html" style="color:rgba(240,246,252,.5);text-decoration:none">Privacy</a> &middot; <a href="/terms.html" style="color:rgba(240,246,252,.5);text-decoration:none">Terms</a> &middot; <a href="/contact.html" style="color:rgba(240,246,252,.5);text-decoration:none">Contact</a> &middot; <a href="/blog/" style="color:rgba(240,246,252,.5);text-decoration:none">Blog</a></p>
 </footer>
 
@@ -306,7 +307,7 @@ async function startTrial(email){
 
 
 <script>
-/* CallCanvas AI ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Alex chat widget. Self-contained. */
+/* CallCanvas AI ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Alex chat widget. Self-contained. */
 (function() {
   'use strict';
   var btn = document.getElementById('cc-chat-btn');
@@ -317,7 +318,7 @@ async function startTrial(email){
   var sendBtn = box ? box.querySelector('.chat-send') : null;
   
   if (!btn || !box || !msgs || !inp) {
-    console.error('[Alex] Chat widget elements missing ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ skipping wire-up');
+    console.error('[Alex] Chat widget elements missing ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ skipping wire-up');
     return;
   }
   
@@ -348,7 +349,7 @@ async function startTrial(email){
     box.style.display = 'flex';
     btn.style.display = 'none';
     if (msgs.children.length === 0) {
-      addMessage('assistant', "Hey! I'm Alex. Ask me anything about CallCanvas AI ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ pricing, what it does, how the trial works, whatever.");
+      addMessage('assistant', "Hey! I'm Alex. Ask me anything about CallCanvas AI ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ pricing, what it does, how the trial works, whatever.");
     }
     setTimeout(function(){ inp.focus(); }, 100);
   }
@@ -423,14 +424,14 @@ async function startTrial(email){
 </script>
 
 <script>
-/* Frontend smoke test ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ runs 2s after page load, alerts in console if chat is broken */
+/* Frontend smoke test ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ runs 2s after page load, alerts in console if chat is broken */
 window.addEventListener('load', function() {
   setTimeout(function() {
     var btn = document.getElementById('cc-chat-btn');
     var hasOpenChat = typeof window.openChat === 'function';
     var hasFetch = typeof fetch === 'function';
     if (!btn) console.warn('[CC-SMOKETEST] Chat button missing from page');
-    else if (!hasOpenChat) console.error('[CC-SMOKETEST] window.openChat NOT DEFINED ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ chat is broken!');
+    else if (!hasOpenChat) console.error('[CC-SMOKETEST] window.openChat NOT DEFINED ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ chat is broken!');
     else if (!hasFetch) console.error('[CC-SMOKETEST] fetch unavailable');
     else console.log('[CC-SMOKETEST] All frontend systems OK');
   }, 2000);
