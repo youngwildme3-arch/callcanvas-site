@@ -1,15 +1,16 @@
 {
-  "timestamp": "2026-04-30T11:10:18.318Z",
+  "timestamp": "2026-04-30T17:24:29.495Z",
   "overall_ok": true,
   "failed_count": 0,
   "critical_failed_count": 0,
+  "failed_tests": [],
   "tests": [
     {
       "name": "homepage",
       "critical": true,
       "ok": true,
       "status_code": 200,
-      "elapsed_ms": 479,
+      "elapsed_ms": 391,
       "status_ok": true,
       "content_ok": true,
       "content_msg": ""
@@ -19,7 +20,7 @@
       "critical": true,
       "ok": true,
       "status_code": 200,
-      "elapsed_ms": 298,
+      "elapsed_ms": 312,
       "status_ok": true,
       "content_ok": true,
       "content_msg": ""
@@ -29,7 +30,47 @@
       "critical": false,
       "ok": true,
       "status_code": 200,
-      "elapsed_ms": 291,
+      "elapsed_ms": 236,
+      "status_ok": true,
+      "content_ok": true,
+      "content_msg": ""
+    },
+    {
+      "name": "frontend_chat_widget_js",
+      "critical": true,
+      "ok": true,
+      "status_code": 200,
+      "elapsed_ms": 210,
+      "status_ok": true,
+      "content_ok": true,
+      "content_msg": ""
+    },
+    {
+      "name": "frontend_chat_button_present",
+      "critical": true,
+      "ok": true,
+      "status_code": 200,
+      "elapsed_ms": 201,
+      "status_ok": true,
+      "content_ok": true,
+      "content_msg": ""
+    },
+    {
+      "name": "frontend_smoke_test_present",
+      "critical": false,
+      "ok": true,
+      "status_code": 200,
+      "elapsed_ms": 166,
+      "status_ok": true,
+      "content_ok": true,
+      "content_msg": ""
+    },
+    {
+      "name": "frontend_manage_subscription",
+      "critical": false,
+      "ok": true,
+      "status_code": 200,
+      "elapsed_ms": 168,
       "status_ok": true,
       "content_ok": true,
       "content_msg": ""
@@ -39,7 +80,7 @@
       "critical": false,
       "ok": true,
       "status_code": 200,
-      "elapsed_ms": 1109,
+      "elapsed_ms": 1206,
       "status_ok": true,
       "content_ok": true,
       "content_msg": ""
@@ -49,7 +90,7 @@
       "critical": false,
       "ok": true,
       "status_code": 200,
-      "elapsed_ms": 674,
+      "elapsed_ms": 671,
       "status_ok": true,
       "content_ok": true,
       "content_msg": ""
@@ -59,7 +100,27 @@
       "critical": false,
       "ok": true,
       "status_code": 200,
-      "elapsed_ms": 2181,
+      "elapsed_ms": 1577,
+      "status_ok": true,
+      "content_ok": true,
+      "content_msg": ""
+    },
+    {
+      "name": "territory_research_blocks_unauth",
+      "critical": false,
+      "ok": true,
+      "status_code": 403,
+      "elapsed_ms": 626,
+      "status_ok": true,
+      "content_ok": true,
+      "content_msg": ""
+    },
+    {
+      "name": "customer_portal_function",
+      "critical": false,
+      "ok": true,
+      "status_code": 404,
+      "elapsed_ms": 976,
       "status_ok": true,
       "content_ok": true,
       "content_msg": ""
@@ -69,7 +130,7 @@
       "critical": false,
       "ok": true,
       "status_code": 200,
-      "elapsed_ms": 394,
+      "elapsed_ms": 278,
       "status_ok": true,
       "content_ok": true,
       "content_msg": ""
