@@ -3,7 +3,7 @@ const MODEL = 'claude-haiku-4-5-20251001';
 const VALID_FREE_COUPONS = ['EVAN-FULL-2026', 'BETA-TEST'];
 
 function buildPrompt(city, state, product, count) {
-  return 'Generate exactly ' + count + ' real local businesses in ' + city + (state ? ', ' + state : '') + ' that would benefit from "' + product + '". Return ONLY a valid JSON array (no prose, no markdown fences). Each item MUST have:\n' +
+  return 'Generate exactly ' + count + ' real local businesses in ' + city + (state ? ', ' + state : '') + ' that would benefit from "' + product + '". Return ONLY a valid JSON array. NO prose, NO markdown fences, NO trailing commas, NO comments. Each item MUST have:\n' +
     '- name (real business name)\n' +
     '- address (real street address with city, state, zip)\n' +
     '- ownerOrDecisionMaker (best-guess first and last name)\n' +
@@ -11,38 +11,46 @@ function buildPrompt(city, state, product, count) {
     '- whyTheyNeedIt (one sentence, specific to their operation)\n' +
     '- openingLine (personalized, under 30 words, uses owner first name)\n' +
     '- priorityScore (1-10 number)\n\n' +
-    'Return as: [{ "name":"...", "address":"...", "ownerOrDecisionMaker":"...", "phone":"...", "whyTheyNeedIt":"...", "openingLine":"...", "priorityScore":8 }, ...]';
+    'Output format example: [{"name":"Acme Corp","address":"...","ownerOrDecisionMaker":"...","phone":"...","whyTheyNeedIt":"...","openingLine":"...","priorityScore":8}]';
 }
 
-async function callClaude(prompt, signal) {
-  if (!ANTHROPIC_KEY) throw new Error('ANTHROPIC_API_KEY not configured');
+async function callClaudeOnce(prompt, signal) {
   const r = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': ANTHROPIC_KEY,
-      'anthropic-version': '2023-06-01'
-    },
-    body: JSON.stringify({
-      model: MODEL,
-      max_tokens: 4096,
-      messages: [{ role: 'user', content: prompt }]
-    }),
+    headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_KEY, 'anthropic-version': '2023-06-01' },
+    body: JSON.stringify({ model: MODEL, max_tokens: 4096, messages: [{ role: 'user', content: prompt }] }),
     signal
   });
   if (!r.ok) {
     const errText = await r.text();
-    throw new Error('Anthropic API ' + r.status + ': ' + errText.substring(0, 200));
+    throw new Error('Anthropic API ' + r.status + ': ' + errText.substring(0, 150));
   }
   const j = await r.json();
   const text = j.content?.[0]?.text || '';
-  // Strip code fences if present
-  const cleaned = text.replace(/^\s*\`\`\`(?:json)?\s*/i, '').replace(/\s*\`\`\`\s*$/, '').trim();
-  // Find first [ to last ] (in case there's preamble)
-  const start = cleaned.indexOf('[');
-  const end = cleaned.lastIndexOf(']');
-  if (start === -1 || end === -1) throw new Error('No JSON array in response');
-  return JSON.parse(cleaned.substring(start, end + 1));
+  // Extract JSON array — find first [ and last ]
+  const start = text.indexOf('[');
+  const end = text.lastIndexOf(']');
+  if (start === -1 || end === -1 || end < start) throw new Error('No JSON array in response');
+  const jsonStr = text.substring(start, end + 1);
+  return JSON.parse(jsonStr);
+}
+
+// Retry once on parse failure (Claude occasionally returns malformed JSON under load)
+async function callClaude(prompt, signal) {
+  if (!ANTHROPIC_KEY) throw new Error('ANTHROPIC_API_KEY not configured');
+  try {
+    return await callClaudeOnce(prompt, signal);
+  } catch (e) {
+    // Retry once with a stricter prompt suffix
+    if (e.message.includes('JSON') || e.message.includes('No JSON')) {
+      try {
+        return await callClaudeOnce(prompt + '\n\nIMPORTANT: Return ONLY the JSON array, nothing else. No preamble. Start with [ and end with ].', signal);
+      } catch (e2) {
+        throw e2;
+      }
+    }
+    throw e;
+  }
 }
 
 exports.handler = async (event) => {
@@ -59,17 +67,14 @@ exports.handler = async (event) => {
   const { city, state, product, count: requestedCount, couponCode, email } = body;
   const count = Math.min(Math.max(parseInt(requestedCount) || 20, 1), 50);
   
-  // Validate input
   if (!city || !product) {
     return { statusCode: 400, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }, body: JSON.stringify({ error: 'city and product are required' }) };
   }
   
-  // Access check
   let access = null;
   if (couponCode && VALID_FREE_COUPONS.includes(couponCode.toUpperCase())) {
     access = { granted: true, via: 'coupon', code: couponCode.toUpperCase() };
   } else if (email) {
-    // Check active subscription via blob
     try {
       const { getStore } = await import('@netlify/blobs');
       const store = getStore({ name: 'subscribers', siteID: process.env.NETLIFY_SITE_ID, token: process.env.NETLIFY_PAT });
@@ -77,37 +82,41 @@ exports.handler = async (event) => {
       if (sub && (sub.status === 'active' || sub.status === 'trialing')) {
         access = { granted: true, via: 'subscription', email: email.toLowerCase() };
       }
-    } catch (e) { /* subscriber check failed, fall through to deny */ }
+    } catch (e) {}
   }
   
   if (!access || !access.granted) {
     return { statusCode: 403, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }, body: JSON.stringify({ error: 'Access denied. Active subscription or valid coupon required.' }) };
   }
   
-  // PARALLEL CHUNKED GENERATION — split count into chunks of 10
   const CHUNK_SIZE = 10;
   const chunks = [];
   let remaining = count;
-  while (remaining > 0) {
-    const c = Math.min(remaining, CHUNK_SIZE);
-    chunks.push(c);
-    remaining -= c;
-  }
+  while (remaining > 0) { const c = Math.min(remaining, CHUNK_SIZE); chunks.push(c); remaining -= c; }
   
-  // 25-second budget for all chunks (Netlify hard timeout is 26s)
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 25000);
+  const timeoutId = setTimeout(() => controller.abort(), 24000);
   
   try {
-    const results = await Promise.all(chunks.map(chunkCount => callClaude(buildPrompt(city, state, product, chunkCount), controller.signal)));
+    // RESILIENT: Promise.allSettled — if one chunk fails, others still return
+    const settled = await Promise.allSettled(chunks.map(chunkCount => callClaude(buildPrompt(city, state, product, chunkCount), controller.signal)));
     clearTimeout(timeoutId);
-    const prospects = results.flat().slice(0, count);
+    
+    const successful = settled.filter(s => s.status === 'fulfilled').map(s => s.value);
+    const failed = settled.filter(s => s.status === 'rejected');
+    const prospects = successful.flat().slice(0, count);
+    
+    if (prospects.length === 0) {
+      // All chunks failed — return error
+      return { statusCode: 502, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }, body: JSON.stringify({ error: 'AI generation failed. Please try again.', diagnostic: failed.map(f => f.reason?.message?.substring(0, 100)).slice(0, 2) }) };
+    }
     
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
       body: JSON.stringify({
         prospects,
+        partial: failed.length > 0 ? { failedChunks: failed.length, requestedCount: count, returnedCount: prospects.length } : undefined,
         __watermark: { licensedTo: access.email || access.code, generatedAt: new Date().toISOString(), city, state, product },
         __access: access
       })
@@ -118,7 +127,7 @@ exports.handler = async (event) => {
     return {
       statusCode: isAbort ? 504 : 500,
       headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-      body: JSON.stringify({ error: isAbort ? 'Generation timed out — try fewer prospects (count under 10)' : 'Generation failed: ' + err.message })
+      body: JSON.stringify({ error: isAbort ? 'Generation timed out — try fewer prospects' : 'Generation failed: ' + err.message })
     };
   }
 };
