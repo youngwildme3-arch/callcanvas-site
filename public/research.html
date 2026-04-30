@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Territory Research  -  CallCanvas AI</title>
+<title>Territory Research - CallCanvas AI</title>
+<meta name="description" content="Build your territory call sheet in under 5 minutes. Research 50 companies with decision-maker names, direct contacts, and ranked call list.">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:#080b10;color:#f0f6fc;min-height:100vh}
@@ -63,7 +64,7 @@ select option{background:#131b27}
 .open-text{font-size:13px;line-height:1.55;color:#f0f6fc}
 .tracks{display:flex;flex-direction:column;gap:5px}
 .track{font-size:12px;color:rgba(240,246,252,.6);padding-left:14px;position:relative;line-height:1.5}
-.track::before{content:'ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢';position:absolute;left:0;color:#0ea5e9}
+.track::before{content:'¢¢';position:absolute;left:0;color:#0ea5e9}
 .field-line{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06);font-size:12px;color:rgba(240,246,252,.28)}
 @media print{
   nav,.btn-csv,.btn-print,.results-bar,.stats-row,.form-card,#loading{display:none!important}
@@ -82,6 +83,10 @@ select option{background:#131b27}
 .success-title{font-size:18px;font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:8px}
 .success-msg{font-size:14px;opacity:.95;line-height:1.5}
 </style>
+<link rel="canonical" href="https://callcanvasai.com/research.html">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230ea5e9'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' fill='%23000' font-family='Arial,sans-serif' font-weight='900' font-size='34'%3EC%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#0ea5e9">
+<meta name="robots" content="noindex,follow">
 </head>
 <body>
 <nav>
@@ -194,12 +199,12 @@ async function applyCoupon(){
     if(d.valid){
       _couponValid=true;
       msg.className='coupon-msg coupon-ok';
-      msg.textContent='ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Code applied  -  '+(d.description||'valid');
+      msg.textContent='¢ Code applied  -  '+(d.description||'valid');
       sessionStorage.setItem('ccai_coupon',code);
     } else {
       _couponValid=false;
       msg.className='coupon-msg coupon-err';
-      msg.textContent='ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ '+(d.error||'Invalid code');
+      msg.textContent='¢ '+(d.error||'Invalid code');
     }
   }catch(e){
     msg.className='coupon-msg coupon-err';
@@ -343,7 +348,7 @@ function downloadCSV(){
         const t = banner.querySelector('.success-title');
         const m = banner.querySelector('.success-msg');
         if (t) t.textContent = 'Welcome aboard!';
-        if (m) m.textContent = 'Your trial is active. Build your first call sheet below â it takes about 5 minutes.';
+        if (m) m.textContent = 'Your trial is active. Build your first call sheet below  it takes about 5 minutes.';
       }
     }
 

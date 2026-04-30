@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Your Account - CallCanvas AI</title>
+<meta name="description" content="Manage your CallCanvas AI subscription, billing, and account settings.">
 <meta name="robots" content="noindex">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -31,6 +32,15 @@ h1{font-size:32px;font-weight:900;margin-bottom:24px;letter-spacing:-.01em}
 .empty{text-align:center;padding:48px 24px;color:rgba(240,246,252,.5)}
 .empty a{color:#0ea5e9;text-decoration:none;font-weight:600}
 </style>
+<link rel="canonical" href="https://callcanvasai.com/account.html">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230ea5e9'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' fill='%23000' font-family='Arial,sans-serif' font-weight='900' font-size='34'%3EC%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#0ea5e9">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://callcanvasai.com/account.html">
+<meta property="og:title" content="Your Account - CallCanvas AI">
+<meta property="og:description" content="Manage your CallCanvas AI subscription and account settings.">
+<meta property="og:image" content="https://callcanvasai.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
 </head><body>
 <nav>
   <a class="logo" href="/">CALLCANVAS AI</a>
@@ -139,12 +149,12 @@ h1{font-size:32px;font-weight:900;margin-bottom:24px;letter-spacing:-.01em}
         } else {
           alert('Could not open portal: ' + (portalData.error || 'unknown error'));
           this.disabled = false;
-          this.textContent = 'Open Customer Portal →';
+          this.textContent = 'Open Customer Portal â';
         }
       } catch (e) {
         alert('Network error: ' + e.message);
         this.disabled = false;
-        this.textContent = 'Open Customer Portal →';
+        this.textContent = 'Open Customer Portal â';
       }
     });
 
