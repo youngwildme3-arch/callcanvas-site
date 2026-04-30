@@ -136,6 +136,15 @@ footer{padding:48px clamp(16px,5vw,64px);border-top:1px solid rgba(255,255,255,.
     }
   }
 </style>
+
+<!-- Google Analytics 4: replace G-XXXXXXXXXX below with your GA4 Measurement ID. Comment out this entire block to disable. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX', { anonymize_ip: true });
+</script>
 </head>
 <body>
 <nav>
@@ -148,7 +157,7 @@ footer{padding:48px clamp(16px,5vw,64px);border-top:1px solid rgba(255,255,255,.
 <div class="hero" id="top">
   <div class="eyebrow">Insurance &bull; Financial Services &bull; B2B Tech &bull; Telecom &bull; Commercial Services</div>
   <h1>STOP<br>DRIVING<br><em>BLIND.</em></h1>
-  <p class="hero-sub">Research 50 companies in under 5 minutes &mdash; decision-maker names, direct contacts, revenue data, and a ranked call list &mdash; <strong>before you leave the driveway.</strong> Runs on free tools. <strong>$59/month is your only cost.</strong></p>
+  <p class="hero-sub">Research 50 companies in under 5 minutes &mdash; decision-maker names, direct contacts, revenue data, and a ranked call list &mdash; <strong>before you leave the driveway.</strong> Runs on free tools. <strong>$59/month is your only cost.<p style="font-size:14px;color:rgba(240,246,252,.55);margin-top:8px;letter-spacing:.01em">7-day free trial &middot; <strong style="color:#0ea5e9">30-day money-back guarantee</strong> &middot; Cancel anytime</p></strong></p>
   <div class="btn-row">
     <a href="javascript:void(0)" data-trial-btn onclick="startTrial();return false;" class="btn-blue">Start 7-Day Free Trial &rarr;</a>
     <a href="#why" class="btn-outline">See How It Works &darr;</a>
@@ -273,6 +282,7 @@ footer{padding:48px clamp(16px,5vw,64px);border-top:1px solid rgba(255,255,255,.
   <p style="font-size:12px;color:rgba(240,246,252,.22)">&copy; 2026 CallCanvas AI. All rights reserved.</p>
 
   <p style="margin-top:12px;font-size:12px;color:rgba(240,246,252,.4)">Already a subscriber? <a href="#" onclick="openCustomerPortal(event)" style="color:rgba(240,246,252,.6);text-decoration:underline">Manage subscription</a></p>
+<p style="margin-top:8px;font-size:11px;color:rgba(240,246,252,.35)"><a href="/privacy.html" style="color:rgba(240,246,252,.5);text-decoration:none">Privacy</a> &middot; <a href="/terms.html" style="color:rgba(240,246,252,.5);text-decoration:none">Terms</a> &middot; <a href="/contact.html" style="color:rgba(240,246,252,.5);text-decoration:none">Contact</a> &middot; <a href="/blog/" style="color:rgba(240,246,252,.5);text-decoration:none">Blog</a></p>
 </footer>
 
 <div id="cc-bar"><p>7-Day Free Trial &mdash; No Credit Card Required</p><a href="javascript:void(0)" data-trial-btn onclick="startTrial();return false;" class="bar-btn">Start Free &rarr;</a><button class="bar-close" onclick="document.getElementById('cc-bar').style.display='none'">&times;</button></div>
@@ -303,7 +313,7 @@ async function startTrial(email){
 
 
 <script>
-/* CallCanvas AI â Alex chat widget. Self-contained. */
+/* CallCanvas AI Ã¢ÂÂ Alex chat widget. Self-contained. */
 (function() {
   'use strict';
   var btn = document.getElementById('cc-chat-btn');
@@ -314,7 +324,7 @@ async function startTrial(email){
   var sendBtn = box ? box.querySelector('.chat-send') : null;
   
   if (!btn || !box || !msgs || !inp) {
-    console.error('[Alex] Chat widget elements missing â skipping wire-up');
+    console.error('[Alex] Chat widget elements missing Ã¢ÂÂ skipping wire-up');
     return;
   }
   
@@ -345,7 +355,7 @@ async function startTrial(email){
     box.style.display = 'flex';
     btn.style.display = 'none';
     if (msgs.children.length === 0) {
-      addMessage('assistant', "Hey! I'm Alex. Ask me anything about CallCanvas AI â pricing, what it does, how the trial works, whatever.");
+      addMessage('assistant', "Hey! I'm Alex. Ask me anything about CallCanvas AI Ã¢ÂÂ pricing, what it does, how the trial works, whatever.");
     }
     setTimeout(function(){ inp.focus(); }, 100);
   }
@@ -420,14 +430,14 @@ async function startTrial(email){
 </script>
 
 <script>
-/* Frontend smoke test â runs 2s after page load, alerts in console if chat is broken */
+/* Frontend smoke test Ã¢ÂÂ runs 2s after page load, alerts in console if chat is broken */
 window.addEventListener('load', function() {
   setTimeout(function() {
     var btn = document.getElementById('cc-chat-btn');
     var hasOpenChat = typeof window.openChat === 'function';
     var hasFetch = typeof fetch === 'function';
     if (!btn) console.warn('[CC-SMOKETEST] Chat button missing from page');
-    else if (!hasOpenChat) console.error('[CC-SMOKETEST] window.openChat NOT DEFINED â chat is broken!');
+    else if (!hasOpenChat) console.error('[CC-SMOKETEST] window.openChat NOT DEFINED Ã¢ÂÂ chat is broken!');
     else if (!hasFetch) console.error('[CC-SMOKETEST] fetch unavailable');
     else console.log('[CC-SMOKETEST] All frontend systems OK');
   }, 2000);
