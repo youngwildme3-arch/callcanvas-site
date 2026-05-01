@@ -1,6 +1,15 @@
 {
   "posts": [
     {
+      "slug": "humanoid-robots-2026-tesla-optimus-figure-boston-dynamics-atlas-deployment-race",
+      "title": "Which Humanoid Robots Are Actually Working in Factories in 2026? Tesla Optimus vs Figure vs Atlas",
+      "metaDescription": "Real deployment data: Tesla Optimus targets 1000s of units, Figure 02 built 30k cars at BMW, Atlas ships to Hyundai. What humanoid robots 2026 can actually do today.",
+      "date": "2026-05-01",
+      "dateDisplay": "May 1, 2026",
+      "readTime": "7 min read",
+      "topicId": "humanoid-robots"
+    },
+    {
       "slug": "chatgpt-gpt-5-5-openai-updates-whats-new-april-2026",
       "title": "What's New with ChatGPT and OpenAI in April 2026? GPT-5.5, Pricing Changes, and the AI Arms Race",
       "metaDescription": "ChatGPT just launched GPT-5.5 six weeks after GPT-5.4. Here's what changed, how pricing is shifting, and what OpenAI's release cadence means for 2026.",
