@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-01T00:08:00.081Z",
+  "timestamp": "2026-05-01T00:08:43.168Z",
   "overall_ok": true,
   "failed_count": 0,
   "critical_failed_count": 0,
@@ -10,7 +10,7 @@
       "critical": true,
       "ok": true,
       "status_code": 200,
-      "elapsed_ms": 361,
+      "elapsed_ms": 122,
       "status_ok": true,
       "content_ok": true,
       "content_msg": ""
@@ -20,7 +20,7 @@
       "critical": true,
       "ok": true,
       "status_code": 200,
-      "elapsed_ms": 389,
+      "elapsed_ms": 159,
       "status_ok": true,
       "content_ok": true,
       "content_msg": ""
@@ -30,7 +30,7 @@
       "critical": false,
       "ok": true,
       "status_code": 200,
-      "elapsed_ms": 260,
+      "elapsed_ms": 127,
       "status_ok": true,
       "content_ok": true,
       "content_msg": ""
@@ -40,7 +40,7 @@
       "critical": true,
       "ok": true,
       "status_code": 200,
-      "elapsed_ms": 466,
+      "elapsed_ms": 238,
       "status_ok": true,
       "content_ok": true,
       "content_msg": ""
@@ -50,7 +50,7 @@
       "critical": true,
       "ok": true,
       "status_code": 200,
-      "elapsed_ms": 383,
+      "elapsed_ms": 134,
       "status_ok": true,
       "content_ok": true,
       "content_msg": ""
@@ -60,7 +60,7 @@
       "critical": false,
       "ok": true,
       "status_code": 200,
-      "elapsed_ms": 415,
+      "elapsed_ms": 137,
       "status_ok": true,
       "content_ok": true,
       "content_msg": ""
@@ -70,7 +70,7 @@
       "critical": false,
       "ok": true,
       "status_code": 200,
-      "elapsed_ms": 414,
+      "elapsed_ms": 226,
       "status_ok": true,
       "content_ok": true,
       "content_msg": ""
@@ -80,7 +80,7 @@
       "critical": false,
       "ok": true,
       "status_code": 200,
-      "elapsed_ms": 646,
+      "elapsed_ms": 590,
       "status_ok": true,
       "content_ok": true,
       "content_msg": ""
@@ -90,7 +90,7 @@
       "critical": false,
       "ok": true,
       "status_code": 200,
-      "elapsed_ms": 368,
+      "elapsed_ms": 250,
       "status_ok": true,
       "content_ok": true,
       "content_msg": ""
@@ -100,7 +100,7 @@
       "critical": false,
       "ok": true,
       "status_code": 200,
-      "elapsed_ms": 898,
+      "elapsed_ms": 1125,
       "status_ok": true,
       "content_ok": true,
       "content_msg": ""
@@ -110,7 +110,7 @@
       "critical": false,
       "ok": true,
       "status_code": 403,
-      "elapsed_ms": 312,
+      "elapsed_ms": 225,
       "status_ok": true,
       "content_ok": true,
       "content_msg": ""
@@ -120,7 +120,7 @@
       "critical": false,
       "ok": true,
       "status_code": 404,
-      "elapsed_ms": 413,
+      "elapsed_ms": 250,
       "status_ok": true,
       "content_ok": true,
       "content_msg": ""
@@ -130,7 +130,7 @@
       "critical": false,
       "ok": true,
       "status_code": 200,
-      "elapsed_ms": 363,
+      "elapsed_ms": 155,
       "status_ok": true,
       "content_ok": true,
       "content_msg": ""
