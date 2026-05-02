@@ -1,6 +1,15 @@
 {
   "posts": [
     {
+      "slug": "self-driving-cars-2026-waymo-tesla-apollo-safety-data-expansion",
+      "title": "Self-Driving Cars 2026: Which Companies Are Actually Delivering on Robotaxi Promises?",
+      "metaDescription": "Waymo expands to 10+ cities, Tesla delays unsupervised FSD again, Apollo Go hits regulatory wall. Real 2026 safety data shows who's actually scaling.",
+      "date": "2026-05-02",
+      "dateDisplay": "May 2, 2026",
+      "readTime": "7 min read",
+      "topicId": "self-driving-cars"
+    },
+    {
       "slug": "humanoid-robots-2026-tesla-optimus-figure-boston-dynamics-atlas-deployment-race",
       "title": "Which Humanoid Robots Are Actually Working in Factories in 2026? Tesla Optimus vs Figure vs Atlas",
       "metaDescription": "Real deployment data: Tesla Optimus targets 1000s of units, Figure 02 built 30k cars at BMW, Atlas ships to Hyundai. What humanoid robots 2026 can actually do today.",
