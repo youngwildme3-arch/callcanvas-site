@@ -1,4 +1,14 @@
-exports.handler = async () => {
+exports.handler = async (event) => {
+  // ADMIN AUTH GATE: requires ?key=ADMIN_KEY query param
+  const __key = (event && event.queryStringParameters && event.queryStringParameters.key) || '';
+  if (!process.env.ADMIN_KEY || __key !== process.env.ADMIN_KEY) {
+    return {
+      statusCode: 404,
+      headers: { 'Content-Type': 'text/html; charset=utf-8' },
+      body: '<!DOCTYPE html><html><head><title>404 Not Found</title></head><body style="font-family:system-ui;text-align:center;padding:60px"><h1>404 Not Found</h1><p>The page you requested could not be found.</p><p><a href="/">Go home</a></p></body></html>'
+    };
+  }
+
  let log = null;
  try {
  const { getStore } = require('@netlify/blobs');

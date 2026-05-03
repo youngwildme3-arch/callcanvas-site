@@ -1,4 +1,4 @@
-// outreach-dashboard.js — renders /outreach page with today's generated content
+// outreach-dashboard.js â renders /outreach page with today's generated content
 const { getStore } = require('@netlify/blobs');
 
 function getStoreSafe() {
@@ -13,17 +13,40 @@ function escapeHtml(s) {
   return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-exports.handler = async () => {
+
+function ___getWithYesterdayFallback(store, prefix) {
+  return (async () => {
+    try {
+      const today = new Date().toISOString().slice(0,10);
+      const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0,10);
+      let v = await store.get(prefix + today);
+      if (!v) v = await store.get(prefix + yesterday);
+      return v;
+    } catch (e) { return null; }
+  })();
+}
+
+exports.handler = async (event) => {
+  // ADMIN AUTH GATE: requires ?key=ADMIN_KEY query param
+  const __key = (event && event.queryStringParameters && event.queryStringParameters.key) || '';
+  if (!process.env.ADMIN_KEY || __key !== process.env.ADMIN_KEY) {
+    return {
+      statusCode: 404,
+      headers: { 'Content-Type': 'text/html; charset=utf-8' },
+      body: '<!DOCTYPE html><html><head><title>404 Not Found</title></head><body style="font-family:system-ui;text-align:center;padding:60px"><h1>404 Not Found</h1><p>The page you requested could not be found.</p><p><a href="/">Go home</a></p></body></html>'
+    };
+  }
+
   const today = new Date().toISOString().slice(0, 10);
   let linkedin = null, facebook = null, reddit = null;
 
   try {
     const store = getStoreSafe();
-    const liRaw = await store.get('linkedin-' + today);
+    const liRaw = await ___getWithYesterdayFallback(store, 'linkedin-');
     if (liRaw) { try { linkedin = JSON.parse(liRaw); } catch (e) { linkedin = { post: liRaw }; } }
-    const fbRaw = await store.get('facebook-' + today);
+    const fbRaw = await ___getWithYesterdayFallback(store, 'facebook-');
     if (fbRaw) { try { facebook = JSON.parse(fbRaw); } catch (e) { facebook = { scripts: fbRaw }; } }
-    const rdRaw = await store.get('reddit-' + today);
+    const rdRaw = await ___getWithYesterdayFallback(store, 'reddit-');
     if (rdRaw) { try { reddit = JSON.parse(rdRaw); } catch (e) { reddit = { opportunities: rdRaw }; } }
   } catch (e) {
     console.error('Blob read failed:', e.message);
