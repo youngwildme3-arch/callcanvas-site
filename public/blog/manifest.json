@@ -1,6 +1,15 @@
 {
   "posts": [
     {
+      "slug": "ai-agents-2026-real-world-performance-vs-hype-limitations",
+      "title": "AI Agents in 2026: Are They Finally Working in Production or Still Just Hype?",
+      "metaDescription": "AI agents in 2026 face a reality check: 57% deployed, but 40% risk failure. Real performance data, limitations, and what actually works in production.",
+      "date": "2026-05-05",
+      "dateDisplay": "May 5, 2026",
+      "readTime": "7 min read",
+      "topicId": "ai-agents"
+    },
+    {
       "slug": "ai-replacing-jobs-2026-which-industries-most-at-risk-real-data",
       "title": "AI Replacing Jobs in 2026: Which Industries Are Most at Risk and What's Actually Happening?",
       "metaDescription": "AI replacing jobs in 2026 is real but nuanced. See actual displacement data, industries at highest risk, and the 1.3M new roles being created right now.",
